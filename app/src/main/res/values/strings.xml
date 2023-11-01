@@ -2,8 +2,8 @@
     <string name="app_name">ProductManager</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="txt_register">Register</string>
-    <string name="txt_login">Login</string>
+    <string name="txt_register">RREGISTER</string>
+    <string name="txt_login">LOGIN</string>
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
     <string name="err_login">Email or Password incorrect</string>
@@ -13,4 +13,17 @@
     <string name="hint_usrpassword">Password</string>
     <string name="succes">Succes!</string>
     <string name="txt_logout">Log out</string>
+    <string name="txt_SignInGoogle">Sign in with Google</string>
+    <string name="title_activity_home_user">HomeUserActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="hint_search">¿Qué estás buscando?</string>
+    <string name="hint_enterbarcode">Scan or write the barcode tool</string>
+    <string name="hint_incident">Describe the incident</string>
+    <string name="title_toolrental">Tool Rental</string>
+    <string name="title_toolreturns">Tool Returns</string>
+    <string name="title_loands">My Loands</string>
+    <string name="title_incidents">Incidents</string>
+    <string name="prefs_file">com.example.productmanager.PREFERENCE_FILE_KEY</string>
 </resources>

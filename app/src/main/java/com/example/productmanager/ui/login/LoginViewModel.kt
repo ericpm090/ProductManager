@@ -8,7 +8,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(val loginUseCase: LoginUseCase):ViewModel(){
+class LoginViewModel @Inject constructor(val loginUseCase: LoginUseCase) : ViewModel() {
 
     val navigateToHomeUser = MutableLiveData<String>()
 
@@ -16,18 +16,19 @@ class LoginViewModel @Inject constructor(val loginUseCase: LoginUseCase):ViewMod
         const val MIN_PASSWORD_LENGTH = 6
     }
 
-    fun onLoginSelected(email:String, password:String){
+    fun onLoginSelected(email: String, password: String) {
 
-        if(isValidEmail(email) && isValidPassword(password)){
-            loginUser(email,password)
+        if (isValidEmail(email) && isValidPassword(password)) {
+            loginUser(email, password)
         }
     }
 
     private fun loginUser(email: String, password: String) {
-        val accountCreated = loginUseCase(email,password)
-        if(accountCreated){
+        val accountCreated = loginUseCase(email, password)
+
+        if (accountCreated) {
             navigateToHomeUser.postValue(email)
-        }else{
+        } else {
             navigateToHomeUser.postValue("FALSE")
         }
 

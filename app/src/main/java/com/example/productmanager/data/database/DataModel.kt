@@ -2,20 +2,16 @@ package com.example.productmanager.data.database
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Inject
 import javax.inject.Singleton
 
 
 @Module
 @InstallIn(SingletonComponent::class)
-class FirebaseModel @Inject constructor(){
-
+class FirebaseModel {
     @Singleton //mantiene una unica instancia de Firebase
     @Provides
     fun provideFireBase(): FirebaseAuth {

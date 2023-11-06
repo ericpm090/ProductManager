@@ -52,7 +52,7 @@ class SignInActivity : AppCompatActivity() {
             else showAlert()
         }
     }
-    
+
     private fun goToUserHome(email: String) {
         val intent = Intent(this, HUsrActivity::class.java).apply {
             putExtra("email", email)

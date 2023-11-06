@@ -1,6 +1,7 @@
 package com.example.productmanager.data.database
 
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuth.AuthStateListener
 import com.google.firebase.auth.FirebaseUser
 import dagger.Module
 import dagger.Provides
@@ -23,5 +24,7 @@ class FirebaseModel {
     fun getCurrentUser(firebaseAuth: FirebaseAuth): FirebaseUser? {
         return firebaseAuth.currentUser
     }
+
+
 
 }

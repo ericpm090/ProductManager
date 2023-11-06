@@ -25,7 +25,7 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
     private val loginViewModel: LoginViewModel by viewModels()
-    private val GOOGLE_SIGN_IN = 100
+    //private val GOOGLE_SIGN_IN = 100
 
 
     private val result =
@@ -59,7 +59,6 @@ class LoginActivity : AppCompatActivity() {
     //Miramos si ya habia una sesion iniciada. Si la hay se va directamente a la home de user
     private fun session() {
         val prefs = getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE)
-        prefs.edit().clear()
         val email = prefs.getString("email", null)
         if (email != null) {
             binding.viewLoging.visibility = View.INVISIBLE

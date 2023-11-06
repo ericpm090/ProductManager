@@ -16,7 +16,7 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     val loginUseCase: LoginUseCase,
     val loginWithGoogleUseCase: LoginWithGoogleUseCase,
-    val currentUserUserCase: CurrentUserUserCase,
+    private val currentUserUserCase: CurrentUserUserCase,
 ) : ViewModel() {
 
     val navigateToHomeUser = MutableLiveData<Boolean>()
@@ -38,8 +38,7 @@ class LoginViewModel @Inject constructor(
         }
     }
     fun getUser(): FirebaseUser? {
-        val user = currentUserUserCase.invoke()
-        return user
+        return currentUserUserCase.invoke()
     }
 
     private fun loginUser(email: String, password: String) {

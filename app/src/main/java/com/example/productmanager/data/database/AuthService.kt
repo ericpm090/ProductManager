@@ -21,7 +21,7 @@ class AuthService @Inject constructor(private val firebase: FirebaseAuth) {
     }
 
     suspend fun createAccount(email: String, password: String): Boolean {
-        Log.i("NEW_ACCOUNT", "createAccount for " + email)
+        Log.i("NEW_ACCOUNT", "createAccount for $email")
         firebase.createUserWithEmailAndPassword(email, password).await()
         return true
     }

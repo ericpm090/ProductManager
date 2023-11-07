@@ -5,12 +5,9 @@ import javax.inject.Inject
 
 class LoginUseCase @Inject constructor(private val authService: AuthService) {
 
-    operator fun invoke(email: String, password: String):Boolean{
+    operator fun invoke(email: String, password: String): Boolean {
 
-        return authService.login(email,password)
+        return authService.login(email, password)
     }
-
-
-
 
 }

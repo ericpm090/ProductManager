@@ -26,4 +26,6 @@
     <string name="title_loands">My Loands</string>
     <string name="title_incidents">Incidents</string>
     <string name="prefs_file">com.example.productmanager.PREFERENCE_FILE_KEY</string>
+    <string name="oauth_id">1:486005734834:android:d15601d4ad00dea17b38ab</string>
+    <string name="default_web_client_id">486005734834-1f1jnljdkkrghm30a41l8jdrrc108vs9.apps.googleusercontent.com</string>
 </resources>

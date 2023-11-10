@@ -2,6 +2,7 @@ package com.example.productmanager.data.database
 
 import android.content.Intent
 import android.util.Log
+import com.example.productmanager.domain.model.Employee
 import com.google.android.gms.auth.api.Auth
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -11,7 +12,10 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class AuthService @Inject constructor(private val firebase: FirebaseAuth) {
+class AuthService @Inject constructor(
+    private val firebase: FirebaseAuth,
+    private val dataBaseService: DataBaseService
+) {
 
     fun login(email: String, password: String): Boolean {
 
@@ -20,20 +24,23 @@ class AuthService @Inject constructor(private val firebase: FirebaseAuth) {
 
     }
 
-    suspend fun createAccount(email: String, password: String): Boolean {
-        Log.i("NEW_ACCOUNT", "createAccount for $email")
-        firebase.createUserWithEmailAndPassword(email, password).await()
+    suspend fun createAccount(employee: Employee): Boolean {
+        Log.i("NEW_ACCOUNT", "createAccount for ${employee.email}")
+
+        firebase.createUserWithEmailAndPassword(employee.email, employee.password).await()
+        dataBaseService.saveUser(employee.email, employee.name, employee.password)
         return true
     }
 
     fun createAccountWithCredential(data: Intent?): Boolean {
-
         val result = data?.let { Auth.GoogleSignInApi.getSignInResultFromIntent(it) }
         if (result != null) {
             if (result.isSuccess) {
                 val credential =
                     GoogleAuthProvider.getCredential(result.signInAccount?.idToken, null)
                 firebase.signInWithCredential(credential)
+                dataBaseService.saveUser(getCurrentUser()?.email.toString())
+
             }
         }
 

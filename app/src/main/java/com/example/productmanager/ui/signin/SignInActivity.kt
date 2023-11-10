@@ -48,7 +48,9 @@ class SignInActivity : AppCompatActivity() {
 
     private fun initObservers() {
         signInViewModel.navigateToHomeUser.observe(this) {
-            if (it) goToUserHome(binding.etUserMail.text.toString())
+            if (it){
+                goToUserHome(binding.etUserMail.text.toString())
+            }
             else showAlert()
         }
     }

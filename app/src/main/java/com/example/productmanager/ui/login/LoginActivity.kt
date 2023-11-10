@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.productmanager.HUsrActivity
 import com.example.productmanager.R
 import com.example.productmanager.databinding.ActivityLoginBinding
+import com.example.productmanager.ui.admin.AdminActivity
 import com.example.productmanager.ui.signin.SignInActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -25,8 +26,12 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
     private val loginViewModel: LoginViewModel by viewModels()
+
     //private val GOOGLE_SIGN_IN = 100
 
+    private companion object {
+        const val ADMIN_ACCOUNT = "admin"
+    }
 
     private val result =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
@@ -72,10 +77,14 @@ class LoginActivity : AppCompatActivity() {
 
         binding.btnRegister.setOnClickListener { goToSignIn() }
         binding.btnLoging.setOnClickListener {
-            loginViewModel.onLoginSelected(
-                binding.etUserMail.toString(),
-                binding.etUserPassword.toString()
-            )
+            if ((binding.etUserMail.text.toString() == ADMIN_ACCOUNT) && (binding.etUserPassword.text.toString() == ADMIN_ACCOUNT)) {
+                goToAdminPanel(ADMIN_ACCOUNT)
+            } else {
+                loginViewModel.onLoginSelected(
+                    binding.etUserMail.toString(),
+                    binding.etUserPassword.toString()
+                )
+            }
 
         }
 
@@ -107,6 +116,17 @@ class LoginActivity : AppCompatActivity() {
 
         }
 
+    }
+
+    private fun goToAdminPanel(email: String) {
+
+        //val bottomSheetFragment = HomeFragment()
+        //bottomSheetFragment.show(supportFragmentManager, bottomSheetFragment.tag)
+
+
+        val intent = Intent(this, AdminActivity::class.java)
+
+        startActivity(intent)
     }
 
     private fun goToSignIn() {

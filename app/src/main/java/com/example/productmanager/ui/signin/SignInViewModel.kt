@@ -23,16 +23,16 @@ class SignInViewModel @Inject constructor(val signInUseCase: SignInUseCase) : Vi
 
     fun onSignInSelected(employee: Employee) {
         if (isValidEmail(employee.email) && isValidPassword(employee.password)) {
-            signIn(employee.email, employee.password)
+            signIn(employee)
         }
 
     }
 
-    private fun signIn(email: String, password: String) {
+    private fun signIn(employee: Employee) {
         //trabaja en el hilo principal
         viewModelScope.launch {
             //IO = trabaja en otro hilo para no bloquear el principal
-            val res = withContext(Dispatchers.IO) { signInUseCase(email, password) }
+            val res = withContext(Dispatchers.IO) { signInUseCase(employee) }
             navigateToHomeUser.postValue(res)
 
         }

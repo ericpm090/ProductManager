@@ -41,6 +41,7 @@ class LoginViewModel @Inject constructor(
         return currentUserUserCase.invoke()
     }
 
+
     private fun loginUser(email: String, password: String) {
         val accountCreated = loginUseCase(email, password)
         navigateToHomeUser.postValue(accountCreated)

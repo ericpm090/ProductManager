@@ -3,6 +3,7 @@ package com.example.productmanager.data.database
 import android.util.Log
 import com.example.productmanager.domain.model.Employee
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -45,14 +46,24 @@ class DataBaseService @Inject constructor(private val database: FirebaseFirestor
     }
 
 
-    fun getUser(email: String): Employee? {
-        val user: Employee? = null
-        database.collection("users").document(email).get().addOnSuccessListener {
-            user!!.name = (it.get("name") as String?).toString()
-            user!!.password = (it.get("password") as String?).toString()
+    suspend fun getUser(email: String): Employee? {
+        var user:Employee? = null
+        database.collection("users").document(email).get().addOnSuccessListener {doc ->
+            if (doc!=null){
+                user = Employee(
+                    name = doc.get("name") as String,
+                    email = email,
+                    password = doc.get("password") as String
+                )
+            }else{
+                Log.e(TAG_DATABASE, "Error: Document not exist")
 
-        }
-        return user
+            }
+
+        }.addOnFailureListener { exception ->
+            Log.e(TAG_DATABASE, "Error: get failed with ", exception)
+        }.await()
+       return user
     }
 
     fun deleteUser(email: String): Boolean {

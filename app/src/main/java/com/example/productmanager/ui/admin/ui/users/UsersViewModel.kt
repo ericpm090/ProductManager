@@ -2,11 +2,15 @@ package com.example.productmanager.ui.admin.ui.users
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.productmanager.domain.DeleteUserUseCase
-import com.example.productmanager.domain.ModifyUserUseCase
-import com.example.productmanager.domain.SearchUserUseCase
+import androidx.lifecycle.viewModelScope
+import com.example.productmanager.domain.admin_usescases.DeleteUserUseCase
+import com.example.productmanager.domain.admin_usescases.ModifyUserUseCase
+import com.example.productmanager.domain.admin_usescases.SearchUserUseCase
 import com.example.productmanager.domain.model.Employee
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,8 +25,11 @@ class UsersViewModel @Inject constructor(
     val deleteUser = MutableLiveData<Boolean>()
 
     fun onSearchSelected(data: String) {
-        val employee = searchUserUseCase(data)
-        searchUser.postValue(employee)
+        viewModelScope.launch {
+            val employee = withContext(Dispatchers.IO) {searchUserUseCase(data)}
+            searchUser.postValue(employee)
+        }
+
     }
 
     fun onModifySelected(email: String, name: String, password: String) {

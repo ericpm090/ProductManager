@@ -1,4 +1,4 @@
-package com.example.productmanager.domain
+package com.example.productmanager.domain.admin_usescases
 
 import com.example.productmanager.data.database.DataBaseService
 import javax.inject.Inject

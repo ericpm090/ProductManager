@@ -45,6 +45,7 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
         dismissKeyboardShortcutsHelper()
+        //goToAdminPanel(ADMIN_ACCOUNT) //remove after testing
         session()
         initUI()
 
@@ -78,7 +79,7 @@ class LoginActivity : AppCompatActivity() {
         binding.btnRegister.setOnClickListener { goToSignIn() }
         binding.btnLoging.setOnClickListener {
             if ((binding.etUserMail.text.toString() == ADMIN_ACCOUNT) && (binding.etUserPassword.text.toString() == ADMIN_ACCOUNT)) {
-                goToAdminPanel(ADMIN_ACCOUNT)
+                goToAdminPanel()
             } else {
                 loginViewModel.onLoginSelected(
                     binding.etUserMail.toString(),
@@ -118,7 +119,7 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
-    private fun goToAdminPanel(email: String) {
+    private fun goToAdminPanel() {
 
         //val bottomSheetFragment = HomeFragment()
         //bottomSheetFragment.show(supportFragmentManager, bottomSheetFragment.tag)

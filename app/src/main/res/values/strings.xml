@@ -40,4 +40,6 @@
     <string name="txt_modify">Modify</string>
     <string name="txt_delete">Delete</string>
     <string name="txt_scan">SCAN</string>
+    <string name="title_logout">Logout</string>
+    <string name="title_options">Options</string>
 </resources>

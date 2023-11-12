@@ -6,9 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import com.example.productmanager.databinding.FragmentProjectsBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ProjectsFragment : Fragment() {
 
     private var _binding: FragmentProjectsBinding? = null
@@ -23,16 +24,16 @@ class ProjectsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-       // val homeViewModel =
-      //      ViewModelProvider(this).get(ProjectsViewModel::class.java)
+        // val homeViewModel =
+        //      ViewModelProvider(this).get(ProjectsViewModel::class.java)
 
         _binding = FragmentProjectsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
 
-       /* homeAdminViewModel.onStartAdminFragment.observe(viewLifecycleOwner){
-            data -> binding.txtWelcome.text = data.toString()
-        }*/
+        /* homeAdminViewModel.onStartAdminFragment.observe(viewLifecycleOwner){
+             data -> binding.txtWelcome.text = data.toString()
+         }*/
 
         return root
     }

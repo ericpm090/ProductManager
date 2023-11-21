@@ -30,6 +30,8 @@ class LoginViewModel @Inject constructor(
 
         if (isValidEmail(email) && isValidPassword(password)) {
             loginUser(email, password)
+        }else{
+            navigateToHomeUser.postValue(false)
         }
     }
     fun onLoginGoogleSelected(data: Intent?) {

@@ -42,4 +42,12 @@
     <string name="txt_scan">SCAN</string>
     <string name="title_logout">Logout</string>
     <string name="title_options">Options</string>
+    <string name="db_save_error">*Please, firtst write a project name here</string>
+    <string name="txt_save">Save</string>
+    <string name="db_project_search_delete_error">Error: Project not found, please check name project</string>
+    <string name="db_project_search_delete_succes">Succes!</string>
+    <string name="hint_date">01-10-2023</string>
+    <string name="txt_user">User</string>
+    <string name="txt_tool">Tool</string>
+    <string name="txt_solved">Solved</string>
 </resources>

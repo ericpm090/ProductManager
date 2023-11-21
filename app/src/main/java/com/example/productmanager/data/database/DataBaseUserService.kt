@@ -8,15 +8,16 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class DataBaseService @Inject constructor(private val database: FirebaseFirestore) {
+class DataBaseUserService @Inject constructor(private val database: FirebaseFirestore) {
 
     companion object {
         val TAG_DATABASE = "TAG_DATABASE"
+        val COLLECTION = "users"
     }
 
-    fun saveUser(email: String, name: String, password: String): Boolean {
+    fun save(email: String, name: String, password: String): Boolean {
         var result = false
-        database.collection("users").document(email).set(
+        database.collection(COLLECTION).document(email).set(
             hashMapOf(
                 "email" to email,
                 "name" to name,
@@ -29,9 +30,9 @@ class DataBaseService @Inject constructor(private val database: FirebaseFirestor
         return result
     }
 
-    fun saveUser(email: String) {
+    fun save(email: String) {
 
-        database.collection("users").document(email).set(
+        database.collection(COLLECTION).document(email).set(
             hashMapOf(
                 "email" to email,
                 "name" to "Google User",
@@ -48,7 +49,7 @@ class DataBaseService @Inject constructor(private val database: FirebaseFirestor
 
     suspend fun getUser(email: String): Employee? {
         var user:Employee? = null
-        database.collection("users").document(email).get().addOnSuccessListener {doc ->
+        database.collection(COLLECTION).document(email).get().addOnSuccessListener { doc ->
             if (doc!=null){
                 user = Employee(
                     name = doc.get("name") as String,
@@ -67,7 +68,9 @@ class DataBaseService @Inject constructor(private val database: FirebaseFirestor
     }
 
     fun deleteUser(email: String): Boolean {
-        database.collection("users").document(email).delete()
+        database.collection(COLLECTION).document(email).delete()
         return true
     }
+
+
 }

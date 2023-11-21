@@ -1,10 +1,12 @@
 package com.example.productmanager.ui.admin.ui.users
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.productmanager.R
@@ -48,16 +50,16 @@ class UsersFragment : Fragment() {
 
         }
 
-        binding.btnModify.setOnClickListener {
+        binding.btnSave.setOnClickListener {
             userFragmentViewModel.onModifySelected(
-                binding.etUserMail.text.toString(),
-                binding.etUserName.text.toString(),
-                binding.etUserPassword.text.toString()
+                binding.etMail.text.toString(),
+                binding.etName.text.toString(),
+                binding.etPassword.text.toString()
             )
         }
 
         binding.btnRemove.setOnClickListener {
-            userFragmentViewModel.onRemoveSelected(binding.etUserMail.text.toString())
+            userFragmentViewModel.onRemoveSelected(binding.etMail.text.toString())
         }
     }
 
@@ -66,28 +68,31 @@ class UsersFragment : Fragment() {
 
         userFragmentViewModel.searchUser.observe(viewLifecycleOwner) { res ->
             if (res != null) {
-                binding.etUserName.setText(res.name);
-                binding.etUserMail.setText(res.email);
-                binding.etUserPassword.setText(res.password)
+                binding.etName.setText(res.name);
+                binding.etMail.setText(res.email);
+                binding.etPassword.setText(res.password)
             }
         }
 
         userFragmentViewModel.modifyUser.observe(viewLifecycleOwner) { res ->
             if (res != null) showSucces()
-            else showAlert()
+            else showError()
         }
 
 
         userFragmentViewModel.deleteUser.observe(viewLifecycleOwner) { res ->
             if (res) showSucces()
-            else showAlert()
+            else showError()
         }
 
 
     }
 
-    private fun showAlert() {
-        Toast.makeText(activity, R.string.err_login, Toast.LENGTH_SHORT).show()
+    private fun showError() {
+        binding.tilNameOrBarcode.boxBackgroundColor = ContextCompat.getColor(requireContext(), R.color.red_error)
+        binding.tilNameOrBarcode.helperText = getText(R.string.db_save_error)
+        binding.tilNameOrBarcode.setHelperTextColor(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.red_error)))
+
 
     }
 

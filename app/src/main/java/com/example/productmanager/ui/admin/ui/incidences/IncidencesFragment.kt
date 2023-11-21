@@ -1,11 +1,14 @@
 package com.example.productmanager.ui.admin.ui.incidences
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.productmanager.databinding.FragmentIncidencesBinding
+import com.example.productmanager.ui.admin.ui.incidences.adapter.IncidencesAdapter
 
 class IncidencesFragment : Fragment() {
 
@@ -20,17 +23,21 @@ class IncidencesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        //val notificationsViewModel =
-        //   ViewModelProvider(this).get(IncidencesViewModel::class.java)
 
         _binding = FragmentIncidencesBinding.inflate(inflater, container, false)
         val root: View = binding.root
+        initRecyclerView()
 
-        /*val textView: TextView = binding.textNotifications
-        notificationsViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }*/
         return root
+    }
+
+
+    private fun initRecyclerView() {
+
+        Log.d("IncidencesFragment", "Number of items: ${IncidencesProvider.list.size}")
+        binding.recyclerIncidences.layoutManager = LinearLayoutManager(context)
+        binding.recyclerIncidences.adapter = IncidencesAdapter(IncidencesProvider.list)
+
     }
 
     override fun onDestroyView() {

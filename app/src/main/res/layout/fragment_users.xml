@@ -4,7 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.admin.ui.users.UsersFragment">
+    tools:context=".ui.admin.ui.users.UsersFragment"
+    android:background="@color/grey"
+    >
+
+
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_nameOrBarcode"
@@ -18,7 +22,8 @@
         style="@style/Widget.Material3.TextInputLayout.FilledBox"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        >
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/editTextEmail"
@@ -33,19 +38,23 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_vertical_margin_margin"
-
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/til_nameOrBarcode"
         app:layout_constraintTop_toBottomOf="@id/til_nameOrBarcode"
         android:hint="@string/hint_name"
+        app:hintTextColor="@color/blue"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:endIconMode="clear_text"
+        app:boxStrokeColor="@color/black"
+        app:boxStrokeWidth="@dimen/til_width"
+        app:boxBackgroundColor="@color/white"
         >
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etUserName"
+            android:id="@+id/etName"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -59,13 +68,17 @@
         app:layout_constraintStart_toStartOf="@id/til_nameOrBarcode"
         app:layout_constraintTop_toBottomOf="@id/til_name"
         android:hint="@string/hint_email"
+        app:hintTextColor="@color/blue"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:endIconMode="clear_text"
-        >
+        app:boxStrokeColor="@color/black"
+        app:boxStrokeWidth="@dimen/til_width"
+        app:boxBackgroundColor="@color/white">
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etUserMail"
+            android:id="@+id/etMail"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -79,13 +92,18 @@
         app:layout_constraintStart_toStartOf="@id/til_nameOrBarcode"
         app:layout_constraintTop_toBottomOf="@id/til_project"
         android:hint="@string/hint_password"
+        app:hintTextColor="@color/blue"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:endIconMode="password_toggle"
+        app:boxStrokeColor="@color/black"
+        app:boxStrokeWidth="@dimen/til_width"
+        app:boxBackgroundColor="@color/white"
         >
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etUserPassword"
+            android:id="@+id/etPassword"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -107,7 +125,7 @@
         />
 
     <Button
-        android:id="@+id/btnModify"
+        android:id="@+id/btnSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
@@ -116,7 +134,7 @@
         android:layout_marginBottom="@dimen/margin_floatingbtn"
         android:layout_marginTop="@dimen/activity_vertical_margin_margin"
         android:backgroundTint="#0D936A"
-        android:text="@string/txt_modify"
+        android:text="@string/txt_save"
         android:textColor="@color/white"
         android:textColorHighlight="#41E348"
         android:textColorLink="#41E348"
@@ -156,5 +174,6 @@
         >
 
     </com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

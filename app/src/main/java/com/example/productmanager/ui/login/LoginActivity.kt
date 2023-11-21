@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -99,7 +100,6 @@ class LoginActivity : AppCompatActivity() {
 
 
             result.launch(googleClient.signInIntent)
-            //startActivityForResult(googleClient.signInIntent,GOOGLE_SIGN_IN)
 
         }
 
@@ -120,35 +120,21 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun goToAdminPanel() {
-
-        //val bottomSheetFragment = HomeFragment()
-        //bottomSheetFragment.show(supportFragmentManager, bottomSheetFragment.tag)
-
-
+        Log.i("LoginActivity", "User loged as admin")
         val intent = Intent(this, AdminActivity::class.java)
-
         startActivity(intent)
     }
 
     private fun goToSignIn() {
+        Log.i("LoginActivity", "User not registered, go to signInActivity")
         val intent = Intent(this, SignInActivity::class.java)
         startActivity(intent)
 
     }
 
 
-    /*override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if(requestCode == GOOGLE_SIGN_IN){
-            loginViewModel.onLoginGoogleSelected(data)
-        }
-
-    }*/
-
-
     private fun goToUserHome(email: String) {
-
+        Log.i("LoginActivity", "User loged as employee")
 
         val intent = Intent(this, HUsrActivity::class.java).apply {
             putExtra("email", email)
@@ -158,6 +144,8 @@ class LoginActivity : AppCompatActivity() {
 
 
     private fun showAlert() {
+
+
         Toast.makeText(this, R.string.err_login, Toast.LENGTH_SHORT).show()
 
     }

@@ -14,7 +14,7 @@ import javax.inject.Singleton
 @Singleton
 class AuthService @Inject constructor(
     private val firebase: FirebaseAuth,
-    private val dataBaseService: DataBaseService
+    private val dataBaseUserService: DataBaseUserService
 ) {
 
     fun login(email: String, password: String): Boolean {
@@ -28,7 +28,7 @@ class AuthService @Inject constructor(
         Log.i("NEW_ACCOUNT", "createAccount for ${employee.email}")
 
         firebase.createUserWithEmailAndPassword(employee.email, employee.password).await()
-        dataBaseService.saveUser(employee.email, employee.name, employee.password)
+        dataBaseUserService.save(employee.email, employee.name, employee.password)
         return true
     }
 
@@ -39,7 +39,7 @@ class AuthService @Inject constructor(
                 val credential =
                     GoogleAuthProvider.getCredential(result.signInAccount?.idToken, null)
                 firebase.signInWithCredential(credential)
-                dataBaseService.saveUser(getCurrentUser()?.email.toString())
+                dataBaseUserService.save(getCurrentUser()?.email.toString())
 
             }
         }

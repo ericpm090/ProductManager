@@ -25,21 +25,32 @@ class UsersViewModel @Inject constructor(
     val deleteUser = MutableLiveData<Boolean>()
 
     fun onSearchSelected(data: String) {
-        viewModelScope.launch {
-            val employee = withContext(Dispatchers.IO) {searchUserUseCase(data)}
-            searchUser.postValue(employee)
+        if(data.isNotEmpty()){
+            viewModelScope.launch {
+                val employee = withContext(Dispatchers.IO) {searchUserUseCase(data)}
+                searchUser.postValue(employee)
+            }
         }
+
 
     }
 
     fun onModifySelected(email: String, name: String, password: String) {
-        val res = modifyUserUseCase(email, name, password)
-        modifyUser.postValue(res)
+        if(email.isNotEmpty() && name.isNotEmpty()){
+            if(name.isNotEmpty()){
+                val res = modifyUserUseCase(email, name, password)
+                modifyUser.postValue(res)
+            }
+        }
+
     }
 
     fun onRemoveSelected(data: String) {
-        val res = deleteUserUseCase(data)
-        deleteUser.postValue(res)
+        if(data.isNotEmpty()){
+            val res = deleteUserUseCase(data)
+            deleteUser.postValue(res)
+        }
+
     }
 
 }

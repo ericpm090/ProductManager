@@ -5,7 +5,7 @@ import javax.inject.Inject
 
 class AddLocationUseCase @Inject constructor(private val db: DataBaseLocationService) {
 
-    operator fun invoke(name: String): Boolean {
+    suspend operator fun invoke(name: String): Boolean {
 
         return db.save(name)
     }

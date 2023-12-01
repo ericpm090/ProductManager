@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.productmanager.domain.admin_usescases.AddProjectUseCase
 import com.example.productmanager.domain.admin_usescases.DeleteProjectUseCase
 import com.example.productmanager.domain.admin_usescases.SearchProjectUseCase
+import com.example.productmanager.domain.model.Project
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,12 +20,17 @@ class ProjectsViewModel @Inject constructor(
     private val deleteProjectUseCase: DeleteProjectUseCase
 ) : ViewModel() {
 
-    val addProject = MutableLiveData<Boolean>()
-    val findProject = MutableLiveData<String?>()
+    val addProject = MutableLiveData<Boolean?>()
+    val findProject = MutableLiveData<Project?>()
     val deleteProject = MutableLiveData<Boolean>()
 
     fun onAddProjectSelected(name: String) {
-        if (name.isNotEmpty()) addProject.postValue(addProjectUseCase(name))
+
+        if (name.isNotEmpty()){
+            viewModelScope.launch {
+                addProject.postValue(withContext(Dispatchers.IO){addProjectUseCase(name)})
+            }
+        }
         else addProject.postValue(false)
     }
 

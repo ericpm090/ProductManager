@@ -9,30 +9,30 @@
         android:id="@+id/navigation_tools"
         android:name="com.example.productmanager.ui.admin.ui.tools.ToolsFragment"
         android:label="@string/title_tools"
-        tools:layout="@layout/fragment_tools" />
+        tools:layout="@layout/admin_fragment_tools" />
 
     <fragment
         android:id="@+id/navigation_users"
         android:name="com.example.productmanager.ui.admin.ui.users.UsersFragment"
         android:label="@string/title_users"
-        tools:layout="@layout/fragment_users" />
+        tools:layout="@layout/admin_fragment_users" />
     <fragment
         android:id="@+id/navigation_projects"
         android:name="com.example.productmanager.ui.admin.ui.projects.ProjectsFragment"
         android:label="@string/title_projects"
-        tools:layout="@layout/fragment_projects" />
+        tools:layout="@layout/admin_fragment_projects" />
 
     <fragment
         android:id="@+id/navigation_locations"
         android:name="com.example.productmanager.ui.admin.ui.locations.LocationsFragment"
         android:label="@string/title_locations"
-        tools:layout="@layout/fragment_locations" />
+        tools:layout="@layout/admin_fragment_locations" />
 
     <fragment
         android:id="@+id/navigation_incidences"
         android:name="com.example.productmanager.ui.admin.ui.incidences.IncidencesFragment"
         android:label="@string/title_incidents"
-        tools:layout="@layout/fragment_incidences" />
+        tools:layout="@layout/admin_fragment_incidences" />
 
 
 </navigation>

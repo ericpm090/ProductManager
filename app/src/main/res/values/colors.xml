@@ -6,6 +6,7 @@
     <color name="dark_green">#253238</color>
     <color name="jade_green">#435A62</color>
     <color name="grey">#63F1F1F1</color>
+    <color name="grey_clear">#92F1F1F1</color>
     <color name="grey_bold1">#BDB6CA</color>
     <color name="blue">#3E81F0</color>
     <color name="red">#E91E63</color>
@@ -14,5 +15,9 @@
     <color name="transparent">#40RRGGBB</color>
     <color name="cardview">#8802243F</color>
 
+    <color name="item_color_active">#4CAF50</color>
+    <color name="item_color_inactive">#FFFFFFFF</color>
+
 
 </resources>
+

@@ -10,14 +10,14 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.productmanager.R
-import com.example.productmanager.databinding.FragmentUsersBinding
+import com.example.productmanager.databinding.AdminFragmentUsersBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
 class UsersFragment : Fragment() {
 
-    private var _binding: FragmentUsersBinding? = null
+    private var _binding: AdminFragmentUsersBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -31,7 +31,7 @@ class UsersFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        _binding = FragmentUsersBinding.inflate(inflater, container, false)
+        _binding = AdminFragmentUsersBinding.inflate(inflater, container, false)
         val root: View = binding.root
         //val viewmodel = ViewModelProvider(this).get(UsersViewModel::class.java)
 
@@ -68,8 +68,8 @@ class UsersFragment : Fragment() {
 
         userFragmentViewModel.searchUser.observe(viewLifecycleOwner) { res ->
             if (res != null) {
-                binding.etName.setText(res.name);
-                binding.etMail.setText(res.email);
+                binding.etName.setText(res.name)
+                binding.etMail.setText(res.email)
                 binding.etPassword.setText(res.password)
             }
         }
@@ -89,9 +89,17 @@ class UsersFragment : Fragment() {
     }
 
     private fun showError() {
-        binding.tilNameOrBarcode.boxBackgroundColor = ContextCompat.getColor(requireContext(), R.color.red_error)
+        binding.tilNameOrBarcode.boxBackgroundColor =
+            ContextCompat.getColor(requireContext(), R.color.red_error)
         binding.tilNameOrBarcode.helperText = getText(R.string.db_save_error)
-        binding.tilNameOrBarcode.setHelperTextColor(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.red_error)))
+        binding.tilNameOrBarcode.setHelperTextColor(
+            ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.red_error
+                )
+            )
+        )
 
 
     }

@@ -22,11 +22,12 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:text="Create an Account"
+            android:text="@string/create_an_account"
             android:textColor="@color/white"
             android:textStyle="bold"
             android:textSize="30dp"
-            android:textAlignment="center">
+            android:textAlignment="center"
+            tools:ignore="SpUsage">
 
         </TextView>
 
@@ -108,7 +109,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/cardview_dark_background"
-                android:inputType="text"
+                android:inputType="textPassword"
                 android:textColor="@color/white" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -121,7 +122,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="30dp"
-            android:text="Sing up"
+            android:text="@string/sing_up"
             android:backgroundTint="@color/blue">
 
         </Button>
@@ -134,7 +135,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="30dp"
-            android:text="Back"
+            android:text="@string/back"
             android:backgroundTint="@color/red">
 
         </Button>

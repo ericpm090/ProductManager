@@ -11,11 +11,11 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.example.productmanager.HUsrActivity
 import com.example.productmanager.R
 import com.example.productmanager.databinding.ActivityLoginBinding
 import com.example.productmanager.ui.admin.AdminActivity
 import com.example.productmanager.ui.signin.SignInActivity
+import com.example.productmanager.ui.user.UserActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,8 +27,6 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
     private val loginViewModel: LoginViewModel by viewModels()
-
-    //private val GOOGLE_SIGN_IN = 100
 
     private companion object {
         const val ADMIN_ACCOUNT = "admin"
@@ -46,7 +44,6 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
         dismissKeyboardShortcutsHelper()
-        //goToAdminPanel(ADMIN_ACCOUNT) //remove after testing
         session()
         initUI()
 
@@ -136,7 +133,7 @@ class LoginActivity : AppCompatActivity() {
     private fun goToUserHome(email: String) {
         Log.i("LoginActivity", "User loged as employee")
 
-        val intent = Intent(this, HUsrActivity::class.java).apply {
+        val intent = Intent(this, UserActivity::class.java).apply {
             putExtra("email", email)
         }
         startActivity(intent)

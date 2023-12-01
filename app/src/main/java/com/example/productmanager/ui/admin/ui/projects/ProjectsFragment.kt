@@ -12,18 +12,18 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.productmanager.R
-import com.example.productmanager.databinding.FragmentProjectsBinding
+import com.example.productmanager.databinding.AdminFragmentProjectsBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ProjectsFragment : Fragment() {
 
-    private var _binding: FragmentProjectsBinding? = null
+    private var _binding: AdminFragmentProjectsBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
-    val projectFragmentViewModel: ProjectsViewModel by viewModels()
+    private val projectFragmentViewModel: ProjectsViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,7 +33,7 @@ class ProjectsFragment : Fragment() {
         // val homeViewModel =
         //      ViewModelProvider(this).get(ProjectsViewModel::class.java)
 
-        _binding = FragmentProjectsBinding.inflate(inflater, container, false)
+        _binding = AdminFragmentProjectsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         initListeners()
@@ -49,30 +49,33 @@ class ProjectsFragment : Fragment() {
 
     private fun initObservers() {
         projectFragmentViewModel.addProject.observe(viewLifecycleOwner) {
-            if (it) showSucces()
-            else showBarcodeError()
+            if (it == true) showSucces()
+            else  showError()
         }
         projectFragmentViewModel.findProject.observe(viewLifecycleOwner) {
             if (it != null) {
-                binding.etName.setText(it)
+                binding.etName.setText(it.name)
             } else {
-                showError()
+                showBarcodeError()
             }
         }
 
         projectFragmentViewModel.deleteProject.observe(viewLifecycleOwner) {
             if (it) showSucces()
-            else showError()
+            else showBarcodeError()
         }
     }
 
 
     private fun initListeners() {
         binding.btnSave.setOnClickListener {
-            projectFragmentViewModel.onAddProjectSelected(
-                binding.etScan.text.toString()
+            if(checkAndUpdateCheckTextInput()){
+                projectFragmentViewModel.onAddProjectSelected(
+                    binding.etName.text.toString()
 
-            )
+                )
+            }
+
         }
 
         binding.btnSearch.setOnClickListener {
@@ -84,20 +87,54 @@ class ProjectsFragment : Fragment() {
         }
     }
 
+    private fun checkAndUpdateCheckTextInput(): Boolean {
+
+        val til_name = binding.tilName
+        val et_name = binding.etName.text.toString()
+        val _isEmpty = et_name.isEmpty()
+        if(_isEmpty){
+            til_name.helperText = getText(R.string.empty_box)
+            til_name.setHelperTextColor(
+                ColorStateList.valueOf(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.red_error
+                    )
+                )
+            )
+        }else{
+
+            til_name.helperText = ""
+            til_name.setHelperTextColor(
+                    ColorStateList.valueOf(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.white
+                        )
+                    )
+                )
+            }
+
+
+        return !_isEmpty
+
+    }
+
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
-    private fun showBarcodeError() {
-        binding.tilNameOrBarcode.helperText = getString(R.string.db_save_error)
-        binding.tilNameOrBarcode.setHelperTextColor(ColorStateList.valueOf(Color.RED))
+    private fun showError() {
+        binding.tilName.helperText = getString(R.string.db_save_error)
+        binding.tilName.setHelperTextColor(ColorStateList.valueOf(Color.RED))
     }
 
-    private fun showError() {
+    private fun showBarcodeError() {
         binding.tilNameOrBarcode.boxBackgroundColor =
             ContextCompat.getColor(requireContext(), R.color.red_error)
-        binding.tilNameOrBarcode.helperText = getText(R.string.db_save_error)
+        binding.tilNameOrBarcode.helperText = getText(R.string.db_searchOrdelete_error)
         binding.tilNameOrBarcode.setHelperTextColor(
             ColorStateList.valueOf(
                 ContextCompat.getColor(

@@ -20,12 +20,16 @@ class LocationsViewModel @Inject constructor(
     private val deleteLocationUseCase: DeleteLocationUseCase
 ) : ViewModel() {
 
-    val addLocation = MutableLiveData<Boolean>()
+    val addLocation = MutableLiveData<Boolean?>()
     val findLocation = MutableLiveData<Location?>()
     val deleteLocation = MutableLiveData<Boolean>()
 
     fun onAddLocationSelected(name: String) {
-        if (name.isNotEmpty()) addLocation.postValue(addLocationUseCase(name))
+        if (name.isNotEmpty()){
+            viewModelScope.launch {
+                addLocation.postValue(withContext(Dispatchers.IO) {addLocationUseCase(name)})
+            }
+        }
         else addLocation.postValue(false)
     }
 

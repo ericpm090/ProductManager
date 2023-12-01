@@ -87,14 +87,14 @@
                 app:boxStrokeColor="@color/black"
                 app:boxStrokeWidth="2dp"
                 app:boxCollapsedPaddingTop="10dp"
-                app:endIconMode="clear_text">
+                app:endIconMode="password_toggle">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etUserPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/transparent"
-                    android:inputType="text"
+                    android:inputType="textPassword"
                     android:textColor="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
 

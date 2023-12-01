@@ -5,15 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/grey"
-    tools:context=".ui.admin.ui.tools.ToolsFragment">
+    tools:context=".ui.admin.ui.tools.ToolsFragment"
+    android:layout_marginTop="@dimen/activity_vertical_margin_margin"
+    android:layout_marginStart="@dimen/activity_horizontal_margin"
+    android:layout_marginEnd="@dimen/activity_horizontal_margin">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_nameOrBarcode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_vertical_margin_margin"
-        android:layout_marginStart="@dimen/activity_horizontal_margin"
-        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+
         android:hint="@string/hint_enterbarcode"
         app:startIconDrawable="@drawable/ic_qr_code_scanner_24"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -59,14 +60,13 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <RelativeLayout
-        android:id="@+id/spinner_relative_layout"
-        android:layout_width="0dp"
+        android:id="@+id/project_spinner"
+        android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_marginTop="@dimen/activity_vertical_margin_margin"
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
         android:background="@drawable/spinner_background"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/til_nameOrBarcode"
+        app:layout_constraintStart_toStartOf="@+id/til_name"
         app:layout_constraintTop_toBottomOf="@id/til_name"
         app:boxStrokeColor="@color/black">
     <Spinner
@@ -78,48 +78,71 @@
 
 
     </RelativeLayout>
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_location"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+    <RelativeLayout
+        android:id="@+id/location_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
         android:layout_marginTop="@dimen/activity_vertical_margin_margin"
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:background="@drawable/spinner_background"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/til_nameOrBarcode"
-        app:layout_constraintTop_toBottomOf="@id/spinner_relative_layout"
-        android:hint="@string/hint_location"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        app:boxStrokeColor="@color/black"
-        app:boxStrokeWidth="@dimen/til_width"
-        app:boxBackgroundColor="@color/white">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etLocation"
+        app:layout_constraintTop_toBottomOf="@id/project_spinner"
+        app:boxStrokeColor="@color/black">
+
+        <Spinner
+            android:id="@+id/spinner_locations"
+            style="@style/Widget.AppCompat.DropDownItem.Spinner"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/transparent"/>
+            android:layout_height="70dp"
+            android:spinnerMode="dialog" />
 
-    </com.google.android.material.textfield.TextInputLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/project_type"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginTop="@dimen/activity_vertical_margin_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:background="@drawable/spinner_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/til_name"
+        app:layout_constraintTop_toBottomOf="@id/location_spinner"
+        app:boxStrokeColor="@color/black">
+
+        <Spinner
+            android:id="@+id/spinner_type"
+            style="@style/Widget.AppCompat.DropDownItem.Spinner"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:spinnerMode="dialog" />
+
+
+    </RelativeLayout>
+
+
+
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_description"
+        android:id="@+id/til_photo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_vertical_margin_margin"
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/til_nameOrBarcode"
-        app:layout_constraintTop_toBottomOf="@id/til_location"
-        android:hint="@string/hint_description"
-        android:inputType="textMultiLine"
+        app:layout_constraintTop_toBottomOf="@id/project_type"
+        android:hint="@string/hint_urlphoto"
+        app:endIconMode="clear_text"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        app:counterEnabled="true"
-        app:counterMaxLength="30"
         app:boxStrokeColor="@color/black"
         app:boxStrokeWidth="@dimen/til_width"
         app:boxBackgroundColor="@color/white"
         >
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etDesription"
+            android:id="@+id/etPhoto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:lines="1"
@@ -193,9 +216,7 @@
         android:textStyle="bold"
         app:icon="@drawable/ic_qr_code_scanner_24"
         app:fabSize="normal"
-        >
-
-    </com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton>
+        tools:ignore="SpUsage" />
 
 
 

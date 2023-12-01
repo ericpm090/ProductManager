@@ -16,7 +16,9 @@ class AuthService @Inject constructor(
     private val firebase: FirebaseAuth,
     private val dataBaseUserService: DataBaseUserService
 ) {
-
+    companion object {
+        val TAG_DATABASE = "TAG_AUTH_SERVICE"
+    }
     fun login(email: String, password: String): Boolean {
 
         val res = firebase.signInWithEmailAndPassword(email, password)
@@ -25,7 +27,7 @@ class AuthService @Inject constructor(
     }
 
     suspend fun createAccount(employee: Employee): Boolean {
-        Log.i("NEW_ACCOUNT", "createAccount for ${employee.email}")
+        Log.i(TAG_DATABASE, "createAccount for ${employee.email}")
 
         firebase.createUserWithEmailAndPassword(employee.email, employee.password).await()
         dataBaseUserService.save(employee.email, employee.name, employee.password)
@@ -33,6 +35,7 @@ class AuthService @Inject constructor(
     }
 
     fun createAccountWithCredential(data: Intent?): Boolean {
+        Log.i(TAG_DATABASE, "createAccount Google")
         val result = data?.let { Auth.GoogleSignInApi.getSignInResultFromIntent(it) }
         if (result != null) {
             if (result.isSuccess) {
@@ -49,6 +52,7 @@ class AuthService @Inject constructor(
 
 
     fun logout(): Boolean {
+        Log.i(TAG_DATABASE, "Logout")
         firebase.signOut()
         return true
     }

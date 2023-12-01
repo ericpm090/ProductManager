@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".ProductManagerApp"
         android:allowBackup="true"
@@ -14,14 +16,23 @@
         android:theme="@style/Theme.ProductManager"
         tools:targetApi="31">
         <activity
+            android:name=".ui.user.tool_screen.ToolScreenActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name=".ui.user.UserActivity"
+            android:exported="false"
+            android:label="@string/title_activity_user"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
             android:name=".ui.admin.AdminActivity"
             android:exported="false"
             android:label="@string/title_activity_admin"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.signin.SignInActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".HUsrActivity"
             android:exported="false" />

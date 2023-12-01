@@ -15,7 +15,7 @@ class IncidencesAdapter(private val incidencesList: List<Incidence>) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IncidencesViewHolder {
 
         val inflater = LayoutInflater.from(parent.context)
-        return IncidencesViewHolder(inflater.inflate(R.layout.rv_incidence_sample, parent, false))
+        return IncidencesViewHolder(inflater.inflate(R.layout.recyclerview_admin_incidence_sample, parent, false))
 
     }
 

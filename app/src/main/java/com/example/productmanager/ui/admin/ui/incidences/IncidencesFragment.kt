@@ -7,12 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.productmanager.databinding.FragmentIncidencesBinding
+import com.example.productmanager.databinding.AdminFragmentIncidencesBinding
 import com.example.productmanager.ui.admin.ui.incidences.adapter.IncidencesAdapter
 
 class IncidencesFragment : Fragment() {
 
-    private var _binding: FragmentIncidencesBinding? = null
+    private var _binding: AdminFragmentIncidencesBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -24,7 +24,7 @@ class IncidencesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        _binding = FragmentIncidencesBinding.inflate(inflater, container, false)
+        _binding = AdminFragmentIncidencesBinding.inflate(inflater, container, false)
         val root: View = binding.root
         initRecyclerView()
 

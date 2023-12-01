@@ -2,7 +2,7 @@
     <string name="app_name">ProductManager</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="txt_register">RREGISTER</string>
+    <string name="txt_register">REGISTER</string>
     <string name="txt_login">LOGIN</string>
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
@@ -42,7 +42,8 @@
     <string name="txt_scan">SCAN</string>
     <string name="title_logout">Logout</string>
     <string name="title_options">Options</string>
-    <string name="db_save_error">*Please, firtst write a project name here</string>
+    <string name="db_save_error">*Something whent wrong, please try again</string>
+    <string name="db_searchOrdelete_error">*Please, first write a project name here</string>
     <string name="txt_save">Save</string>
     <string name="db_project_search_delete_error">Error: Project not found, please check name project</string>
     <string name="db_project_search_delete_succes">Succes!</string>
@@ -50,4 +51,24 @@
     <string name="txt_user">User</string>
     <string name="txt_tool">Tool</string>
     <string name="txt_solved">Solved</string>
+    <string name="title_activity_user">activity_user</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_rental">Rental</string>
+    <string name="title_returns">Returns</string>
+    <string name="hint_whatareyoulookingor">¿Qué estás buscando?</string>
+    <string name="txt_description">Description tool</string>
+    <string name="txt_project">Project</string>
+    <string name="txt_status">Status:</string>
+    <string name="status">Available</string>
+    <string name="txt_book">BOOK</string>
+    <string name="txt_barcode">barcode</string>
+    <string name="hint_urlphoto">URL Photo</string>
+    <string name="empty_box">Plase, fill the checkbox</string>
+    <string name="txt_back">Back</string>
+    <string name="hint_status">Pending</string>
+    <string name="create_an_account">Create an Account</string>
+    <string name="sing_up">Sing up</string>
+    <string name="back">Back</string>
 </resources>

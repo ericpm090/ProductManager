@@ -5,8 +5,16 @@ import javax.inject.Inject
 
 class AddToolUseCase @Inject constructor(private val db: DataBaseToolService) {
 
-    operator fun invoke(name: String, project: String, description: String): Boolean {
+    suspend operator fun invoke(
+        barcode: String,
+        name: String,
+        project: String,
+        location: String,
+        photo: String,
+        type:String,
+        status: String
+    ): Boolean {
 
-        return db.save(name, project, description)
+        return db.save(barcode, name, project, location, photo,type,status)
     }
 }

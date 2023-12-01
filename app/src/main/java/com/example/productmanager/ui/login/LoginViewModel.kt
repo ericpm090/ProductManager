@@ -30,6 +30,8 @@ class LoginViewModel @Inject constructor(
 
         if (isValidEmail(email) && isValidPassword(password)) {
             loginUser(email, password)
+        }else{
+            navigateToHomeUser.postValue(false)
         }
     }
     fun onLoginGoogleSelected(data: Intent?) {
@@ -40,6 +42,7 @@ class LoginViewModel @Inject constructor(
     fun getUser(): FirebaseUser? {
         return currentUserUserCase.invoke()
     }
+
 
     private fun loginUser(email: String, password: String) {
         val accountCreated = loginUseCase(email, password)

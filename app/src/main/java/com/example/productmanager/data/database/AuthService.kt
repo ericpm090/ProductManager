@@ -2,6 +2,7 @@ package com.example.productmanager.data.database
 
 import android.content.Intent
 import android.util.Log
+import com.example.productmanager.domain.model.Employee
 import com.google.android.gms.auth.api.Auth
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -11,8 +12,13 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class AuthService @Inject constructor(private val firebase: FirebaseAuth) {
-
+class AuthService @Inject constructor(
+    private val firebase: FirebaseAuth,
+    private val dataBaseUserService: DataBaseUserService
+) {
+    companion object {
+        val TAG_DATABASE = "TAG_AUTH_SERVICE"
+    }
     fun login(email: String, password: String): Boolean {
 
         val res = firebase.signInWithEmailAndPassword(email, password)
@@ -20,20 +26,24 @@ class AuthService @Inject constructor(private val firebase: FirebaseAuth) {
 
     }
 
-    suspend fun createAccount(email: String, password: String): Boolean {
-        Log.i("NEW_ACCOUNT", "createAccount for $email")
-        firebase.createUserWithEmailAndPassword(email, password).await()
+    suspend fun createAccount(employee: Employee): Boolean {
+        Log.i(TAG_DATABASE, "createAccount for ${employee.email}")
+
+        firebase.createUserWithEmailAndPassword(employee.email, employee.password).await()
+        dataBaseUserService.save(employee.email, employee.name, employee.password)
         return true
     }
 
     fun createAccountWithCredential(data: Intent?): Boolean {
-
+        Log.i(TAG_DATABASE, "createAccount Google")
         val result = data?.let { Auth.GoogleSignInApi.getSignInResultFromIntent(it) }
         if (result != null) {
             if (result.isSuccess) {
                 val credential =
                     GoogleAuthProvider.getCredential(result.signInAccount?.idToken, null)
                 firebase.signInWithCredential(credential)
+                dataBaseUserService.save(getCurrentUser()?.email.toString())
+
             }
         }
 
@@ -42,6 +52,7 @@ class AuthService @Inject constructor(private val firebase: FirebaseAuth) {
 
 
     fun logout(): Boolean {
+        Log.i(TAG_DATABASE, "Logout")
         firebase.signOut()
         return true
     }

@@ -9,10 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.example.productmanager.R
 import com.example.productmanager.databinding.UserFragmentHomeBinding
-import com.example.productmanager.domain.model.Tool
+import com.example.productmanager.domain.model.entities.Tool
+import com.example.productmanager.ui.user.UserDataViewModel
 import com.example.productmanager.ui.user.tool_screen.ToolScreenActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,7 +23,7 @@ class HomeFragment : Fragment() {
 
     private var _binding: UserFragmentHomeBinding? = null
     private val homeFragmentViewModel: HomeViewModel by viewModels()
-
+    private val userDataViewModel: UserDataViewModel by activityViewModels()
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
@@ -41,6 +43,8 @@ class HomeFragment : Fragment() {
     }
 
 
+
+
     private fun initObservers() {
         homeFragmentViewModel.searchTool.observe(viewLifecycleOwner) {
             if (it != null) {
@@ -49,6 +53,14 @@ class HomeFragment : Fragment() {
                 showError()
             }
         }
+
+
+        userDataViewModel.userMail.observe(viewLifecycleOwner) {
+            binding.txtUserEmail.text = it
+        }
+
+
+
     }
 
     private fun showError() {

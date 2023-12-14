@@ -53,7 +53,7 @@ class ToolsFragment : Fragment() {
     private fun initObservers() {
         toolFragmentViewModel.addTool.observe(viewLifecycleOwner) {
             if (it == true) showSucces()
-            else showBarcodeError()
+            else showError()
         }
         toolFragmentViewModel.searchTool.observe(viewLifecycleOwner) {
             if (it != null) {
@@ -67,13 +67,13 @@ class ToolsFragment : Fragment() {
 
                 //binding.etProject.setText(it.project)
             } else {
-                showError()
+                showBarcodeError()
             }
         }
 
         toolFragmentViewModel.deleteTool.observe(viewLifecycleOwner) {
             if (it) showSucces()
-            else showError()
+            else showBarcodeError()
         }
 
         toolFragmentViewModel.projectList.observe(viewLifecycleOwner) {
@@ -102,7 +102,40 @@ class ToolsFragment : Fragment() {
 
 
     }
+    private fun initListeners() {
 
+
+        binding.btnSave.setOnClickListener {
+            if(checkAndUpdateCheckTextInput()){
+                toolFragmentViewModel.onAddToolSelected(
+                    binding.etName.text.toString(),
+                    spinnerProjectsValue,
+                    spinnerLocationValue,
+                    spinnerTypeValue,
+                    binding.etPhoto.text.toString()
+
+                )
+            }
+
+        }
+
+        binding.btnSearch.setOnClickListener {
+            toolFragmentViewModel.onSearchToolSelected(binding.etScan.text.toString())
+        }
+
+        binding.btnRemove.setOnClickListener {
+            if(checkAndUpdateCheckTextInput()) {
+                toolFragmentViewModel.onDeleteToolSelected(binding.etName.text.toString())
+            }
+        }
+
+        //listener spinner call by default
+        toolFragmentViewModel.getProjects()
+        toolFragmentViewModel.getLocations()
+        toolFragmentViewModel.getTypes()
+
+
+    }
     private fun initTypeSpinner(list: MutableList<String>, value:String) {
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, list)
         binding.spinnerType.adapter = adapter
@@ -133,7 +166,6 @@ class ToolsFragment : Fragment() {
     private fun checkAndUpdateCheckTextInput(): Boolean {
         var _isEmpty = false
         val til_name = binding.tilName
-
         val til_photo = binding.tilPhoto
         val et_name = binding.etName.text.toString().trim()
         val et_photo = binding.etPhoto.text.toString().trim()
@@ -173,40 +205,7 @@ class ToolsFragment : Fragment() {
 
     }
 
-    private fun initListeners() {
 
-
-        binding.btnSave.setOnClickListener {
-            if(checkAndUpdateCheckTextInput()){
-                toolFragmentViewModel.onAddToolSelected(
-                    binding.etName.text.toString(),
-                    spinnerProjectsValue,
-                    spinnerLocationValue,
-                    spinnerTypeValue,
-                    binding.etPhoto.text.toString()
-
-                )
-            }
-
-        }
-
-        binding.btnSearch.setOnClickListener {
-            toolFragmentViewModel.onSearchToolSelected(binding.etScan.text.toString())
-        }
-
-        binding.btnRemove.setOnClickListener {
-            if(checkAndUpdateCheckTextInput()) {
-                toolFragmentViewModel.onDeleteToolSelected(binding.etName.text.toString())
-            }
-        }
-
-        //listener spinner call by default
-        toolFragmentViewModel.getProjects()
-        toolFragmentViewModel.getLocations()
-        toolFragmentViewModel.getTypes()
-
-
-    }
 
     private fun spinnerListener() {
 
@@ -279,7 +278,7 @@ class ToolsFragment : Fragment() {
     private fun showBarcodeError() {
         binding.tilNameOrBarcode.boxBackgroundColor =
             ContextCompat.getColor(requireContext(), R.color.red_error)
-        binding.tilNameOrBarcode.helperText = getText(R.string.db_save_error)
+        binding.tilNameOrBarcode.helperText = getText(R.string.db_searchOrdelete_error)
         binding.tilNameOrBarcode.setHelperTextColor(
             ColorStateList.valueOf(
                 ContextCompat.getColor(
@@ -293,10 +292,10 @@ class ToolsFragment : Fragment() {
     }
 
     private fun showError() {
-        binding.tilNameOrBarcode.boxBackgroundColor =
+        binding.tilName.boxBackgroundColor =
             ContextCompat.getColor(requireContext(), R.color.red_error)
-        binding.tilNameOrBarcode.helperText = getText(R.string.db_searchOrdelete_error)
-        binding.tilNameOrBarcode.setHelperTextColor(
+        binding.tilName.helperText = getText(R.string.db_save_error)
+        binding.tilName.setHelperTextColor(
             ColorStateList.valueOf(
                 ContextCompat.getColor(
                     requireContext(),

@@ -2,7 +2,7 @@ package com.example.productmanager.data.database
 
 import android.content.Intent
 import android.util.Log
-import com.example.productmanager.domain.model.Employee
+import com.example.productmanager.domain.model.entities.Employee
 import com.google.android.gms.auth.api.Auth
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser

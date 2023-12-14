@@ -47,7 +47,7 @@
     <string name="txt_save">Save</string>
     <string name="db_project_search_delete_error">Error: Project not found, please check name project</string>
     <string name="db_project_search_delete_succes">Succes!</string>
-    <string name="hint_date">01-10-2023</string>
+    <string name="hint_date">01_10_2023</string>
     <string name="txt_user">User</string>
     <string name="txt_tool">Tool</string>
     <string name="txt_solved">Solved</string>
@@ -71,4 +71,11 @@
     <string name="create_an_account">Create an Account</string>
     <string name="sing_up">Sing up</string>
     <string name="back">Back</string>
+    <string name="db_not_found">Not found</string>
+    <string name="hint_incidentDescription">Describe your incident</string>
+    <string name="txt_updateIncidences">Update incidences</string>
+    <string name="nothing_to_update">"No updates available "</string>
+    <string name="hint_barcode">barcode</string>
+    <string name="noloands">Congratulations, you don\'t have pending tools</string>
+    <string name="txt_updateLoands">Update</string>
 </resources>

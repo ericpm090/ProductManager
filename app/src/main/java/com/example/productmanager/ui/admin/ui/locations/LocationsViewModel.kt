@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.productmanager.domain.admin_usescases.AddLocationUseCase
 import com.example.productmanager.domain.admin_usescases.DeleteLocationUseCase
 import com.example.productmanager.domain.admin_usescases.SearchLocationUseCase
-import com.example.productmanager.domain.model.Location
+import com.example.productmanager.domain.model.entities.Location
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

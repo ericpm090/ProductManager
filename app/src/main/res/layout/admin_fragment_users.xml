@@ -4,7 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.admin.ui.locations.LocationsFragment">
+    tools:context=".ui.admin.ui.users.UsersFragment"
+    android:background="@color/grey"
+    >
+
+
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_nameOrBarcode"
@@ -21,14 +25,13 @@
         app:layout_constraintTop_toTopOf="parent"
         >
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etScan"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            />
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/editTextEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        />
     </com.google.android.material.textfield.TextInputLayout>
-
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_name"
@@ -36,10 +39,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_vertical_margin_margin"
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
-        app:layout_constraintStart_toStartOf="@id/til_nameOrBarcode"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/til_nameOrBarcode"
+        app:layout_constraintStart_toStartOf="@id/til_nameOrBarcode"
+        app:layout_constraintTop_toBottomOf="@id/til_nameOrBarcode"
         android:hint="@string/hint_name"
+        app:hintTextColor="@color/blue"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:endIconMode="clear_text"
         app:boxStrokeColor="@color/black"
@@ -54,6 +58,54 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_project"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_vertical_margin_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/til_nameOrBarcode"
+        app:layout_constraintTop_toBottomOf="@id/til_name"
+        android:hint="@string/hint_email"
+        app:hintTextColor="@color/blue"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:endIconMode="clear_text"
+        app:boxStrokeColor="@color/black"
+        app:boxStrokeWidth="@dimen/til_width"
+        app:boxBackgroundColor="@color/white">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etMail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_location"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_vertical_margin_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/til_nameOrBarcode"
+        app:layout_constraintTop_toBottomOf="@id/til_project"
+        android:hint="@string/hint_password"
+        app:hintTextColor="@color/blue"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:endIconMode="password_toggle"
+        app:boxStrokeColor="@color/black"
+        app:boxStrokeWidth="@dimen/til_width"
+        app:boxBackgroundColor="@color/white"
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/btnSearch"
@@ -119,8 +171,9 @@
         android:textStyle="bold"
         app:icon="@drawable/ic_qr_code_scanner_24"
         app:fabSize="normal"
-        >
+        tools:ignore="SpUsage">
 
     </com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

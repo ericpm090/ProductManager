@@ -1,7 +1,7 @@
 package com.example.productmanager.domain.admin_usescases
 
 import com.example.productmanager.data.database.DataBaseUserService
-import com.example.productmanager.domain.model.Employee
+import com.example.productmanager.domain.model.entities.Employee
 import javax.inject.Inject
 
 class SearchUserUseCase @Inject constructor(private val db: DataBaseUserService) {

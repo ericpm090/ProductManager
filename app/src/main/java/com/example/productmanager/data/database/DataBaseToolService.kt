@@ -1,50 +1,43 @@
 package com.example.productmanager.data.database
 
 import android.util.Log
-import com.example.productmanager.domain.model.Tool
+import com.example.productmanager.domain.model.entities.Tool
 import com.google.firebase.firestore.AggregateSource
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class DataBaseToolService @Inject constructor(private val database: FirebaseFirestore) {
 
     companion object {
-        val TAG_DATABASE = "TAG_DATABASE"
+        val TAG_DATABASE = "TAG_TOOLS_DATABASE"
         val COLLECTION = "tools"
     }
 
-
-
-
     suspend fun save(
-        barcode: String,
-        name: String,
-        project: String,
-        location:String,
-        photo: String,
-        type: String,
-        status: String
+       tool: Tool
     ): Boolean {
         var result = false
 
         try{
 
-            database.collection(COLLECTION).document(barcode).set(
+            database.collection(COLLECTION).document(tool.barcode).set(
                 hashMapOf(
-                    "barcode" to barcode,
-                    "name" to name,
-                    "project" to project,
-                    "location" to location,
-                    "photo" to photo,
-                    "type" to type,
-                    "status" to status
+                    "barcode" to tool.barcode,
+                    "name" to tool.name,
+                    "project" to tool.project,
+                    "location" to tool.location,
+                    "photo" to tool.photo,
+                    "type" to tool.type,
+                    "status" to tool.status
                 )
 
             ).addOnSuccessListener {
                 result = true
                 val num = database.collection(COLLECTION).count().get(AggregateSource.SERVER)
-                Log.i(TAG_DATABASE, "Tool $name with barcode $barcode added in database")
+                Log.i(TAG_DATABASE, "Tool $tool.name with barcode $tool.barcode added in database")
                 Log.i(TAG_DATABASE, "Total tools saved: $num")
             }.await()
 
@@ -57,27 +50,25 @@ class DataBaseToolService @Inject constructor(private val database: FirebaseFire
     }
     suspend fun get(barcode: String): Tool? {
         var tool: Tool? = null
-        database.collection(COLLECTION).document(barcode).get()
-            .addOnSuccessListener { doc ->
-                if (doc != null) {
+        val doc = withContext(Dispatchers.IO) {
+            database.collection(COLLECTION).document(barcode).get().await()
+        }
+        if (doc.exists()) {
 
-                    tool = Tool(
-                        barcode = doc.get("barcode") as String,
-                        name = doc.get("name") as String,
-                        project = doc.get("project") as String,
-                        location = doc.get("location") as String,
-                        photo = doc.get("photo") as String,
-                        type = doc.get("project") as String,
-                        status = doc.get("status") as String
-                    )
-                } else {
-                    Log.e(TAG_DATABASE, "Error: Document not exist")
+            tool = Tool(
+                barcode = doc.get("barcode") as String,
+                name = doc.get("name") as String,
+                project = doc.get("project") as String,
+                location = doc.get("location") as String,
+                photo = doc.get("photo") as String,
+                type = doc.get("project") as String,
+                status = doc.get("status") as String
+            )
+        } else {
+            Log.e(TAG_DATABASE, "Error: Document not exist")
 
-                }
+        }
 
-            }.addOnFailureListener { exception ->
-            Log.e(TAG_DATABASE, "Error: get failed with ", exception)
-        }.await()
         return tool
     }
 
@@ -86,7 +77,7 @@ class DataBaseToolService @Inject constructor(private val database: FirebaseFire
         return true
     }
 
-    fun getCounterTools(): Int {
+    suspend fun getCounterTools(): Int {
         var count = 0
         try{
             database.collection(COLLECTION).count().get(AggregateSource.SERVER).addOnCompleteListener {
@@ -94,12 +85,12 @@ class DataBaseToolService @Inject constructor(private val database: FirebaseFire
                 if (task.isSuccessful) {
                     // Count fetched successfully
                     count = task.result.count.toInt()
-                    Log.d(TAG_DATABASE, "Current number tools: ${count}")
+                    Log.i(TAG_DATABASE, "Current number tools: ${count}")
                 } else {
                     Log.d(TAG_DATABASE, "Count failed: ", task.getException())
                 }
 
-            }
+            }.await()
 
 
         }catch (e:Exception){

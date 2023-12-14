@@ -1,4 +1,4 @@
-package com.example.productmanager.domain.model
+package com.example.productmanager.domain.model.entities
 
 import javax.inject.Inject
 

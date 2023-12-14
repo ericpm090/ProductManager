@@ -31,7 +31,7 @@
     <fragment
         android:id="@+id/navigation_incidences"
         android:name="com.example.productmanager.ui.admin.ui.incidences.IncidencesFragment"
-        android:label="@string/title_incidents"
+        android:label="@string/title_incidences"
         tools:layout="@layout/admin_fragment_incidences" />
 
 

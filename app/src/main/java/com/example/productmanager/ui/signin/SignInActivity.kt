@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.productmanager.HUsrActivity
 import com.example.productmanager.R
 import com.example.productmanager.databinding.ActivitySigninBinding
-import com.example.productmanager.domain.model.Employee
+import com.example.productmanager.domain.model.entities.Employee
 import com.example.productmanager.ui.login.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
 

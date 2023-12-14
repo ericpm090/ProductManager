@@ -1,7 +1,7 @@
 package com.example.productmanager.domain
 
 import com.example.productmanager.data.database.AuthService
-import com.example.productmanager.domain.model.Employee
+import com.example.productmanager.domain.model.entities.Employee
 import javax.inject.Inject
 
 class SignInUseCase @Inject constructor(private val authService: AuthService) {

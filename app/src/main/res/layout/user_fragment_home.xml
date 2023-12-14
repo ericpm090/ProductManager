@@ -37,11 +37,29 @@
         android:layout_height="50dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/til_nameOrBarcode"
+        android:layout_marginTop="@dimen/activity_vertical_margin_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
         android:backgroundTint="#0D936A"
         android:text="@string/txt_book"
         android:textColor="@color/white"
         android:textColorHighlight="#41E348"
         android:textColorLink="#41E348"
-        android:layout_marginTop="30dp"
         app:cornerRadius="0dp"/>
+
+    <TextView
+        android:id="@+id/txt_userEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+       app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="30sp"
+        android:text="@string/txt_user"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin_margin"
+        >
+
+    </TextView>
 </androidx.constraintlayout.widget.ConstraintLayout>

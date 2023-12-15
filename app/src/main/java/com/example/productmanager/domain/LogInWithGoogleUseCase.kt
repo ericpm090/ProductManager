@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class LoginWithGoogleUseCase @Inject constructor(private val auth: AuthService) {
 
-    operator fun invoke(data: Intent?): Boolean {
+    suspend operator fun invoke(data: Intent?): String {
 
         return auth.createAccountWithCredential(data)
     }

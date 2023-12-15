@@ -1,4 +1,4 @@
-package com.example.productmanager.domain.model
+package com.example.productmanager.domain.model.entities
 
 enum class ToolType(val code:String) {
     TOOL("1"),

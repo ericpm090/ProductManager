@@ -39,11 +39,18 @@ class ToolScreenActivity : AppCompatActivity() {
         binding.btnBook.setOnClickListener {
             Log.i("ToolScreenActivity", "Buttom book selected")
         }
+        binding.btnBack.setOnClickListener {
+            goToPreviosScreen()
+        }
     }
 
-    private fun initObservers() {
-
+    private fun goToPreviosScreen() {
+        Log.i("ToolScreenActivity", "Previos screen")
     }
+
+    /*private fun initObservers() {
+
+    }*/
 
     private fun initScreen(
         photo: String?,

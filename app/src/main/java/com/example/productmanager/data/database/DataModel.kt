@@ -32,5 +32,16 @@ class FirebaseModel {
 
     }
 
+    /*@Provides
+    @Singleton
+    fun provideBarcodeScanner(
+        @ApplicationContext context: Context,
+        lifecycleOwner: LifecycleOwner,
+        registry: ActivityResultRegistry
+    ): BarcodeScanner {
+        return BarcodeScanner(context, lifecycleOwner, registry)
+    }*/
+
+
 
 }

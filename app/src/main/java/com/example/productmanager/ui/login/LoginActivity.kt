@@ -2,7 +2,6 @@ package com.example.productmanager.ui.login
 
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -44,7 +43,6 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
         dismissKeyboardShortcutsHelper()
-        session()
         initUI()
 
     }
@@ -61,7 +59,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     //Miramos si ya habia una sesion iniciada. Si la hay se va directamente a la home de user
-    private fun session() {
+    /*private fun session() {
         val prefs = getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE)
         val email = prefs.getString("email", null)
         if (email != null) {
@@ -69,7 +67,7 @@ class LoginActivity : AppCompatActivity() {
             goToUserHome(email.toString())
         }
 
-    }
+    }*/
 
     private fun initListeners() {
 
@@ -109,7 +107,8 @@ class LoginActivity : AppCompatActivity() {
         }
 
         loginViewModel.navigateToSignInGoogle.observe(this) {
-            if (it) goToUserHome(loginViewModel.getUser()!!.email.toString())
+            //if (it) goToUserHome(loginViewModel.getUser()!!.email.toString())
+            if (it != "") goToUserHome(it.toString())
             else showAlert()
 
         }
@@ -131,7 +130,7 @@ class LoginActivity : AppCompatActivity() {
 
 
     private fun goToUserHome(email: String) {
-        Log.i("LoginActivity", "User loged as employee")
+        Log.i("LoginActivity", "User $email loged as employee")
 
         val intent = Intent(this, UserActivity::class.java).apply {
             putExtra("email", email)

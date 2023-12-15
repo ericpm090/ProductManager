@@ -11,6 +11,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.productmanager.R
 import com.example.productmanager.databinding.AdminFragmentUsersBinding
+import com.journeyapps.barcodescanner.ScanContract
+import com.journeyapps.barcodescanner.ScanOptions
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -18,7 +20,14 @@ import dagger.hilt.android.AndroidEntryPoint
 class UsersFragment : Fragment() {
 
     private var _binding: AdminFragmentUsersBinding? = null
-
+    private val barcodeLauncher = registerForActivityResult(ScanContract()) { result ->
+        if (result.contents == null) {
+            binding.editTextEmail.text = result.contents
+            Toast.makeText(context, "Cancelled", Toast.LENGTH_LONG).show()
+        } else {
+            Toast.makeText(context, "Scanned: ${result.contents}", Toast.LENGTH_LONG).show()
+        }
+    }
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
@@ -60,6 +69,12 @@ class UsersFragment : Fragment() {
 
         binding.btnRemove.setOnClickListener {
             userFragmentViewModel.onRemoveSelected(binding.etMail.text.toString())
+        }
+
+        binding.floatingBtnScanner.setOnClickListener {
+            barcodeLauncher.launch(ScanOptions())
+
+
         }
     }
 

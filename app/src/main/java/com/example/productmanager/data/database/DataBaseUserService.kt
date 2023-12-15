@@ -1,8 +1,7 @@
 package com.example.productmanager.data.database
 
 import android.util.Log
-import com.example.productmanager.domain.model.Employee
-import com.example.productmanager.domain.model.RentalTool
+import com.example.productmanager.domain.model.entities.Employee
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
@@ -14,7 +13,6 @@ class DataBaseUserService @Inject constructor(private val database: FirebaseFire
     companion object {
         val TAG_DATABASE = "TAG_DB_USER_SERVICE"
         val USERS_COLLECTION = "users"
-        val RENTALS_COLLECTION = "rentals"
     }
 
     fun save(email: String, name: String, password: String): Boolean {
@@ -50,15 +48,15 @@ class DataBaseUserService @Inject constructor(private val database: FirebaseFire
 
 
     suspend fun getUser(email: String): Employee? {
-        var user:Employee? = null
+        var user: Employee? = null
         database.collection(USERS_COLLECTION).document(email).get().addOnSuccessListener { doc ->
-            if (doc!=null){
+            if (doc != null) {
                 user = Employee(
                     name = doc.get("name") as String,
                     email = email,
                     password = doc.get("password") as String
                 )
-            }else{
+            } else {
                 Log.e(TAG_DATABASE, "Error: Document not exist")
 
             }
@@ -66,7 +64,7 @@ class DataBaseUserService @Inject constructor(private val database: FirebaseFire
         }.addOnFailureListener { exception ->
             Log.e(TAG_DATABASE, "Error: get failed with ", exception)
         }.await()
-       return user
+        return user
     }
 
     fun deleteUser(email: String): Boolean {
@@ -74,17 +72,19 @@ class DataBaseUserService @Inject constructor(private val database: FirebaseFire
         return true
     }
 
-    fun getPendingTool(email:String, barcode:String): RentalTool? {
+    /*fun getPendingTool(email:String, barcode:String): RentalTool? {
         var rentalTool: RentalTool? = null
         try {
             database.collection(RENTALS_COLLECTION).document(email).get().addOnSuccessListener { doc ->
                 if(doc.get("tool_barcode").toString() == barcode){
                     rentalTool = RentalTool(
-                        toolBarcode = doc.get("tool_barcode") as String,
+                        userMail = doc.get("user_mail") as String,
+                        barcode = doc.get("tool_barcode") as String,
                         toolName = doc.get("tool_name") as String,
-                        toolProject = doc.get("tool_project") as String,
-                        startRental = doc.get("start_rental") as String,
-                        endRental = doc.get("end_rental") as String?
+                        project = doc.get("project") as String,
+                        pickUpDate = doc.get("start_rental") as String,
+                        dropOffDate = doc.get("end_rental") as String,
+                        status = doc.get("status") as String
                     )
                     Log.i(TAG_DATABASE, "Pending tool ${barcode} find it")
                 }
@@ -98,22 +98,28 @@ class DataBaseUserService @Inject constructor(private val database: FirebaseFire
 
     }
 
-    fun addPendingTool(email:String, rentalTool:RentalTool){
-        database.collection(RENTALS_COLLECTION).document(email).set(
+    suspend fun addPendingTool(rentalTool:RentalTool): Boolean {
+        var result = false
+        database.collection(RENTALS_COLLECTION).document(rentalTool.userMail).set(
             hashMapOf(
-                "tool_barcode" to email,
+                "user_mail" to rentalTool.userMail,
+                "tool_barcode" to rentalTool.toolBarcode,
                 "tool_name" to rentalTool.toolName,
-                "tool_project" to rentalTool.toolProject,
+                "tool_project" to rentalTool.project,
                 "start_rental" to rentalTool.startRental,
-                "end_rental" to rentalTool.endRental
+                "end_rental" to rentalTool.endRental,
+                "status" to rentalTool.status
 
             ),
 
             ).addOnSuccessListener {
-            Log.i(TAG_DATABASE, "Rental of $email has been registered successfully ")
+            result = true
+            val email = rentalTool.userMail
+            Log.i(TAG_DATABASE, "Rental of $email  has been registered successfully ")
         }
-            .addOnFailureListener { e -> Log.w(TAG_DATABASE, "Error writing document", e) }
-    }
+            .addOnFailureListener { e -> Log.w(TAG_DATABASE, "Error writing document", e) }.await()
+    return result
+    }*/
 
 
 }

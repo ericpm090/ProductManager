@@ -1,10 +1,12 @@
 package com.example.productmanager.data.database
 
 import android.util.Log
-import com.example.productmanager.domain.model.Project
+import com.example.productmanager.domain.model.entities.Project
 import com.google.firebase.firestore.AggregateSource
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class DataBaseProjectService @Inject constructor(private val database: FirebaseFirestore) {
@@ -42,8 +44,11 @@ class DataBaseProjectService @Inject constructor(private val database: FirebaseF
 
     suspend fun getAllProjects(): MutableList<String> {
         val list: MutableList<String> = mutableListOf()
+
+        val query = withContext(Dispatchers.IO){
+            database.collection(COLLECTION).get().await()
+        }
         try {
-            val query = database.collection(COLLECTION).get().await()
             for (document in query.documents) {
                 Log.d(TAG_DATABASE, "${document.id} => ${document.data}")
                 list.add(
@@ -55,27 +60,27 @@ class DataBaseProjectService @Inject constructor(private val database: FirebaseF
             Log.d(TAG_DATABASE, "Error getting documents: ", e)
         }
 
+
         return list
     }
 
 
     suspend fun get(name: String): Project? {
         var project: Project? = null
-        database.collection(COLLECTION).document(name).get()
-            .addOnSuccessListener { doc ->
-                if (doc != null) {
-                    project = Project(
-                        code = doc.get("code") as Long,
-                        name = doc.get("name") as String
-                    )
-                } else {
-                    Log.e(TAG_DATABASE, "Error: Document not exist")
 
-                }
+        val doc = withContext(Dispatchers.IO){
+            database.collection(COLLECTION).document(name).get().await()
+        }
+        if (doc.exists()) {
+            project = Project(
+                code = doc.get("code") as Long,
+                name = doc.get("name") as String
+            )
+        } else {
+            Log.e(TAG_DATABASE, "Error: Document not exist")
 
-            }.addOnFailureListener { exception ->
-                Log.e(TAG_DATABASE, "Error: get failed with ", exception)
-            }.await()
+        }
+
         return project
     }
 
@@ -86,6 +91,7 @@ class DataBaseProjectService @Inject constructor(private val database: FirebaseF
 
     suspend fun getCounterProjects(): Int {
         var count = 0
+
         try {
             database.collection(COLLECTION).count().get(AggregateSource.SERVER)
                 .addOnCompleteListener { task ->

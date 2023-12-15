@@ -2,15 +2,15 @@ package com.example.productmanager.ui.user
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.example.productmanager.R
 import com.example.productmanager.databinding.ActivityUserBinding
-import com.example.productmanager.ui.admin.ui.incidences.IncidencesFragment
 import com.example.productmanager.ui.login.LoginActivity
 import com.example.productmanager.ui.user.home.HomeFragment
-import com.example.productmanager.ui.user.home.HomeViewModel
+import com.example.productmanager.ui.user.incidents.IncidentsFragment
 import com.example.productmanager.ui.user.loands.LoandsFragment
 import com.example.productmanager.ui.user.rental.RentalFragment
 import com.example.productmanager.ui.user.returns.ReturnsFragment
@@ -20,8 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class UserActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityUserBinding
-
-    private var email = ""
+    private val userDataViewModel: UserDataViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,24 +29,26 @@ class UserActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val bundle: Bundle? = intent.extras
-        email = bundle?.getString("email").toString()
+        val email = bundle?.getString("email").toString()
 
+        initUserDataViewModel(email)
 
-        initHome(email)
+        //initHome(email)
+
+        //SharedUserData.getInstance().email = email
 
         initListeners()
 
 
     }
 
-    private fun initHome(email: String?) {
-        val userFragmentViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
-        userFragmentViewModel.welcome_text = "Welcome " + email.toString()
+    private fun initUserDataViewModel(email: String) {
+        userDataViewModel.setUserEmail(email)
+
+        /*val userDataViewModel = ViewModelProvider(this).get(UserDataViewModel::class.java)
+        userDataViewModel.setUserEmail(email)*/
     }
 
-    fun getUser(): String {
-        return email
-    }
 
     private fun initListeners() {
         binding.topToolbarUser.setOnMenuItemClickListener {
@@ -62,7 +63,7 @@ class UserActivity : AppCompatActivity() {
                 R.id.navigation_rental -> replaceFragment(RentalFragment(), "RENTALS")
                 R.id.navigation_returns -> replaceFragment(ReturnsFragment(), "RETURNS")
                 R.id.navigation_loands -> replaceFragment(LoandsFragment(), "LOANDS")
-                R.id.navigation_incidences -> replaceFragment(IncidencesFragment(), "INCIDENCES")
+                R.id.navigation_incidents -> replaceFragment(IncidentsFragment(), "INCIDENTS")
                 else -> {
 
                 }
@@ -77,6 +78,7 @@ class UserActivity : AppCompatActivity() {
     }
 
     private fun replaceFragment(fragment: Fragment, title: String) {
+        Log.i("UserActivity", "Active fragment : $title")
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
         binding.topToolbarUser.setTitle(title)

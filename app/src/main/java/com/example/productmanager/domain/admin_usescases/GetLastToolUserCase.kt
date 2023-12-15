@@ -5,7 +5,7 @@ import javax.inject.Inject
 
 class GetLastToolUserCase @Inject constructor(private val db:DataBaseToolService){
 
-    operator fun invoke() : Int {
+    suspend operator fun invoke() : Int {
 
         return db.getCounterTools()
     }

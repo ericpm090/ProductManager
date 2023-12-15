@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.productmanager.domain.admin_usescases.DeleteUserUseCase
 import com.example.productmanager.domain.admin_usescases.ModifyUserUseCase
 import com.example.productmanager.domain.admin_usescases.SearchUserUseCase
-import com.example.productmanager.domain.model.Employee
+import com.example.productmanager.domain.model.entities.Employee
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

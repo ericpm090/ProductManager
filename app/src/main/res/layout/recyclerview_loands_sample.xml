@@ -22,8 +22,8 @@
 
         <ImageView
             android:id="@+id/img_tool"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:src="@color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -45,6 +45,18 @@
             tools:ignore="RtlSymmetry" />
 
         <TextView
+            android:id="@+id/recyclerview_barcode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/txt_barcode"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/img_tool"
+            app:layout_constraintTop_toBottomOf="@id/recyclerview_tool"
+            android:paddingStart="20dp"
+            tools:ignore="RtlSymmetry" />
+        <TextView
             android:id="@+id/recyclerview_project"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -53,7 +65,7 @@
             android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/img_tool"
-            app:layout_constraintTop_toBottomOf="@id/recyclerview_tool"
+            app:layout_constraintTop_toBottomOf="@id/recyclerview_barcode"
             android:paddingStart="20dp"
             tools:ignore="RtlSymmetry" />
 
@@ -74,15 +86,16 @@
             android:id="@+id/recyclerview_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="textMultiLine"
+            android:paddingStart="20dp"
             android:text="@string/hint_status"
-            android:textColor="@color/black"
+            android:textColor="@color/red"
             android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/img_tool"
             app:layout_constraintTop_toBottomOf="@id/recyclerview_start_date"
-            android:paddingStart="20dp"
-            tools:ignore="RtlSymmetry" />
+            tools:ignore="RtlSymmetry,TouchTargetSizeCheck" />
+
+
 
 
 

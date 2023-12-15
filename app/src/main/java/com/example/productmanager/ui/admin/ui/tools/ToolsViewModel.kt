@@ -6,12 +6,12 @@ import androidx.lifecycle.viewModelScope
 import com.example.productmanager.domain.SearchToolUseCase
 import com.example.productmanager.domain.admin_usescases.AddToolUseCase
 import com.example.productmanager.domain.admin_usescases.DeleteToolUseCase
-import com.example.productmanager.domain.admin_usescases.GetAllLocationsUseCase
 import com.example.productmanager.domain.admin_usescases.GetAllProjectsUseCase
-import com.example.productmanager.domain.model.Barcode
-import com.example.productmanager.domain.model.Tool
-import com.example.productmanager.domain.model.ToolStatus
-import com.example.productmanager.domain.model.ToolType
+import com.example.productmanager.domain.model.entities.Barcode
+import com.example.productmanager.domain.model.entities.Tool
+import com.example.productmanager.domain.model.entities.ToolStatus
+import com.example.productmanager.domain.model.entities.ToolType
+import com.example.productmanager.domain.model.services.LocationService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -24,9 +24,8 @@ class ToolsViewModel @Inject constructor(
     private val searchToolUseCase: SearchToolUseCase,
     private val deleteToolUseCase: DeleteToolUseCase,
     private val getAllProjectsUseCase: GetAllProjectsUseCase,
-    private val getAllLocationsUseCase: GetAllLocationsUseCase,
-
-    private val barcodeGenerator: Barcode
+    private val barcodeGenerator: Barcode,
+    private val locationService: LocationService
 
 ) : ViewModel() {
 
@@ -40,9 +39,8 @@ class ToolsViewModel @Inject constructor(
 
 
     private suspend fun getBarcode(type: String, project: String, location: String): String {
+        return barcodeGenerator.getBarcode(type, project, location)
 
-        val barcode = barcodeGenerator(type, project, location)
-        return barcode
     }
 
     fun onAddToolSelected(
@@ -61,73 +59,60 @@ class ToolsViewModel @Inject constructor(
                 addTool.postValue(withContext(Dispatchers.IO) {
 
                     addTolCaseUse(
-                        getBarcode(type, project, location),
-                        name,
-                        project,
-                        location,
-                        photo,
-                        type,
-                        ToolStatus.NOT_AVAILABLE.toString()
+                        Tool(
+                            getBarcode(type, project, location),
+                            name,
+                            project,
+                            location,
+                            photo,
+                            type,
+                            ToolStatus.AVAILABLE.toString()
+                        )
                     )
                 })
             }
-        }else {
+        } else {
             addTool.postValue(false)
         }
     }
 
-
-
-
-fun onSearchToolSelected(barcode: String) {
-    if (barcode.isNotEmpty()) {
-        viewModelScope.launch {
-            searchTool.postValue(withContext(Dispatchers.IO) { searchToolUseCase(barcode) })
+    fun onSearchToolSelected(barcode: String) {
+        if (barcode.isNotEmpty()) {
+            viewModelScope.launch {
+                searchTool.postValue(withContext(Dispatchers.IO) { searchToolUseCase(barcode) })
+            }
+        } else {
+            searchTool.postValue(null)
         }
-    } else {
-        searchTool.postValue(null)
     }
 
-
-}
-
-fun onDeleteToolSelected(name: String) {
-    if (name.isNotEmpty()) {
-        deleteTool.postValue(deleteToolUseCase(name))
-    } else {
-        deleteTool.postValue(false)
+    fun onDeleteToolSelected(name: String) {
+        if (name.isNotEmpty()) {
+            deleteTool.postValue(deleteToolUseCase(name))
+        } else {
+            deleteTool.postValue(false)
+        }
     }
 
-}
+    fun getProjects() {
+        viewModelScope.launch {
+            list = withContext(Dispatchers.IO) { getAllProjectsUseCase() }
+            projectList.postValue(list)
+        }
 
-fun getProjects() {
-
-    viewModelScope.launch {
-
-        list = withContext(Dispatchers.IO) { getAllProjectsUseCase() }
-        projectList.postValue(list)
     }
 
-
-}
-
-fun getLocations() {
-
-    viewModelScope.launch {
-
-        list = withContext(Dispatchers.IO) { getAllLocationsUseCase() }
-        locationList.postValue(list)
+    fun getLocations() {
+        viewModelScope.launch {
+            list = withContext(Dispatchers.IO) { locationService.getLocations() }
+            locationList.postValue(list)
+        }
     }
 
+    fun getTypes() {
+        typeList.postValue(ToolType.getAllTypes())
 
-}
-
-fun getTypes() {
-
-    typeList.postValue(ToolType.getAllTypes())
-
-
-}
+    }
 
 
 }

@@ -28,7 +28,7 @@
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"></TextView>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/recyclerview__tool"
@@ -39,56 +39,68 @@
             android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/recyclerview_user"></TextView>
+            app:layout_constraintTop_toBottomOf="@id/recyclerview_user" />
+        <TextView
+            android:id="@+id/recyclerview_barcode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/hint_barcode"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recyclerview__tool" />
 
         <TextView
             android:id="@+id/recyclerview_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="textMultiLine"
             android:text="@string/hint_date"
             android:textColor="@color/black"
             android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/recyclerview__tool"></TextView>
+            app:layout_constraintTop_toBottomOf="@id/recyclerview_barcode" />
 
         <TextView
             android:id="@+id/recyclerview__description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="textMultiLine"
             android:text="@string/hint_description"
             android:textColor="@color/black"
             android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/recyclerview_date"></TextView>
+            app:layout_constraintTop_toBottomOf="@id/recyclerview_date" />
 
-        <ImageButton
-            android:id="@+id/recyclerviewBtn_delete"
+        <Button
+            android:id="@+id/btnDeleteAndNotify"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:background="@color/transparent"
-            android:src="@drawable/ic_delete_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-        </ImageButton>
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginBottom="@dimen/margin_floatingbtn"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin_margin"
+            android:backgroundTint="@color/red"
+            android:text="@string/txt_register"
+            android:textColor="@color/white"
+            android:textColorHighlight="#41E348"
+            android:textColorLink="#41E348"
+            app:cornerRadius="0dp"
+            />
 
         <CheckBox
             android:id="@+id/recyclerviewCheckbox_solved"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:orientation="vertical"
+            android:layout_marginEnd="50dp"
             android:textColorHint="@color/black"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/recyclerviewBtn_delete"
-            app:layout_constraintTop_toTopOf="parent">
-
+            app:layout_constraintBottom_toBottomOf="@id/btnDeleteAndNotify"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/btnDeleteAndNotify"
+            app:layout_constraintEnd_toStartOf="@id/btnDeleteAndNotify">
         </CheckBox>
 
         <TextView
@@ -96,6 +108,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
             android:text="@string/txt_solved"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@id/recyclerviewCheckbox_solved"
             app:layout_constraintStart_toStartOf="@id/recyclerviewCheckbox_solved"
             app:layout_constraintTop_toBottomOf="@id/recyclerviewCheckbox_solved">

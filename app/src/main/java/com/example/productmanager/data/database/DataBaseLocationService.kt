@@ -1,10 +1,12 @@
 package com.example.productmanager.data.database
 
 import android.util.Log
-import com.example.productmanager.domain.model.Location
+import com.example.productmanager.domain.model.entities.Location
 import com.google.firebase.firestore.AggregateSource
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class DataBaseLocationService @Inject constructor(private val database: FirebaseFirestore) {
@@ -15,17 +17,17 @@ class DataBaseLocationService @Inject constructor(private val database: Firebase
     }
 
 
-    suspend fun save(name: String): Boolean {
+    suspend fun save(location: Location): Boolean {
         var result = false
-        val code = getCounterLocations() +1
-        database.collection(COLLECTION).document(name).set(
+        val code = this.size() + 1
+        database.collection(COLLECTION).document(location.name).set(
             hashMapOf(
                 "code" to code,
-                "name" to name
+                "name" to location.name
             ),
 
             ).addOnSuccessListener {
-            Log.i(TAG_DATABASE, "Location $name added in database ")
+            Log.i(TAG_DATABASE, "Location ${location.name} added in database ")
             result = true
         }
             .addOnFailureListener { e ->
@@ -42,22 +44,19 @@ class DataBaseLocationService @Inject constructor(private val database: Firebase
 
     suspend fun get(name: String): Location? {
         var location: Location? = null
+        val doc = withContext(Dispatchers.IO) {
+            database.collection(COLLECTION).document(name).get().await()
+        }
+        if (doc.exists()) {
+            location = Location(
+                code = doc.get("code") as Long,
+                name = doc.get("name") as String
+            )
+        } else {
+            Log.e(TAG_DATABASE, "Error: Document not exist")
 
-        database.collection(COLLECTION).document(name).get()
-            .addOnSuccessListener { doc ->
-                if (doc != null) {
-                    location = Location(
-                        code = doc.get("code") as Long,
-                        name = doc.get("name") as String
-                    )
-                } else {
-                    Log.e(TAG_DATABASE, "Error: Document not exist")
+        }
 
-                }
-
-            }.addOnFailureListener { exception ->
-                Log.e(TAG_DATABASE, "Error: get failed with ", exception)
-            }.await()
         return location
     }
 
@@ -67,17 +66,18 @@ class DataBaseLocationService @Inject constructor(private val database: Firebase
     }
 
 
+    suspend fun getAll(): MutableList<Location> {
 
-
-    suspend fun getAllLocations(): MutableList<String> {
-
-        val list: MutableList<String> = mutableListOf()
+        val list: MutableList<Location> = mutableListOf()
         try {
             val query = database.collection(COLLECTION).get().await()
             for (document in query.documents) {
                 Log.d(TAG_DATABASE, "${document.id} => ${document.data}")
                 list.add(
-                    document.get("name") as String
+                    Location(
+                        code = document.get("code") as Long,
+                        name = document.get("name") as String
+                    )
 
                 )
             }
@@ -89,24 +89,27 @@ class DataBaseLocationService @Inject constructor(private val database: Firebase
 
     }
 
-    suspend fun getCounterLocations(): Int {
+    suspend fun size(): Int {
         var count = 0
-        try{
-            database.collection(COLLECTION).count().get(AggregateSource.SERVER).addOnCompleteListener {
-                    task ->
-                if (task.isSuccessful) {
-                    // Count fetched successfully
-                    count = task.result.count.toInt()
-                    Log.d(TAG_DATABASE, "Current number locations: ${count}")
-                } else {
-                    Log.d(TAG_DATABASE, "Count failed: ", task.getException())
-                }
+        try {
+            database.collection(COLLECTION).count().get(AggregateSource.SERVER)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        // Count fetched successfully
+                        count = task.result.count.toInt()
+                        Log.d(TAG_DATABASE, "Current number locations: ${count}")
+                    } else {
+                        Log.d(TAG_DATABASE, "Count failed: ", task.getException())
+                    }
 
-            }.await()
+                }.await()
 
 
-        }catch (e:Exception){
-            Log.w(TAG_DATABASE,"Warning: Collection not found, creating ${DataBaseProjectService.COLLECTION} database")
+        } catch (e: Exception) {
+            Log.w(
+                TAG_DATABASE,
+                "Warning: Collection not found, creating ${DataBaseProjectService.COLLECTION} database"
+            )
         }
 
         return count

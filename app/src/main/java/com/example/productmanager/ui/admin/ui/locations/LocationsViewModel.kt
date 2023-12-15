@@ -3,10 +3,8 @@ package com.example.productmanager.ui.admin.ui.locations
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.productmanager.domain.admin_usescases.AddLocationUseCase
-import com.example.productmanager.domain.admin_usescases.DeleteLocationUseCase
-import com.example.productmanager.domain.admin_usescases.SearchLocationUseCase
-import com.example.productmanager.domain.model.Location
+import com.example.productmanager.domain.model.entities.Location
+import com.example.productmanager.domain.model.services.LocationService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -15,9 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LocationsViewModel @Inject constructor(
-    private val addLocationUseCase: AddLocationUseCase,
-    private val searchLocationUseCase: SearchLocationUseCase,
-    private val deleteLocationUseCase: DeleteLocationUseCase
+    private val locationService: LocationService
 ) : ViewModel() {
 
     val addLocation = MutableLiveData<Boolean?>()
@@ -25,18 +21,28 @@ class LocationsViewModel @Inject constructor(
     val deleteLocation = MutableLiveData<Boolean>()
 
     fun onAddLocationSelected(name: String) {
-        if (name.isNotEmpty()){
+        if (name.isNotEmpty()) {
             viewModelScope.launch {
-                addLocation.postValue(withContext(Dispatchers.IO) {addLocationUseCase(name)})
+                val location = locationService.createLocation(name)
+                if (location != null) {
+                    addLocation.postValue(withContext(Dispatchers.IO) {
+                        //addLocationUseCase(location)
+                        locationService.saveLocation(location)
+                    })
+                }
+
             }
-        }
-        else addLocation.postValue(false)
+        } else addLocation.postValue(false)
     }
 
     fun onSearchLocationSelected(name: String) {
         if (name.isNotEmpty()) {
             viewModelScope.launch {
-                findLocation.postValue(withContext(Dispatchers.IO) { searchLocationUseCase(name) })
+                findLocation.postValue(withContext(Dispatchers.IO) {
+                    locationService.searchLocation(
+                        name
+                    )
+                })
             }
         } else {
             findLocation.postValue(null)
@@ -44,7 +50,7 @@ class LocationsViewModel @Inject constructor(
     }
 
     fun onDeleteLocationSelected(name: String) {
-        if (name.isNotEmpty()) deleteLocation.postValue(deleteLocationUseCase(name))
+        if (name.isNotEmpty()) deleteLocation.postValue(locationService.deleteLocation(name))
         else deleteLocation.postValue(false)
     }
 }

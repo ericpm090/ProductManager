@@ -5,4 +5,5 @@
     <dimen name="activity_vertical_margin_margin">20dp</dimen>
     <dimen name="margin_floatingbtn">50dp</dimen>
     <dimen name="til_width">3dp</dimen>
+    <dimen name="activity_vertical_margin_textinput">5dp</dimen>
 </resources>

@@ -10,5 +10,4 @@ data class Tool @Inject constructor(
     var photo: String,
     var type: String,
     var status: String
-) {
-}
+)

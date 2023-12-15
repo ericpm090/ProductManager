@@ -14,20 +14,30 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.productmanager.R
 import com.example.productmanager.databinding.AdminFragmentToolsBinding
+import com.journeyapps.barcodescanner.ScanContract
+import com.journeyapps.barcodescanner.ScanOptions
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ToolsFragment : Fragment() {
 
     private var _binding: AdminFragmentToolsBinding? = null
+    private val barcodeLauncher = registerForActivityResult(ScanContract()) { result ->
+        if (result.contents == null) {
+            binding.etScan.text = result.contents
+            Toast.makeText(context, "Cancelled", Toast.LENGTH_LONG).show()
+        } else {
+            Toast.makeText(context, "Scanned: ${result.contents}", Toast.LENGTH_LONG).show()
+        }
+    }
 
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
     private val toolFragmentViewModel: ToolsViewModel by viewModels()
-    private var spinnerProjectsValue:String = ""
-    private var spinnerTypeValue:String = ""
-    private var spinnerLocationValue:String = ""
+    private var spinnerProjectsValue: String = ""
+    private var spinnerTypeValue: String = ""
+    private var spinnerLocationValue: String = ""
     private var spinnerProjectsList = mutableListOf<String>()
     private var spinnerTypesList = mutableListOf<String>()
     private var spinnerLocationsList = mutableListOf<String>()
@@ -62,7 +72,6 @@ class ToolsFragment : Fragment() {
                 initProjectSpinner(spinnerProjectsList, it.project)
                 initLocationSpinner(spinnerLocationsList, it.location)
                 initTypeSpinner(spinnerTypesList, it.type)
-
 
 
                 //binding.etProject.setText(it.project)
@@ -102,11 +111,12 @@ class ToolsFragment : Fragment() {
 
 
     }
+
     private fun initListeners() {
 
 
         binding.btnSave.setOnClickListener {
-            if(checkAndUpdateCheckTextInput()){
+            if (checkAndUpdateCheckTextInput()) {
                 toolFragmentViewModel.onAddToolSelected(
                     binding.etName.text.toString(),
                     spinnerProjectsValue,
@@ -124,10 +134,17 @@ class ToolsFragment : Fragment() {
         }
 
         binding.btnRemove.setOnClickListener {
-            if(checkAndUpdateCheckTextInput()) {
+            if (checkAndUpdateCheckTextInput()) {
                 toolFragmentViewModel.onDeleteToolSelected(binding.etName.text.toString())
             }
         }
+
+        binding.floatingBtnScanner.setOnClickListener {
+            barcodeLauncher.launch(ScanOptions())
+
+
+        }
+
 
         //listener spinner call by default
         toolFragmentViewModel.getProjects()
@@ -136,7 +153,8 @@ class ToolsFragment : Fragment() {
 
 
     }
-    private fun initTypeSpinner(list: MutableList<String>, value:String) {
+
+    private fun initTypeSpinner(list: MutableList<String>, value: String) {
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, list)
         binding.spinnerType.adapter = adapter
         val position = list.indexOf(value)
@@ -144,7 +162,7 @@ class ToolsFragment : Fragment() {
 
     }
 
-    private fun initLocationSpinner(list: MutableList<String>, value:String) {
+    private fun initLocationSpinner(list: MutableList<String>, value: String) {
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, list)
         binding.spinnerLocations.adapter = adapter
         val position = list.indexOf(value)
@@ -153,7 +171,7 @@ class ToolsFragment : Fragment() {
     }
 
 
-    private fun initProjectSpinner(list: MutableList<String>, value:String) {
+    private fun initProjectSpinner(list: MutableList<String>, value: String) {
 
 
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, list)
@@ -175,9 +193,9 @@ class ToolsFragment : Fragment() {
             til_photo to et_photo
         )
 
-        for((til,et) in dictionary){
+        for ((til, et) in dictionary) {
             _isEmpty = et.isEmpty()
-            if(_isEmpty){
+            if (_isEmpty) {
                 til.helperText = getText(R.string.empty_box)
                 til.setHelperTextColor(
                     ColorStateList.valueOf(
@@ -187,7 +205,7 @@ class ToolsFragment : Fragment() {
                         )
                     )
                 )
-            }else{
+            } else {
 
                 til.helperText = ""
                 til.setHelperTextColor(
@@ -206,9 +224,7 @@ class ToolsFragment : Fragment() {
     }
 
 
-
     private fun spinnerListener() {
-
 
 
         binding.spinnerProjects.onItemSelectedListener =
@@ -221,7 +237,7 @@ class ToolsFragment : Fragment() {
                 ) {
 
                     spinnerProjectsValue = parent?.getItemAtPosition(position).toString()
-                    Log.i("ToolFragment", "Selected project "+ spinnerProjectsValue)
+                    Log.i("ToolFragment", "Selected project " + spinnerProjectsValue)
 
                 }
 
@@ -240,7 +256,7 @@ class ToolsFragment : Fragment() {
                 ) {
 
                     spinnerTypeValue = parent?.getItemAtPosition(position).toString()
-                    Log.i("ToolFragment", "Selected type"+ spinnerTypeValue)
+                    Log.i("ToolFragment", "Selected type" + spinnerTypeValue)
 
                 }
 
@@ -259,7 +275,7 @@ class ToolsFragment : Fragment() {
                 ) {
 
                     spinnerLocationValue = parent?.getItemAtPosition(position).toString()
-                    Log.i("ToolFragment", "Selected location"+ spinnerLocationValue)
+                    Log.i("ToolFragment", "Selected location" + spinnerLocationValue)
 
                 }
 

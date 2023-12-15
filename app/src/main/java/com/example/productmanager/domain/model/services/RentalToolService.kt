@@ -41,4 +41,9 @@ class RentalToolService @Inject constructor(
 
     }
 
+    suspend fun getRentalHistory(email:String): MutableList<RentalTool> {
+        return getRentalHistoryUseCase(email)
+    }
+
+
 }

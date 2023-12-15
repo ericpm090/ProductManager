@@ -4,11 +4,13 @@ import android.content.Intent
 import android.util.Patterns
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.productmanager.domain.CurrentUserUserCase
+import androidx.lifecycle.viewModelScope
 import com.example.productmanager.domain.LoginUseCase
 import com.example.productmanager.domain.LoginWithGoogleUseCase
-import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
@@ -16,11 +18,10 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     val loginUseCase: LoginUseCase,
     val loginWithGoogleUseCase: LoginWithGoogleUseCase,
-    private val currentUserUserCase: CurrentUserUserCase,
 ) : ViewModel() {
 
     val navigateToHomeUser = MutableLiveData<Boolean>()
-    val navigateToSignInGoogle = MutableLiveData<Boolean>()
+    val navigateToSignInGoogle = MutableLiveData<String?>()
 
     private companion object {
         const val MIN_PASSWORD_LENGTH = 6
@@ -30,17 +31,15 @@ class LoginViewModel @Inject constructor(
 
         if (isValidEmail(email) && isValidPassword(password)) {
             loginUser(email, password)
-        }else{
+        } else {
             navigateToHomeUser.postValue(false)
         }
     }
+
     fun onLoginGoogleSelected(data: Intent?) {
         if (data != null) {
             loginWithGoogle(data)
         }
-    }
-    fun getUser(): FirebaseUser? {
-        return currentUserUserCase.invoke()
     }
 
 
@@ -50,8 +49,15 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun loginWithGoogle(data: Intent?) {
-        val accountCreated = loginWithGoogleUseCase(data)
-        navigateToSignInGoogle.postValue(accountCreated)
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                val accountCreated = loginWithGoogleUseCase(data)
+                if (accountCreated != "") {
+                    navigateToSignInGoogle.postValue(accountCreated)
+                }
+            }
+        }
+
 
     }
 

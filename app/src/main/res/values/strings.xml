@@ -78,4 +78,9 @@
     <string name="hint_barcode">barcode</string>
     <string name="noloands">Congratulations, you don\'t have pending tools</string>
     <string name="txt_updateLoands">Update</string>
+    <string name="subject_notification">[Product manager] - Incidence updated</string>
+    <string name="msg_notification">Your incident is solved</string>
+    <string name="txt_pendingTools">Pending tools:</string>
+    <string name="txt_incidencesCreated">Incidences created:</string>
+    <string name="txt_totalRentalTools">Total tool used:</string>
 </resources>

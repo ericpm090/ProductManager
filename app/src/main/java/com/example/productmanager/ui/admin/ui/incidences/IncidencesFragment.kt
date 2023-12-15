@@ -82,13 +82,22 @@ class IncidencesFragment : Fragment() {
     }
 
     private fun onItemDelete(position: Int) {
-        incidencesFragmentViewModel.onDeleteItem(IncidencesProvider.incidencesList.get(position))
-        incidencesFragmentViewModel.solveInvident.observe(viewLifecycleOwner){
-            if(it == true){
+        val incidence = IncidencesProvider.incidencesList.get(position)
+        incidencesFragmentViewModel.onDeleteItem(incidence)
+        incidencesFragmentViewModel.solveInvident.observe(viewLifecycleOwner) {
+            if (it == true) {
+                incidencesFragmentViewModel.notifySolveIncident(
+                    incidence,
+                    getString(R.string.subject_notification),
+                    getString(R.string.msg_notification),
+                    context
+                )
                 IncidencesProvider.incidencesList.removeAt(position)
                 binding.rvIncidences.adapter?.notifyItemRemoved(position)
             }
         }
+
+
 
     }
 

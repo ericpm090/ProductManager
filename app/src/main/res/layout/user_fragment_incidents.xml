@@ -81,7 +81,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="@dimen/activity_vertical_margin_margin"
+        android:layout_marginBottom="@dimen/activity_vertical_margin_textinput"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
         android:backgroundTint="#0D936A"
@@ -90,5 +90,19 @@
         android:textColorHighlight="#41E348"
         android:textColorLink="#41E348"
         app:cornerRadius="0dp"/>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/floating_btn_scanner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@id/btn_register"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="100dp"
+        android:text="@string/txt_scan"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:icon="@drawable/ic_qr_code_scanner_24"
+        app:fabSize="normal"
+        tools:ignore="SpUsage" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

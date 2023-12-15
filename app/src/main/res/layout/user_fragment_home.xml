@@ -51,15 +51,86 @@
         android:id="@+id/txt_userEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
-       app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:textSize="30sp"
+        app:layout_constraintTop_toBottomOf="@id/btn_opentool"
+        app:layout_constraintStart_toStartOf="@id/btn_opentool"
+        android:textSize="20sp"
+        android:textStyle="bold"
         android:text="@string/txt_user"
-        android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_vertical_margin_margin"
         >
 
     </TextView>
+
+    <TextView
+        android:id="@+id/txt_pendingTools"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/txt_userEmail"
+        app:layout_constraintStart_toStartOf="@id/btn_opentool"
+        android:textSize="20sp"
+        android:text="@string/txt_pendingTools"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"
+        >
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/txt_totalToolsRented"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/txt_pendingTools"
+        app:layout_constraintStart_toStartOf="@id/btn_opentool"
+        android:textSize="20sp"
+        android:text="@string/txt_totalRentalTools"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"
+        >
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/txt_incidencesCreated"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/txt_totalToolsRented"
+        app:layout_constraintStart_toStartOf="@id/btn_opentool"
+        android:textSize="20sp"
+        android:text="@string/txt_incidencesCreated"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"
+        >
+    </TextView>
+
+
+    <Button
+        android:id="@+id/btn_logout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="@dimen/activity_vertical_margin_textinput"
+        android:backgroundTint="@color/red"
+        android:text="@string/txt_logout"
+        android:textColor="@color/white"
+        android:textColorHighlight="#41E348"
+        android:textColorLink="#41E348"
+        app:cornerRadius="0dp"/>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/floating_btn_scanner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@id/btn_logout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="100dp"
+        android:text="@string/txt_scan"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:icon="@drawable/ic_qr_code_scanner_24"
+        app:fabSize="normal"
+        tools:ignore="SpUsage" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

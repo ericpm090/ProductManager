@@ -2,6 +2,7 @@ package com.example.productmanager.domain.model.services
 
 import android.util.Log
 import com.example.productmanager.domain.admin_usescases.GetIncidencesUseCase
+import com.example.productmanager.domain.admin_usescases.UpdateIncidenceUseCase
 import com.example.productmanager.domain.model.entities.Incidence
 import com.example.productmanager.domain.model.entities.IncidenceStatus
 import com.example.productmanager.domain.model.entities.Tool
@@ -12,7 +13,8 @@ import javax.inject.Inject
 
 class IncidencesService @Inject constructor(
     private val addIncidenceUseCase: AddIncidentUseCase,
-    private val getAllIncidencesUseCase: GetIncidencesUseCase
+    private val getAllIncidencesUseCase: GetIncidencesUseCase,
+    private val updateIncidenceUseCase: UpdateIncidenceUseCase
 ) {
 
 
@@ -43,8 +45,15 @@ class IncidencesService @Inject constructor(
 
     suspend fun solveIncidence(incidence:Incidence): Boolean {
         incidence.status = IncidenceStatus.SOLVED.toString()
-        return saveIncidence(incidence)
+        return updateIncidence(incidence)
     }
 
+    suspend fun updateIncidence(incidence:Incidence):Boolean{
+        return updateIncidenceUseCase(incidence)
+    }
 
+    suspend fun getIncidencesByEmail(email:String): MutableList<Incidence> {
+
+        return getIncidences().filter { incidence -> incidence.employee.equals(email) }.toMutableList()
+    }
 }

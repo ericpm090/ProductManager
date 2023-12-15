@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -16,6 +17,8 @@ import com.example.productmanager.domain.model.entities.RentalTool
 import com.example.productmanager.ui.user.UserDataViewModel
 import com.example.productmanager.ui.user.returns.adapter.ReturnsAdapter
 import com.example.productmanager.ui.user.returns.adapter.ReturnsProvider
+import com.journeyapps.barcodescanner.ScanContract
+import com.journeyapps.barcodescanner.ScanOptions
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -28,7 +31,14 @@ class ReturnsFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
-
+    private val barcodeLauncher = registerForActivityResult(ScanContract()) { result ->
+        if (result.contents == null) {
+            binding.etBarcode.text = result.contents
+            Toast.makeText(context, "Cancelled", Toast.LENGTH_LONG).show()
+        } else {
+            Toast.makeText(context, "Scanned: ${result.contents}", Toast.LENGTH_LONG).show()
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -84,6 +94,11 @@ class ReturnsFragment : Fragment() {
             }else{
                 showError()
             }
+        }
+
+        binding.floatingBtnScanner.setOnClickListener {
+            barcodeLauncher.launch(ScanOptions())
+
         }
     }
     fun updateRecyclerView(rentalTool: RentalTool) {

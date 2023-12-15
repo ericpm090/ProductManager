@@ -19,6 +19,7 @@ class AuthService @Inject constructor(
     companion object {
         val TAG_DATABASE = "TAG_AUTH_SERVICE"
     }
+
     fun login(email: String, password: String): Boolean {
 
         val res = firebase.signInWithEmailAndPassword(email, password)
@@ -34,20 +35,24 @@ class AuthService @Inject constructor(
         return true
     }
 
-    fun createAccountWithCredential(data: Intent?): Boolean {
+    suspend fun createAccountWithCredential(data: Intent?): String {
         Log.i(TAG_DATABASE, "createAccount Google")
+        var user = ""
         val result = data?.let { Auth.GoogleSignInApi.getSignInResultFromIntent(it) }
         if (result != null) {
             if (result.isSuccess) {
                 val credential =
                     GoogleAuthProvider.getCredential(result.signInAccount?.idToken, null)
-                firebase.signInWithCredential(credential)
-                dataBaseUserService.save(getCurrentUser()?.email.toString())
 
+                firebase.signInWithCredential(credential).addOnSuccessListener {
+                    Log.i("AuthService", "${it.user?.email}")
+                    user = it.user?.email.toString()
+                }.await()
+                dataBaseUserService.save(getCurrentUser()?.email.toString())
             }
         }
 
-        return result!!.isSuccess
+        return user
     }
 
 
@@ -58,8 +63,8 @@ class AuthService @Inject constructor(
     }
 
     fun getCurrentUser(): FirebaseUser? {
-        return firebase.currentUser
 
+        return firebase.currentUser
     }
 
 

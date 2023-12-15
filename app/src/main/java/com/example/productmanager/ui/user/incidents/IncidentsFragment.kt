@@ -13,13 +13,22 @@ import androidx.fragment.app.viewModels
 import com.example.productmanager.R
 import com.example.productmanager.databinding.UserFragmentIncidentsBinding
 import com.example.productmanager.ui.user.UserDataViewModel
+import com.journeyapps.barcodescanner.ScanContract
+import com.journeyapps.barcodescanner.ScanOptions
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class IncidentsFragment : Fragment() {
 
     private var _binding: UserFragmentIncidentsBinding? = null
-
+    private val barcodeLauncher = registerForActivityResult(ScanContract()) { result ->
+        if (result.contents == null) {
+            binding.etBarcode.text = result.contents
+            Toast.makeText(context, "Cancelled", Toast.LENGTH_LONG).show()
+        } else {
+            Toast.makeText(context, "Scanned: ${result.contents}", Toast.LENGTH_LONG).show()
+        }
+    }
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
@@ -51,6 +60,12 @@ class IncidentsFragment : Fragment() {
             }
 
         }
+        binding.floatingBtnScanner.setOnClickListener {
+            barcodeLauncher.launch(ScanOptions())
+
+        }
+
+
     }
 
     private fun showSucces() {

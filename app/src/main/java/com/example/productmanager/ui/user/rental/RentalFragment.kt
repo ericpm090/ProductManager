@@ -20,6 +20,8 @@ import com.example.productmanager.domain.model.entities.Tool
 import com.example.productmanager.ui.user.UserDataViewModel
 import com.example.productmanager.ui.user.rental.adapter.RentalsAdapter
 import com.example.productmanager.ui.user.rental.adapter.RentalsProvider
+import com.journeyapps.barcodescanner.ScanContract
+import com.journeyapps.barcodescanner.ScanOptions
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -31,6 +33,14 @@ class RentalFragment : Fragment() {
 
     // This property is only valid between onCreateView and
     // onDestroyView.
+    private val barcodeLauncher = registerForActivityResult(ScanContract()) { result ->
+        if (result.contents == null) {
+            binding.etBarcode.text = result.contents
+            Toast.makeText(context, "Cancelled", Toast.LENGTH_LONG).show()
+        } else {
+            Toast.makeText(context, "Scanned: ${result.contents}", Toast.LENGTH_LONG).show()
+        }
+    }
     private val binding get() = _binding!!
     private var email = ""
     private var spinnerLocationValue: String = ""
@@ -150,6 +160,11 @@ class RentalFragment : Fragment() {
             }else{
                 showError()
             }
+
+        }
+
+        binding.floatingBtnScanner.setOnClickListener {
+            barcodeLauncher.launch(ScanOptions())
 
         }
         rentalViewModel.getLocations()

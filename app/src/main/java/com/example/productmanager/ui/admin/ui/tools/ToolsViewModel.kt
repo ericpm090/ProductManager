@@ -68,8 +68,6 @@ class ToolsViewModel @Inject constructor(
                             type,
                             ToolStatus.AVAILABLE.toString()
                         )
-
-
                     )
                 })
             }
@@ -77,7 +75,6 @@ class ToolsViewModel @Inject constructor(
             addTool.postValue(false)
         }
     }
-
 
     fun onSearchToolSelected(barcode: String) {
         if (barcode.isNotEmpty()) {
@@ -87,8 +84,6 @@ class ToolsViewModel @Inject constructor(
         } else {
             searchTool.postValue(null)
         }
-
-
     }
 
     fun onDeleteToolSelected(name: String) {
@@ -97,40 +92,25 @@ class ToolsViewModel @Inject constructor(
         } else {
             deleteTool.postValue(false)
         }
-
     }
 
     fun getProjects() {
-
         viewModelScope.launch {
-
             list = withContext(Dispatchers.IO) { getAllProjectsUseCase() }
             projectList.postValue(list)
         }
 
-
     }
 
     fun getLocations() {
-
-        /*viewModelScope.launch {
-
-            list = withContext(Dispatchers.IO) { getAllLocationsUseCase() }
-            locationList.postValue(list)
-        }*/
         viewModelScope.launch {
-
             list = withContext(Dispatchers.IO) { locationService.getLocations() }
             locationList.postValue(list)
         }
-
-
     }
 
     fun getTypes() {
-
         typeList.postValue(ToolType.getAllTypes())
-
 
     }
 

@@ -13,13 +13,22 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.productmanager.R
 import com.example.productmanager.databinding.AdminFragmentProjectsBinding
+import com.journeyapps.barcodescanner.ScanContract
+import com.journeyapps.barcodescanner.ScanOptions
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ProjectsFragment : Fragment() {
 
     private var _binding: AdminFragmentProjectsBinding? = null
-
+    private val barcodeLauncher = registerForActivityResult(ScanContract()) { result ->
+        if (result.contents == null) {
+            binding.etScan.text = result.contents
+            Toast.makeText(context, "Cancelled", Toast.LENGTH_LONG).show()
+        } else {
+            Toast.makeText(context, "Scanned: ${result.contents}", Toast.LENGTH_LONG).show()
+        }
+    }
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
@@ -84,6 +93,12 @@ class ProjectsFragment : Fragment() {
 
         binding.btnRemove.setOnClickListener {
             projectFragmentViewModel.onDeleteProjectSelected(binding.etScan.text.toString())
+        }
+
+        binding.floatingBtnScanner.setOnClickListener {
+            barcodeLauncher.launch(ScanOptions())
+
+
         }
     }
 

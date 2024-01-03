@@ -1,6 +1,5 @@
 package com.example.productmanager.ui.user
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
@@ -8,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.productmanager.R
 import com.example.productmanager.databinding.ActivityUserBinding
-import com.example.productmanager.ui.login.LoginActivity
 import com.example.productmanager.ui.user.home.HomeFragment
 import com.example.productmanager.ui.user.incidents.IncidentsFragment
 import com.example.productmanager.ui.user.loands.LoandsFragment
@@ -74,8 +72,7 @@ class UserActivity : AppCompatActivity() {
 
     private fun logout() {
         userDataViewModel.logOut()
-        startActivity(Intent(this, LoginActivity::class.java))
-
+        finish()
     }
 
     private fun replaceFragment(fragment: Fragment, title: String) {

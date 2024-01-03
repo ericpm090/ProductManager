@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.productmanager.domain.LoginUseCase
 import com.example.productmanager.domain.LoginWithGoogleUseCase
+import com.example.productmanager.ui.signin.SignInViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -25,13 +26,12 @@ class LoginViewModel @Inject constructor(
     val navigateToHomeUser = MutableLiveData<Boolean>()
     val navigateToSignInGoogle = MutableLiveData<String?>()
 
-    private companion object {
-        const val MIN_PASSWORD_LENGTH = 6
-    }
-
     fun onLoginSelected(email: String, password: String) {
-
+        if (isValidEmail(email) && isValidPassword(password)) {
         loginUser(email, password)
+        } else {
+            navigateToHomeUser.postValue(false)
+        }
     }
 
     fun onLoginGoogleSelected(data: Intent?) {
@@ -66,6 +66,25 @@ class LoginViewModel @Inject constructor(
 
     }
 
+    fun isValidPassword(password: String): Boolean {
+
+        return password.length >= SignInViewModel.MIN_PASSWORD_LENGTH && password.isNotEmpty()
+    }
+
+    fun isValidEmail(email: String): Boolean {
+
+        //if(email==null) return false
+
+        //emailPattern = Patterns.EMAIL_ADDRESS
+        //val emailPattern: String =
+        //  "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"
+
+        //Log.i("isValidEmail", email.matches(emailPattern.toRegex()).toString())
+        //return email.matches(emailPattern.toRegex())
+
+        //disable Patterns for testing.
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches() || email.isEmpty()
+    }
 
 
 

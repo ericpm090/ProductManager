@@ -12,18 +12,16 @@
         android:id="@+id/btn_getHistoryTool"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
         android:backgroundTint="#0D936A"
         android:text="@string/txt_history"
         android:textColor="@color/white"
         android:textColorHighlight="#41E348"
         android:textColorLink="#41E348"
         app:cornerRadius="0dp"
-        app:layout_constraintEnd_toEndOf="@id/floating_btn_scanner"
-        app:layout_constraintHorizontal_bias="0.646"
-        app:layout_constraintStart_toEndOf="@id/btnSave"
-        app:layout_constraintEnd_toStartOf="@id/btnRemove"
-        app:layout_constraintTop_toBottomOf="@id/til_photo" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnSearch" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_nameOrBarcode"
@@ -187,10 +185,8 @@
         android:textColorHighlight="#41E348"
         android:textColorLink="#41E348"
         app:cornerRadius="0dp"
-        app:layout_constraintEnd_toEndOf="@id/floating_btn_scanner"
-        app:layout_constraintHorizontal_bias="0.343"
-        app:layout_constraintStart_toEndOf="@id/btnSearch"
-        app:layout_constraintEnd_toStartOf="@id/btn_getHistoryTool"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/til_photo" />
 
     <Button

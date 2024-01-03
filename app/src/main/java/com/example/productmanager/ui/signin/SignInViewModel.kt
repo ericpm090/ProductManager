@@ -21,7 +21,7 @@ class SignInViewModel @Inject constructor(private val signInUseCase: SignInUseCa
     val navigateToHomeUser = MutableLiveData<Boolean>()
     val exceptionsSignIn = MutableLiveData<String>()
 
-    private companion object {
+    companion object {
         const val MIN_PASSWORD_LENGTH = 6
     }
 

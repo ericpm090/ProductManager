@@ -11,7 +11,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.example.productmanager.R
 import com.example.productmanager.databinding.ActivitySigninBinding
-import com.example.productmanager.ui.login.LoginActivity
 import com.example.productmanager.ui.user.UserActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -84,7 +83,7 @@ class SignInActivity : AppCompatActivity() {
     }
 
     private fun goToBack() {
-        startActivity(Intent(this, LoginActivity::class.java))
+        finish()
     }
 
 

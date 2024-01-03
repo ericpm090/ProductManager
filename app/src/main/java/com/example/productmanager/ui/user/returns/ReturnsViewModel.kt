@@ -22,6 +22,9 @@ class ReturnsViewModel @Inject constructor(
     //var email = ""
     var rentalList = mutableListOf<RentalTool>()
 
+    /*
+    Call findPendingTool to obtain tool and check if it exist.
+     */
     fun onBarcodeRead(email: String, barcode: String) {
 
         viewModelScope.launch {
@@ -31,7 +34,9 @@ class ReturnsViewModel @Inject constructor(
             searchPendingTool.postValue(res)
         }
     }
-
+    /*
+        Call deliveryRentalTools to register all the objects pending to delivery.
+         */
     fun onRegisterSelected() {
 
         viewModelScope.launch {

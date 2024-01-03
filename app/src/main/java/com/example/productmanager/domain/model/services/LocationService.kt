@@ -14,12 +14,18 @@ class LocationService @Inject constructor(
     private val deleteLocationUseCase: DeleteLocationUseCase
 ) {
 
+    /*
+   Create to get locations
+    */
     suspend fun getLocations(): MutableList<String> {
 
         return getAllLocationsUseCase().map { location-> location.name }.toMutableList()
 
     }
 
+    /*
+   Create to create a location
+    */
     fun createLocation(name:String): Location {
        return Location(
             code = 0L,
@@ -27,14 +33,23 @@ class LocationService @Inject constructor(
         )
     }
 
+    /*
+   Create to save a location
+    */
     suspend fun saveLocation(location:Location): Boolean {
         return addLocationUseCase(location)
     }
 
+    /*
+   Create to search a location
+    */
     suspend fun searchLocation(name:String): Location? {
         return searchLocationUseCase(name)
     }
 
+    /*
+   Create to delete a location
+    */
     fun deleteLocation(name:String): Boolean {
         return deleteLocationUseCase(name)
     }

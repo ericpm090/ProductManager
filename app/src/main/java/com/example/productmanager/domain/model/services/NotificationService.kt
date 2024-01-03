@@ -8,6 +8,10 @@ import javax.inject.Inject
 
 class NotificationService @Inject constructor() {
 
+    /*
+    Create format to send email, sender, mailto, subject, body and form.
+    After that, start intent and activity to send the message.
+     */
     fun notify(email: String, subject: String, message: String, context: Context) {
         val sender = "eperegrina@ifae.es"
         val uri = "mailto:$email" +

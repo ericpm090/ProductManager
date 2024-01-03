@@ -45,12 +45,15 @@ class LoginActivity : AppCompatActivity() {
         dismissKeyboardShortcutsHelper()
         initUI()
 
+
+
     }
 
     override fun onStart() {
         super.onStart()
         binding.viewLoging.visibility = View.VISIBLE
     }
+
 
     private fun initUI() {
 
@@ -78,8 +81,8 @@ class LoginActivity : AppCompatActivity() {
                 goToAdminPanel()
             } else {
                 loginViewModel.onLoginSelected(
-                    binding.etUserMail.toString(),
-                    binding.etUserPassword.toString()
+                    binding.etUserMail.text.toString(),
+                    binding.etUserPassword.text.toString()
                 )
             }
 

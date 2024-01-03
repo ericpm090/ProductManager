@@ -1,6 +1,7 @@
 package com.example.productmanager.ui.login
 
 import android.content.Intent
+import android.util.Log
 import android.util.Patterns
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,7 +18,8 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     val loginUseCase: LoginUseCase,
-    val loginWithGoogleUseCase: LoginWithGoogleUseCase,
+    val loginWithGoogleUseCase: LoginWithGoogleUseCase
+
 ) : ViewModel() {
 
     val navigateToHomeUser = MutableLiveData<Boolean>()
@@ -29,11 +31,7 @@ class LoginViewModel @Inject constructor(
 
     fun onLoginSelected(email: String, password: String) {
 
-        if (isValidEmail(email) && isValidPassword(password)) {
-            loginUser(email, password)
-        } else {
-            navigateToHomeUser.postValue(false)
-        }
+        loginUser(email, password)
     }
 
     fun onLoginGoogleSelected(data: Intent?) {
@@ -44,8 +42,15 @@ class LoginViewModel @Inject constructor(
 
 
     private fun loginUser(email: String, password: String) {
-        val accountCreated = loginUseCase(email, password)
-        navigateToHomeUser.postValue(accountCreated)
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                val accountCreated = loginUseCase(email, password)
+                Log.i("loginuser",email+ " " + password + " " + accountCreated)
+                navigateToHomeUser.postValue(accountCreated)
+            }
+
+        }
+
     }
 
     private fun loginWithGoogle(data: Intent?) {
@@ -61,14 +66,7 @@ class LoginViewModel @Inject constructor(
 
     }
 
-    private fun isValidPassword(password: String): Boolean {
-        return password.length >= MIN_PASSWORD_LENGTH || password.isEmpty()
-    }
 
-    private fun isValidEmail(email: String): Boolean {
-
-        return Patterns.EMAIL_ADDRESS.matcher(email).matches() || email.isEmpty()
-    }
 
 
 }

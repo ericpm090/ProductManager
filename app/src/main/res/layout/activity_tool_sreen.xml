@@ -35,13 +35,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:paddingTop="20dp"
-        android:paddingStart="30dp"
-        android:paddingEnd="30dp">
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingStart="@dimen/activity_horizontal_margin"
+        android:paddingEnd="@dimen/activity_horizontal_margin">
         <ImageView
             android:id="@+id/img_tool"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="250dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -55,7 +55,6 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/img_tool"
             app:layout_constraintStart_toStartOf="parent"
-            android:paddingTop="30dp"
             android:text="@string/txt_description"
             android:textStyle="bold"
             android:textSize="30dp"
@@ -67,7 +66,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/tv_name"
             app:layout_constraintStart_toStartOf="parent"
-            android:paddingTop="10dp"
+            android:layout_marginTop="10dp"
             android:text="@string/txt_barcode"
             android:textSize="20dp"
             tools:ignore="SpUsage" />
@@ -78,7 +77,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/tv_barcode"
             app:layout_constraintStart_toStartOf="parent"
-            android:paddingTop="10dp"
+            android:layout_marginTop="10dp"
             android:text="@string/txt_project"
             android:textSize="20dp"
             tools:ignore="SpUsage" />
@@ -89,38 +88,25 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/tv_project"
             app:layout_constraintStart_toStartOf="parent"
-            android:paddingTop="10dp"
+            android:layout_marginTop="10dp"
             android:text="@string/txt_status"
             android:textSize="20dp"
             tools:ignore="SpUsage" />
 
         <Button
-            android:id="@+id/btnBook"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_status"
-            android:backgroundTint="#0D936A"
-            android:text="@string/txt_book"
-            android:textColor="@color/white"
-            android:textColorHighlight="#41E348"
-            android:textColorLink="#41E348"
-            android:layout_marginTop="30dp"
-            app:cornerRadius="0dp"/>
-
-        <Button
             android:id="@+id/btnBack"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnBook"
             android:backgroundTint="@color/red"
             android:text="@string/txt_back"
             android:textColor="@color/white"
             android:textColorHighlight="#41E348"
             android:textColorLink="#41E348"
-            android:layout_marginTop="10dp"
-            app:cornerRadius="0dp"/>
+            app:cornerRadius="0dp"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            app:layout_constraintTop_toBottomOf="@+id/tv_status"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteY="482dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

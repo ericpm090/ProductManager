@@ -18,6 +18,11 @@
     <color name="item_color_active">#4CAF50</color>
     <color name="item_color_inactive">#FFFFFFFF</color>
 
-
+    <color name="primary">#569B51</color>
+    <color name="primary_light">#6AB972</color>
+    <color name="secondary">#F0F0F0</color>
+    <color name="secondary_light">#FFFFFF</color>
+    <color name="error_dark">#d32f2f</color>
+    <color name="dark_background">#171515</color>
 </resources>
 

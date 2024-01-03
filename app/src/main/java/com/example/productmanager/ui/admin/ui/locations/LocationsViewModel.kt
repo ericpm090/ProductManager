@@ -29,6 +29,8 @@ class LocationsViewModel @Inject constructor(
                         //addLocationUseCase(location)
                         locationService.saveLocation(location)
                     })
+                }else{
+                    addLocation.postValue(false)
                 }
 
             }
@@ -38,11 +40,12 @@ class LocationsViewModel @Inject constructor(
     fun onSearchLocationSelected(name: String) {
         if (name.isNotEmpty()) {
             viewModelScope.launch {
-                findLocation.postValue(withContext(Dispatchers.IO) {
-                    locationService.searchLocation(
-                        name
-                    )
-                })
+                val location = locationService.searchLocation(name)
+                if(location!=null){
+                    findLocation.postValue(withContext(Dispatchers.IO) {location})
+                }else{
+                    findLocation.postValue(null)
+                }
             }
         } else {
             findLocation.postValue(null)

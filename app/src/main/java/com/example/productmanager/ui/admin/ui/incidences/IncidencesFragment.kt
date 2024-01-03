@@ -98,7 +98,6 @@ class IncidencesFragment : Fragment() {
         }
 
 
-
     }
 
     fun updateRecyclerView(incidences: MutableList<Incidence>) {

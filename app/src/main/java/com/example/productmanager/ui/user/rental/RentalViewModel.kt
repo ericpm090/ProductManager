@@ -33,14 +33,14 @@ class RentalViewModel @Inject constructor(
     fun onSearchSelected(barcode: String) {
 
         viewModelScope.launch {
-
             val tool = withContext(Dispatchers.IO) {
                 toolService.getToolbyBarcode(barcode)
             }
             if (tool != null) {
-                toolService.changeStatus(tool.barcode)
+
 
                 if (toolService.isAvailable(tool)) searchTool.postValue(tool)
+                else searchTool.postValue(null)
 
             } else searchTool.postValue(null)
         }
@@ -49,31 +49,36 @@ class RentalViewModel @Inject constructor(
 
 
     fun onRegisterSelected(email: String, location: String) {
-        rentalList.forEach { tool ->
-            viewModelScope.launch {
+        if(location!=""){
+            rentalList.forEach { tool ->
+                viewModelScope.launch {
 
-                withContext(Dispatchers.IO) {
+                    withContext(Dispatchers.IO) {
 
-                    rentalToolService.saveRentalTool(
-                        RentalTool(
-                            email,
-                            tool.barcode,
-                            tool.name,
-                            tool.project,
-                            location,
-                            LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))
-                                .toString(),
-                            "",
-                            RentalToolStatus.PENDING.toString(),
-                            tool.photo
+                        rentalToolService.saveRentalTool(
+                            RentalTool(
+                                email,
+                                tool.barcode,
+                                tool.name,
+                                tool.project,
+                                location,
+                                LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))
+                                    .toString(),
+                                "",
+                                RentalToolStatus.PENDING.toString(),
+                                tool.photo
+                            )
                         )
-                    )
-                    toolService.changeStatus(tool.barcode)
+                        toolService.changeStatus(tool.barcode)
+                    }
+                    addRentalTool.postValue(true)
                 }
-                addRentalTool.postValue(true)
-            }
 
+            }
+        }else{
+            addRentalTool.postValue(false)
         }
+
     }
 
 

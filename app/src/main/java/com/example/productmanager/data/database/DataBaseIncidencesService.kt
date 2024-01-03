@@ -7,6 +7,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 class DataBaseIncidencesService @Inject constructor(private val database: FirebaseFirestore){
 
@@ -15,37 +17,35 @@ class DataBaseIncidencesService @Inject constructor(private val database: Fireba
         val COLLECTION = "incidences"
     }
 
+
     suspend fun save(incidence: Incidence): Boolean {
-        var result = false
-        val doc = database.collection(COLLECTION).document()
-        doc.set(
-            hashMapOf(
-                "id" to incidence.id,
-                "employee" to incidence.employee,
-                "date" to incidence.date,
-                "id_tool" to incidence.id_tool,
-                "tool_name" to incidence.tool_name,
-                "description" to incidence.description,
-                "status" to incidence.status
-
-            )
-
-        ).addOnSuccessListener {
-            doc.update("id", doc.id)
-            Log.i(TAG_DATABASE, "Incidence ${incidence.id} added in database ")
-            result = true
+        return suspendCoroutine { continuation ->
+            try {
+                val doc = database.collection(COLLECTION).document()
+                doc.set(
+                    hashMapOf(
+                        "id" to incidence.id,
+                        "employee" to incidence.employee,
+                        "date" to incidence.date,
+                        "id_tool" to incidence.id_tool,
+                        "tool_name" to incidence.tool_name,
+                        "description" to incidence.description,
+                        "status" to incidence.status
+                    )
+                ).addOnSuccessListener {
+                    doc.update("id", doc.id)
+                    Log.i(TAG_DATABASE, "Incidence ${doc.id} added in database ")
+                    continuation.resume(true)
+                }.addOnFailureListener {
+                    Log.w(TAG_DATABASE, "Error writing document", it)
+                    continuation.resume(false)
+                }
+            } catch (e: Exception) {
+                Log.w(TAG_DATABASE, "Error writing document", e)
+                continuation.resume(false)
+            }
         }
-            .addOnFailureListener { e ->
-                Log.w(
-                    TAG_DATABASE,
-                    "Error writing document", e
-                )
-            }.await()
-
-        return result
     }
-
-
     suspend fun getAll(): MutableList<Incidence> {
         val list = mutableListOf<Incidence>()
 

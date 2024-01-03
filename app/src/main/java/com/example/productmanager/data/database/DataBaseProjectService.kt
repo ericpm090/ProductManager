@@ -20,7 +20,26 @@ class DataBaseProjectService @Inject constructor(private val database: FirebaseF
     suspend fun save(name: String): Boolean {
         var result = false
         val code = getCounterProjects() + 1
-        database.collection(COLLECTION).document(name).set(
+
+        try{
+            database.collection(COLLECTION).document(name).set(
+                hashMapOf(
+                    "code" to code,
+                    "name" to name
+                )).addOnSuccessListener {
+                    result = true
+            }.await()
+        }catch(e:Exception){
+            Log.w(DataBaseToolService.TAG_DATABASE,"Error writing document", e)
+        }
+
+
+
+
+
+
+
+        /*database.collection(COLLECTION).document(name).set(
             hashMapOf(
                 "code" to code,
                 "name" to name
@@ -37,7 +56,7 @@ class DataBaseProjectService @Inject constructor(private val database: FirebaseF
                     "Error writing document",
                     e
                 )
-            }.await()
+            }.await()*/
         return result
 
     }
@@ -84,8 +103,10 @@ class DataBaseProjectService @Inject constructor(private val database: FirebaseF
         return project
     }
 
-    fun delete(name: String): Boolean {
-        database.collection(COLLECTION).document(name).delete()
+    suspend fun delete(name: String): Boolean {
+        withContext(Dispatchers.IO){
+            database.collection(COLLECTION).document(name).delete().await()
+        }
         return true
     }
 

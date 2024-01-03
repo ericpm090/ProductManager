@@ -3,7 +3,6 @@ package com.example.productmanager.ui.admin.ui.projects
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,12 +22,13 @@ class ProjectsFragment : Fragment() {
     private var _binding: AdminFragmentProjectsBinding? = null
     private val barcodeLauncher = registerForActivityResult(ScanContract()) { result ->
         if (result.contents == null) {
-            binding.etScan.text = result.contents
             Toast.makeText(context, "Cancelled", Toast.LENGTH_LONG).show()
         } else {
+            binding.etScan.setText(result.contents)
             Toast.makeText(context, "Scanned: ${result.contents}", Toast.LENGTH_LONG).show()
         }
     }
+
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
@@ -59,7 +59,7 @@ class ProjectsFragment : Fragment() {
     private fun initObservers() {
         projectFragmentViewModel.addProject.observe(viewLifecycleOwner) {
             if (it == true) showSucces()
-            else  showError()
+            else showError()
         }
         projectFragmentViewModel.findProject.observe(viewLifecycleOwner) {
             if (it != null) {
@@ -70,7 +70,7 @@ class ProjectsFragment : Fragment() {
         }
 
         projectFragmentViewModel.deleteProject.observe(viewLifecycleOwner) {
-            if (it) showSucces()
+            if (it == true) showSucces()
             else showBarcodeError()
         }
     }
@@ -78,7 +78,7 @@ class ProjectsFragment : Fragment() {
 
     private fun initListeners() {
         binding.btnSave.setOnClickListener {
-            if(checkAndUpdateCheckTextInput()){
+            if (checkAndUpdateCheckTextInput()) {
                 projectFragmentViewModel.onAddProjectSelected(
                     binding.etName.text.toString()
 
@@ -92,7 +92,7 @@ class ProjectsFragment : Fragment() {
         }
 
         binding.btnRemove.setOnClickListener {
-            projectFragmentViewModel.onDeleteProjectSelected(binding.etScan.text.toString())
+            projectFragmentViewModel.onDeleteProjectSelected(binding.etName.text.toString())
         }
 
         binding.floatingBtnScanner.setOnClickListener {
@@ -107,7 +107,7 @@ class ProjectsFragment : Fragment() {
         val til_name = binding.tilName
         val et_name = binding.etName.text.toString()
         val _isEmpty = et_name.isEmpty()
-        if(_isEmpty){
+        if (_isEmpty) {
             til_name.helperText = getText(R.string.empty_box)
             til_name.setHelperTextColor(
                 ColorStateList.valueOf(
@@ -117,18 +117,18 @@ class ProjectsFragment : Fragment() {
                     )
                 )
             )
-        }else{
+        } else {
 
             til_name.helperText = ""
             til_name.setHelperTextColor(
-                    ColorStateList.valueOf(
-                        ContextCompat.getColor(
-                            requireContext(),
-                            R.color.white
-                        )
+                ColorStateList.valueOf(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.white
                     )
                 )
-            }
+            )
+        }
 
 
         return !_isEmpty
@@ -164,12 +164,8 @@ class ProjectsFragment : Fragment() {
 
 
     private fun showSucces() {
-        val toast = Toast(context)
-        toast.setGravity(Gravity.CENTER, 0, 0)
-        toast.setText(R.string.db_project_search_delete_succes)
-        toast.show()
+        Toast.makeText(activity, R.string.db_project_search_delete_succes, Toast.LENGTH_SHORT)
+            .show()
 
-        // binding.tilName.helperText = getString(R.string.db_project_search_delete_succes)
-        //binding.tilName.setHelperTextColor(ColorStateList.valueOf(Color.GREEN))
     }
 }

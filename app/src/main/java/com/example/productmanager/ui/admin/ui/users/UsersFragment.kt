@@ -22,9 +22,9 @@ class UsersFragment : Fragment() {
     private var _binding: AdminFragmentUsersBinding? = null
     private val barcodeLauncher = registerForActivityResult(ScanContract()) { result ->
         if (result.contents == null) {
-            binding.editTextEmail.text = result.contents
             Toast.makeText(context, "Cancelled", Toast.LENGTH_LONG).show()
         } else {
+            binding.etName.setText(result.contents)
             Toast.makeText(context, "Scanned: ${result.contents}", Toast.LENGTH_LONG).show()
         }
     }
@@ -42,7 +42,6 @@ class UsersFragment : Fragment() {
 
         _binding = AdminFragmentUsersBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        //val viewmodel = ViewModelProvider(this).get(UsersViewModel::class.java)
 
         initListeners()
         initObservers()
@@ -55,7 +54,6 @@ class UsersFragment : Fragment() {
 
         binding.btnSearch.setOnClickListener {
             userFragmentViewModel.onSearchSelected(binding.editTextEmail.text.toString())
-            //userFragmentViewModel.onSearchSelected("eric.pm090@gmail.com") //remove after testing
 
         }
 
@@ -86,6 +84,8 @@ class UsersFragment : Fragment() {
                 binding.etName.setText(res.name)
                 binding.etMail.setText(res.email)
                 binding.etPassword.setText(res.password)
+            }else{
+                showError()
             }
         }
 

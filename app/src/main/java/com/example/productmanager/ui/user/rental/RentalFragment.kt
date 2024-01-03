@@ -35,9 +35,9 @@ class RentalFragment : Fragment() {
     // onDestroyView.
     private val barcodeLauncher = registerForActivityResult(ScanContract()) { result ->
         if (result.contents == null) {
-            binding.etBarcode.text = result.contents
             Toast.makeText(context, "Cancelled", Toast.LENGTH_LONG).show()
         } else {
+            binding.etBarcode.setText(result.contents)
             Toast.makeText(context, "Scanned: ${result.contents}", Toast.LENGTH_LONG).show()
         }
     }
@@ -121,10 +121,12 @@ class RentalFragment : Fragment() {
         }
 
         rentalViewModel.locationList.observe(viewLifecycleOwner) {
-            if (it != null) {
+            if (it.isNotEmpty()) {
                 spinnerLocationsList = it
                 initLocationSpinner(it, it.get(0))
 
+            }else{
+                initLocationSpinner(mutableListOf(),"")
             }
         }
 
@@ -134,7 +136,7 @@ class RentalFragment : Fragment() {
     private fun showError() {
         binding.tilNameOrBarcode.boxBackgroundColor =
             ContextCompat.getColor(requireContext(), R.color.red_error)
-        binding.tilNameOrBarcode.helperText = getText(R.string.db_not_found)
+        binding.tilNameOrBarcode.helperText = getText(R.string.db_rentaltool_error)
         binding.tilNameOrBarcode.setHelperTextColor(
             ColorStateList.valueOf(
                 ContextCompat.getColor(
@@ -155,7 +157,8 @@ class RentalFragment : Fragment() {
         }
 
         binding.btnRegister.setOnClickListener {
-            if(rentalViewModel.rentalList.isNotEmpty()){
+
+            if(rentalViewModel.rentalList.isNotEmpty() ){
                 rentalViewModel.onRegisterSelected(email, spinnerLocationValue)
             }else{
                 showError()

@@ -11,26 +11,26 @@ class ToolService @Inject constructor(
     private val addTolCaseUse: AddToolUseCase
 ) {
 
-    suspend fun changeStatus(barcode: String): Boolean {
+    suspend fun changeStatus(barcode: String) {
         val tool = getToolbyBarcode(barcode)
-        var res = false
+
         if(tool!=null){
             if (tool.status.equals(ToolStatus.AVAILABLE.toString()) == true) tool.status =
                 ToolStatus.NOT_AVAILABLE.toString()
             else tool.status = ToolStatus.AVAILABLE.toString()
-            res = saveTool(tool)
-        }
+            saveTool(tool)
 
-        return res
+        }
 
 
     }
 
     suspend fun getToolbyBarcode(barcode: String): Tool? {
+
         return searchToolUsecase(barcode)
     }
 
-    suspend fun saveTool(tool: Tool): Boolean {
+    suspend fun saveTool(tool: Tool): String {
 
         return addTolCaseUse(tool)
     }

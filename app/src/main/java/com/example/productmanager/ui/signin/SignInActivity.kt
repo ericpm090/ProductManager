@@ -2,15 +2,17 @@ package com.example.productmanager.ui.signin
 
 
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.example.productmanager.HUsrActivity
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import com.example.productmanager.R
 import com.example.productmanager.databinding.ActivitySigninBinding
-import com.example.productmanager.domain.model.entities.Employee
 import com.example.productmanager.ui.login.LoginActivity
+import com.example.productmanager.ui.user.UserActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -29,18 +31,26 @@ class SignInActivity : AppCompatActivity() {
     private fun initUI() {
         initObservers()
         initListeners()
+        initScreen()
+    }
+
+    private fun initScreen() {
+        val layout = findViewById<ConstraintLayout>(R.id.signin_layout)
+        val sizes = signInViewModel.initScreen(this)
+        layout.layoutParams.width = sizes.first
+        layout.layoutParams.height = sizes.second
+
     }
 
     private fun initListeners() {
 
         binding.btnRegister.setOnClickListener {
             signInViewModel.onSignInSelected(
-                Employee(
-                    name = binding.etName.text.toString(),
-                    email = binding.etUserMail.text.toString(),
-                    password = binding.etUserPassword.text.toString()
-                )
+                binding.etUserMail.text.toString(),
+                binding.etName.text.toString(),
+                binding.etUserPassword.text.toString()
             )
+
         }
         binding.btnBack.setOnClickListener { goToBack() }
 
@@ -48,15 +58,26 @@ class SignInActivity : AppCompatActivity() {
 
     private fun initObservers() {
         signInViewModel.navigateToHomeUser.observe(this) {
-            if (it){
+            if (it == true) {
                 goToUserHome(binding.etUserMail.text.toString())
-            }
-            else showAlert()
+            } else showAlert()
+        }
+        signInViewModel.exceptionsSignIn.observe(this) {
+            binding.email.helperText = it
+            binding.email.setHelperTextColor(
+                ColorStateList.valueOf(
+                    ContextCompat.getColor(
+                        this,
+                        R.color.red_error
+                    )
+                )
+            )
+
         }
     }
 
     private fun goToUserHome(email: String) {
-        val intent = Intent(this, HUsrActivity::class.java).apply {
+        val intent = Intent(this, UserActivity::class.java).apply {
             putExtra("email", email)
         }
         startActivity(intent)
@@ -66,9 +87,11 @@ class SignInActivity : AppCompatActivity() {
         startActivity(Intent(this, LoginActivity::class.java))
     }
 
+
     private fun showAlert() {
         Toast.makeText(this, R.string.err_login, Toast.LENGTH_SHORT).show()
 
     }
+
 
 }

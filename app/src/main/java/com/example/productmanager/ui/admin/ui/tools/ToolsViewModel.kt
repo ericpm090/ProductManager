@@ -1,5 +1,6 @@
 package com.example.productmanager.ui.admin.ui.tools
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -25,23 +26,26 @@ class ToolsViewModel @Inject constructor(
     private val deleteToolUseCase: DeleteToolUseCase,
     private val getAllProjectsUseCase: GetAllProjectsUseCase,
     private val barcodeGenerator: Barcode,
-    private val locationService: LocationService
+    private val locationService: LocationService,
 
-) : ViewModel() {
+    ) : ViewModel() {
 
-    val addTool = MutableLiveData<Boolean?>()
+    val addTool = MutableLiveData<String?>()
     val searchTool = MutableLiveData<Tool?>()
+    val historyTool = MutableLiveData<Boolean>()
     val deleteTool = MutableLiveData<Boolean>()
     var list: MutableList<String> = mutableListOf()
     val projectList = MutableLiveData<MutableList<String>>()
     val locationList = MutableLiveData<MutableList<String>>()
     val typeList = MutableLiveData<MutableList<String>>()
-
+    private val _barcode = MutableLiveData<String>()
+    val barcode: LiveData<String> get() = _barcode
 
     private suspend fun getBarcode(type: String, project: String, location: String): String {
         return barcodeGenerator.getBarcode(type, project, location)
 
     }
+
 
     fun onAddToolSelected(
         name: String,
@@ -72,7 +76,7 @@ class ToolsViewModel @Inject constructor(
                 })
             }
         } else {
-            addTool.postValue(false)
+            addTool.postValue(null)
         }
     }
 
@@ -86,6 +90,23 @@ class ToolsViewModel @Inject constructor(
         }
     }
 
+    fun onHistoryToolSelected(barcode: String) {
+        if (barcode.isNotEmpty()) {
+            viewModelScope.launch {
+                withContext(Dispatchers.IO) {
+                    if (searchToolUseCase(barcode) != null) {
+                        historyTool.postValue(true)
+                    } else {
+                        historyTool.postValue(false)
+                    }
+                }
+
+            }
+        } else {
+            historyTool.postValue(false)
+        }
+    }
+
     fun onDeleteToolSelected(name: String) {
         if (name.isNotEmpty()) {
             deleteTool.postValue(deleteToolUseCase(name))
@@ -94,10 +115,14 @@ class ToolsViewModel @Inject constructor(
         }
     }
 
+
     fun getProjects() {
         viewModelScope.launch {
             list = withContext(Dispatchers.IO) { getAllProjectsUseCase() }
-            projectList.postValue(list)
+            if (list.isNotEmpty()) {
+                projectList.postValue(list)
+            }
+
         }
 
     }

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/navigation_home"
-    android:background="@color/white"
+    android:background="@color/dark_background"
     tools:context=".ui.user.home.HomeFragment">
 
     <com.google.android.material.textfield.TextInputLayout
@@ -41,7 +41,7 @@
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
         android:backgroundTint="#0D936A"
-        android:text="@string/txt_book"
+        android:text="@string/txt_search"
         android:textColor="@color/white"
         android:textColorHighlight="#41E348"
         android:textColorLink="#41E348"
@@ -53,6 +53,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/btn_opentool"
         app:layout_constraintStart_toStartOf="@id/btn_opentool"
+        android:textColor="@color/white"
         android:textSize="20sp"
         android:textStyle="bold"
         android:text="@string/txt_user"
@@ -67,6 +68,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/txt_userEmail"
         app:layout_constraintStart_toStartOf="@id/btn_opentool"
+        android:textColor="@color/white"
         android:textSize="20sp"
         android:text="@string/txt_pendingTools"
         android:textStyle="bold"
@@ -81,6 +83,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/txt_pendingTools"
         app:layout_constraintStart_toStartOf="@id/btn_opentool"
+        android:textColor="@color/white"
         android:textSize="20sp"
         android:text="@string/txt_totalRentalTools"
         android:textStyle="bold"
@@ -95,6 +98,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/txt_totalToolsRented"
         app:layout_constraintStart_toStartOf="@id/btn_opentool"
+        android:textColor="@color/white"
         android:textSize="20sp"
         android:text="@string/txt_incidencesCreated"
         android:textStyle="bold"
@@ -129,8 +133,12 @@
         android:text="@string/txt_scan"
         android:textSize="20dp"
         android:textStyle="bold"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/dark_green"
         app:icon="@drawable/ic_qr_code_scanner_24"
+        app:iconTint="@color/white"
         app:fabSize="normal"
         tools:ignore="SpUsage" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

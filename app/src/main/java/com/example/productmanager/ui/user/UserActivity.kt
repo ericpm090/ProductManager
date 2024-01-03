@@ -73,6 +73,7 @@ class UserActivity : AppCompatActivity() {
     }
 
     private fun logout() {
+        userDataViewModel.logOut()
         startActivity(Intent(this, LoginActivity::class.java))
 
     }

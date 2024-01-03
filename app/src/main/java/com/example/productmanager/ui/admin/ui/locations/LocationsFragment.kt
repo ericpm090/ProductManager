@@ -21,9 +21,9 @@ class LocationsFragment : Fragment() {
     private var _binding: AdminFragmentLocationsBinding? = null
     private val barcodeLauncher = registerForActivityResult(ScanContract()) { result ->
         if (result.contents == null) {
-            binding.etScan.text = result.contents
             Toast.makeText(context, "Cancelled", Toast.LENGTH_LONG).show()
         } else {
+            binding.etScan.setText(result.contents)
             Toast.makeText(context, "Scanned: ${result.contents}", Toast.LENGTH_LONG).show()
         }
     }
@@ -80,7 +80,7 @@ class LocationsFragment : Fragment() {
         }
 
         binding.btnSearch.setOnClickListener {
-            locationFragmentViewModel.onSearchLocationSelected(binding.etName.text.toString())
+            locationFragmentViewModel.onSearchLocationSelected(binding.etScan.text.toString())
         }
 
         binding.btnRemove.setOnClickListener {

@@ -40,11 +40,6 @@ class HomeViewModel @Inject constructor(
 
     }
 
-    /*fun onUserLoged(email:String){
-        getPendingTools(email)
-        getRentalHistory(email)
-
-    }*/
 
     fun getPendingTools(email:String){
         viewModelScope.launch {

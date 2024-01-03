@@ -21,6 +21,10 @@ class ProjectsViewModel @Inject constructor(
     val findProject = MutableLiveData<Project?>()
     val deleteProject = MutableLiveData<Boolean?>()
 
+    /*
+    If name is not emtpy, call to method save to save project. Post result
+    Else post false.
+  */
     fun onAddProjectSelected(name: String) {
 
         if (name.isNotEmpty()) {
@@ -37,7 +41,10 @@ class ProjectsViewModel @Inject constructor(
             }
         } else addProject.postValue(false)
     }
-
+    /*
+      If name is not emtpy, call to method get to search project. Post result
+      Else post null.
+    */
     fun onSearchProjectSelected(name: String) {
         if (name.isNotEmpty()) {
             viewModelScope.launch {
@@ -47,7 +54,10 @@ class ProjectsViewModel @Inject constructor(
             findProject.postValue(null)
         }
     }
-
+    /*
+      If name is not emtpy, call to method delete to delete project. Post result
+      Else post false.
+    */
     fun onDeleteProjectSelected(name: String) {
         if (name.isNotEmpty()) {
             viewModelScope.launch {

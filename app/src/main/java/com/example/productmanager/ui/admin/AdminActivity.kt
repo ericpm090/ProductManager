@@ -19,12 +19,10 @@ class AdminActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityAdminBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
         initListeners()
-
 
     }
 
@@ -33,7 +31,8 @@ class AdminActivity : AppCompatActivity() {
             logout()
             true
         }
-
+        //ToolsFragment is the default fragment
+        //At the moment to select some fragment, call replaceFragment method
         replaceFragment(ToolsFragment(), "TOOLS")
         binding.navView.setOnItemSelectedListener {
             when (it.itemId) {
@@ -55,6 +54,7 @@ class AdminActivity : AppCompatActivity() {
         finish()
     }
 
+    //Method to replace fragments
     private fun replaceFragment(fragment: Fragment, title: String) {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()

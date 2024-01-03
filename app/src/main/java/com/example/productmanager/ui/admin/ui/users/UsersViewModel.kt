@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.productmanager.domain.admin_usescases.DeleteUserUseCase
-import com.example.productmanager.domain.admin_usescases.ModifyUserUseCase
 import com.example.productmanager.domain.model.entities.Employee
 import com.example.productmanager.domain.model.services.UserService
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,9 +23,13 @@ class UsersViewModel @Inject constructor(
     val modifyUser = MutableLiveData<Boolean>()
     val deleteUser = MutableLiveData<Boolean>()
 
+    /*
+    Search user by email. If found it post the result to fragment. If not post null.
+     */
     fun onSearchSelected(email: String) {
         Log.i("onSearchSelected", email)
         if (email.isNotEmpty()) {
+            //viewmodelScope to manage coroutines
             viewModelScope.launch {
                 val employee = userService.getUser(email)
                 if (employee != null) {
@@ -41,6 +44,9 @@ class UsersViewModel @Inject constructor(
 
     }
 
+    /*
+    If all the arguments are not empty, save the data and post the result.
+     */
     fun onModifySelected(email: String, name: String, password: String) {
         if (email.isNotEmpty() && name.isNotEmpty() && password.isNotEmpty()) {
             val res = userService.saveUser(
@@ -57,6 +63,9 @@ class UsersViewModel @Inject constructor(
 
     }
 
+    /*
+    If data is not empty, call usercase and delete data. Post result.
+     */
     fun onRemoveSelected(data: String) {
         if (data.isNotEmpty()) {
             val res = deleteUserUseCase(data)

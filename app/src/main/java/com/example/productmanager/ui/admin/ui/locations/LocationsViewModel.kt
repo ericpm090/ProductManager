@@ -19,7 +19,10 @@ class LocationsViewModel @Inject constructor(
     val addLocation = MutableLiveData<Boolean?>()
     val findLocation = MutableLiveData<Location?>()
     val deleteLocation = MutableLiveData<Boolean>()
-
+    /*
+      If name is not emtpy, call to method createLocation to create location. Post result
+      Else post false.
+    */
     fun onAddLocationSelected(name: String) {
         if (name.isNotEmpty()) {
             viewModelScope.launch {
@@ -37,6 +40,10 @@ class LocationsViewModel @Inject constructor(
         } else addLocation.postValue(false)
     }
 
+    /*
+      If name is not emtpy, call to method searchLocation to get location. Post result
+      Else post null.
+    */
     fun onSearchLocationSelected(name: String) {
         if (name.isNotEmpty()) {
             viewModelScope.launch {
@@ -52,6 +59,10 @@ class LocationsViewModel @Inject constructor(
         }
     }
 
+    /*
+      If name is not emtpy, call to method deleteLocation to delete location. Post result
+      Else post false.
+    */
     fun onDeleteLocationSelected(name: String) {
         if (name.isNotEmpty()) deleteLocation.postValue(locationService.deleteLocation(name))
         else deleteLocation.postValue(false)

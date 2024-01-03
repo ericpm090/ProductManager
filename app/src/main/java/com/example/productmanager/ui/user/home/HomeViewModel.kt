@@ -25,6 +25,10 @@ class HomeViewModel @Inject constructor(
     val totalIncidences = MutableLiveData<Int?>()
     val searchTool = MutableLiveData<Tool?>()
 
+    /*
+    If search buttom is pressed, call getToolbyBarcode method to get a tool. Post result.
+    If barcode is emtpy post null.
+     */
     fun onBarcodeRead(barcode: String) {
         if (barcode.isNotEmpty()) {
             viewModelScope.launch {
@@ -40,7 +44,10 @@ class HomeViewModel @Inject constructor(
 
     }
 
-
+    /*
+       If home is initialized , call getAllPendingTools to obtain the
+       number pending tools. Post result.
+        */
     fun getPendingTools(email:String){
         viewModelScope.launch {
             pendingTools.postValue(withContext(Dispatchers.IO) {
@@ -50,6 +57,12 @@ class HomeViewModel @Inject constructor(
         }
 
     }
+
+    /*
+       If home is initialized , call getRentalHistory to obtain the
+       number of tools used. Post result.
+
+        */
     fun getRentalHistory(email:String){
         viewModelScope.launch {
             totalRentalTools.postValue(withContext(Dispatchers.IO) {
@@ -58,7 +71,11 @@ class HomeViewModel @Inject constructor(
             getIncidencesCreated(email)
         }
     }
+    /*
+          If home is initialized , call getIncidencesByEmail to obtain the
+          number of incidences created by user. Post result.
 
+           */
     fun getIncidencesCreated(email:String){
         viewModelScope.launch {
             totalIncidences.postValue(withContext(Dispatchers.IO) {

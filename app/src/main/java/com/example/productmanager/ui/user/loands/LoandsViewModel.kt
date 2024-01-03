@@ -23,6 +23,9 @@ class LoandsViewModel @Inject constructor(
 
     val update = MutableLiveData<MutableList<RentalTool>?>()
 
+    /*
+    Call getAllPendingTools to obtain pending tools.
+     */
     fun updateLoands(email: String) {
         viewModelScope.launch {
 

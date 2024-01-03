@@ -22,6 +22,9 @@ class IncidencesViewModel @Inject constructor(
     val updateIncidents = MutableLiveData<MutableList<Incidence>?>()
     val solveInvident = MutableLiveData<Boolean?>()
 
+    /*
+      Call to method get to obtain all incidences created by users. Post result
+    */
     fun onUpdateSelected() {
         viewModelScope.launch {
             updateIncidents.postValue(withContext(Dispatchers.IO) {
@@ -29,7 +32,9 @@ class IncidencesViewModel @Inject constructor(
             })
         }
     }
-
+    /*
+       Call to method solveIncidence to solve an incidences created by user
+     */
     fun onDeleteItem(incidence: Incidence) {
         viewModelScope.launch {
             solveInvident.postValue(
@@ -42,6 +47,9 @@ class IncidencesViewModel @Inject constructor(
         }
     }
 
+    /*
+    Call notify method to start a notification service
+     */
     fun notifySolveIncident(
         incidence: Incidence,
         notification: String,

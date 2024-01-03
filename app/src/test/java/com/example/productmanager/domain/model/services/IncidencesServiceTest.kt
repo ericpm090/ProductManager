@@ -35,6 +35,7 @@ class IncidencesServiceTest() {
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
+        incidencesService = IncidencesService(addIncidenceUseCase, getAllIncidencesUseCase,updateIncidenceUseCase)
     }
 
     @Test

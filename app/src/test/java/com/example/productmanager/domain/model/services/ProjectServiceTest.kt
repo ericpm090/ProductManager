@@ -31,6 +31,7 @@ class ProjectServiceTest {
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
+        projectService = ProjectService(addProjectUseCase,searchProjectUseCase,deleteProjectUseCase)
     }
 
     @Test

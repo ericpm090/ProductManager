@@ -30,6 +30,7 @@ class UserServiceTest {
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
+        userService = UserService(modifyUserUseCase,searchUseUseCase)
     }
 
     @Test

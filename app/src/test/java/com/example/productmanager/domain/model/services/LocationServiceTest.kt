@@ -36,6 +36,7 @@ class LocationServiceTest(){
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
+        locationService = LocationService(getAllLocationsUseCase,addLocationUseCase,searchLocationUseCase,deleteLocationUseCase)
     }
 
     @Test

@@ -28,6 +28,7 @@ class ToolServiceTest {
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
+        toolService = ToolService(searchToolUsecase,addTolCaseUse)
     }
 
     @Test

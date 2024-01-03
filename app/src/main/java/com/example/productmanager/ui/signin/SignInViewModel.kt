@@ -1,5 +1,6 @@
 package com.example.productmanager.ui.signin
 
+import android.util.Log
 import android.util.Patterns
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,40 +14,77 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class SignInViewModel @Inject constructor(val signInUseCase: SignInUseCase) : ViewModel() {
+class SignInViewModel @Inject constructor(private val signInUseCase: SignInUseCase) : ViewModel() {
 
     val navigateToHomeUser = MutableLiveData<Boolean>()
+    val exceptionsSignIn = MutableLiveData<String>()
 
-    private companion object {
+    companion object {
         const val MIN_PASSWORD_LENGTH = 6
     }
 
-    fun onSignInSelected(employee: Employee) {
-        if (isValidEmail(employee.email) && isValidPassword(employee.password)) {
-            signIn(employee)
+    fun onSignInSelected(email: String, name: String, password: String) {
+
+        if (isValidEmail(email) && isValidPassword(password)) {
+
+            signIn(email, name, password)
+        } else {
+            navigateToHomeUser.postValue(false)
         }
 
     }
 
-    private fun signIn(employee: Employee) {
+    private fun signIn(email: String, name: String, password: String) {
         //trabaja en el hilo principal
         viewModelScope.launch {
-            //IO = trabaja en otro hilo para no bloquear el principal
-            val res = withContext(Dispatchers.IO) { signInUseCase(employee) }
-            navigateToHomeUser.postValue(res)
+
+            try {
+                withContext(Dispatchers.IO) {
+
+                    val res = signInUseCase(
+                        Employee(
+                            email = email,
+                            name = name,
+                            password = password
+                        )
+                    )
+                    Log.i(
+                        "isValidPassword", res.toString()
+                    )
+
+                    navigateToHomeUser.postValue(res)
+                }
+            } catch (e: Exception) {
+                exceptionsSignIn.postValue(e.message.toString())
+            }
+
 
         }
 
     }
 
-    private fun isValidPassword(password: String): Boolean {
-        return password.length >= MIN_PASSWORD_LENGTH || password.isNotEmpty()
+    fun isValidPassword(password: String): Boolean {
+
+        return password.length >= MIN_PASSWORD_LENGTH && password.isNotEmpty()
     }
 
-    private fun isValidEmail(email: String): Boolean {
+    fun isValidEmail(email: String): Boolean {
 
-        return Patterns.EMAIL_ADDRESS.matcher(email).matches() || email.isNotEmpty()
+        //if(email==null) return false
+
+        //emailPattern = Patterns.EMAIL_ADDRESS
+        //val emailPattern: String =
+        //  "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"
+
+        //Log.i("isValidEmail", email.matches(emailPattern.toRegex()).toString())
+        //return email.matches(emailPattern.toRegex())
+        //disable Patterns for testing.
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches() || email.isEmpty()
     }
+
+
+
+
 }
 
 

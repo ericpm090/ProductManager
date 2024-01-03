@@ -22,6 +22,7 @@ class DataBaseRentalsService @Inject constructor(private val database: FirebaseF
 
         try {
 
+
             database.collection(COLLECTION).document(rental_tool.userMail)
                 .collection(COLLECTION2).document(rental_tool.barcode).set(
                     hashMapOf(
@@ -107,10 +108,6 @@ class DataBaseRentalsService @Inject constructor(private val database: FirebaseF
                 dropOffDate = document.get("dropOffDate") as String,
                 status = document.get("status") as String,
                 photo = document.get("photo") as String
-
-
-
-
 
 
             )

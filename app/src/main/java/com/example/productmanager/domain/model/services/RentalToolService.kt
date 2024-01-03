@@ -1,5 +1,6 @@
 package com.example.productmanager.domain.model.services
 
+import com.example.productmanager.domain.admin_usescases.GetAllUsersUseCase
 import com.example.productmanager.domain.model.entities.RentalTool
 import com.example.productmanager.domain.model.entities.RentalToolStatus
 import com.example.productmanager.domain.user_usescases.AddRentalToolUseCase
@@ -12,7 +13,8 @@ class RentalToolService @Inject constructor(
     private val addRentalToolUseCase: AddRentalToolUseCase,
     private val getPendingToolUseCase: GetPendingToolUseCase,
     private val getRentalHistoryUseCase: GetRentalHistoryUseCase,
-    private val toolService: ToolService
+    private val toolService: ToolService,
+    private val getAllUsersUseCase: GetAllUsersUseCase
 ) {
 
 
@@ -22,9 +24,11 @@ class RentalToolService @Inject constructor(
     }
 
     suspend fun deliveryRentalTools(rentalTools: MutableList<RentalTool>) {
-        rentalTools.forEach { rentalTool -> rentalTool.status = RentalToolStatus.DELIVERED.toString() }
-        rentalTools.forEach { rentalTool ->  saveRentalTool(rentalTool)}
-        rentalTools.forEach { rentalTool -> toolService.changeStatus(rentalTool.barcode)  }
+        rentalTools.forEach { rentalTool ->
+            rentalTool.status = RentalToolStatus.DELIVERED.toString()
+        }
+        rentalTools.forEach { rentalTool -> saveRentalTool(rentalTool) }
+        rentalTools.forEach { rentalTool -> toolService.changeStatus(rentalTool.barcode) }
 
     }
 
@@ -32,7 +36,7 @@ class RentalToolService @Inject constructor(
         return addRentalToolUseCase(rentalTool)
     }
 
-    suspend fun getAllPendingTools(email:String): MutableList<RentalTool> {
+    suspend fun getAllPendingTools(email: String): MutableList<RentalTool> {
 
         val list = getRentalHistoryUseCase(email)
 
@@ -41,9 +45,24 @@ class RentalToolService @Inject constructor(
 
     }
 
-    suspend fun getRentalHistory(email:String): MutableList<RentalTool> {
+    suspend fun getRentalHistory(email: String): MutableList<RentalTool> {
         return getRentalHistoryUseCase(email)
     }
 
+    suspend fun getRentalToolHistory(barcode: String): MutableList<RentalTool> {
+        val toolHistory = mutableListOf<RentalTool>()
+        val usersList = getAllUsersUseCase()
+        for (user in usersList) {
+
+            toolHistory.addAll(
+                getRentalHistory(user.email).filter { rentalTool ->
+                    rentalTool.barcode.equals(
+                        barcode
+                    )
+                }.toMutableList()
+            )
+        }
+        return toolHistory
+    }
 
 }

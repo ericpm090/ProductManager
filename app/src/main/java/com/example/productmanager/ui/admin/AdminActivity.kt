@@ -1,6 +1,5 @@
 package com.example.productmanager.ui.admin
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -11,7 +10,6 @@ import com.example.productmanager.ui.admin.ui.locations.LocationsFragment
 import com.example.productmanager.ui.admin.ui.projects.ProjectsFragment
 import com.example.productmanager.ui.admin.ui.tools.ToolsFragment
 import com.example.productmanager.ui.admin.ui.users.UsersFragment
-import com.example.productmanager.ui.login.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -54,8 +52,7 @@ class AdminActivity : AppCompatActivity() {
     }
 
     private fun logout() {
-        startActivity(Intent(this, LoginActivity::class.java))
-
+        finish()
     }
 
     private fun replaceFragment(fragment: Fragment, title: String) {

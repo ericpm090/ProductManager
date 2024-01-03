@@ -20,10 +20,14 @@ class AuthService @Inject constructor(
         val TAG_DATABASE = "TAG_AUTH_SERVICE"
     }
 
-    fun login(email: String, password: String): Boolean {
+    suspend fun login(email: String, password: String): Boolean {
+        var res = false
+        firebase.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+            res = task.isSuccessful
+            Log.i("authService", res.toString() + "for " + email)
 
-        val res = firebase.signInWithEmailAndPassword(email, password)
-        return res.isSuccessful
+        }.await()
+        return res
 
     }
 
@@ -31,7 +35,7 @@ class AuthService @Inject constructor(
         Log.i(TAG_DATABASE, "createAccount for ${employee.email}")
 
         firebase.createUserWithEmailAndPassword(employee.email, employee.password).await()
-        dataBaseUserService.save(employee.email, employee.name, employee.password)
+        dataBaseUserService.save(employee)
         return true
     }
 
@@ -66,6 +70,7 @@ class AuthService @Inject constructor(
 
         return firebase.currentUser
     }
+
 
 
 }

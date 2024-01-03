@@ -1,5 +1,6 @@
 package com.example.productmanager.ui.admin.ui.tools
 
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.util.Log
@@ -14,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.productmanager.R
 import com.example.productmanager.databinding.AdminFragmentToolsBinding
+import com.example.productmanager.ui.admin.ui.toolHistory_screen.HistoryToolActivity
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanOptions
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,10 +25,11 @@ class ToolsFragment : Fragment() {
 
     private var _binding: AdminFragmentToolsBinding? = null
     private val barcodeLauncher = registerForActivityResult(ScanContract()) { result ->
+
         if (result.contents == null) {
-            binding.etScan.text = result.contents
             Toast.makeText(context, "Cancelled", Toast.LENGTH_LONG).show()
         } else {
+            binding.etScan.setText(result.contents)
             Toast.makeText(context, "Scanned: ${result.contents}", Toast.LENGTH_LONG).show()
         }
     }
@@ -55,15 +58,17 @@ class ToolsFragment : Fragment() {
         initListeners()
         spinnerListener()
 
-
         return root
     }
 
 
     private fun initObservers() {
         toolFragmentViewModel.addTool.observe(viewLifecycleOwner) {
-            if (it == true) showSucces()
-            else showError()
+            if (it == null) showError()
+            else {
+                binding.etScan.setText(it)
+                showSucces(it)
+            }
         }
         toolFragmentViewModel.searchTool.observe(viewLifecycleOwner) {
             if (it != null) {
@@ -72,6 +77,7 @@ class ToolsFragment : Fragment() {
                 initProjectSpinner(spinnerProjectsList, it.project)
                 initLocationSpinner(spinnerLocationsList, it.location)
                 initTypeSpinner(spinnerTypesList, it.type)
+                binding.etPhoto.setText(it.photo)
 
 
                 //binding.etProject.setText(it.project)
@@ -86,27 +92,42 @@ class ToolsFragment : Fragment() {
         }
 
         toolFragmentViewModel.projectList.observe(viewLifecycleOwner) {
-            if (it != null) {
+            if (it.isNotEmpty()) {
                 spinnerProjectsList = it
                 initProjectSpinner(it, it.get(0))
 
+            } else {
+                initLocationSpinner(mutableListOf(), "")
             }
         }
 
         toolFragmentViewModel.locationList.observe(viewLifecycleOwner) {
-            if (it != null) {
+            if (it.isNotEmpty()) {
                 spinnerLocationsList = it
                 initLocationSpinner(it, it.get(0))
 
+            } else {
+                initLocationSpinner(mutableListOf(), "")
             }
         }
 
         toolFragmentViewModel.typeList.observe(viewLifecycleOwner) {
-            if (it != null) {
+            if (it.isNotEmpty()) {
                 spinnerTypesList = it
                 initTypeSpinner(it, it.get(0))
 
+            } else {
+                initLocationSpinner(mutableListOf(), "")
             }
+        }
+
+        toolFragmentViewModel.barcode.observe(viewLifecycleOwner) { barcode ->
+            binding.etScan.setText(barcode)
+        }
+
+        toolFragmentViewModel.historyTool.observe(viewLifecycleOwner) { isValid ->
+            if (isValid) initHistoryToolScreen(binding.etScan.text.toString())
+            else showBarcodeError()
         }
 
 
@@ -116,7 +137,8 @@ class ToolsFragment : Fragment() {
 
 
         binding.btnSave.setOnClickListener {
-            if (checkAndUpdateCheckTextInput()) {
+
+            if (checkAndUpdateCheckTextInput() && checkSpinners()) {
                 toolFragmentViewModel.onAddToolSelected(
                     binding.etName.text.toString(),
                     spinnerProjectsValue,
@@ -143,6 +165,10 @@ class ToolsFragment : Fragment() {
             barcodeLauncher.launch(ScanOptions())
 
 
+        }
+
+        binding.btnGetHistoryTool.setOnClickListener {
+            toolFragmentViewModel.onHistoryToolSelected(binding.etScan.text.toString())
         }
 
 
@@ -180,6 +206,21 @@ class ToolsFragment : Fragment() {
         binding.spinnerProjects.setSelection(position)
     }
 
+    private fun checkSpinners(): Boolean {
+        var result = true
+        if (spinnerLocationValue.isEmpty()) {
+            Toast.makeText(activity, R.string.err_location, Toast.LENGTH_SHORT).show()
+            result = false
+        }
+
+        if (spinnerProjectsValue.isEmpty()) {
+            Toast.makeText(activity, R.string.err_project, Toast.LENGTH_SHORT).show()
+            result = false
+        }
+
+        return result
+
+    }
 
     private fun checkAndUpdateCheckTextInput(): Boolean {
         var _isEmpty = false
@@ -324,7 +365,19 @@ class ToolsFragment : Fragment() {
     }
 
 
+    private fun showSucces(barcode: String) {
+        Toast.makeText(activity, "Tool created: ${barcode}", Toast.LENGTH_SHORT).show()
+
+    }
+
     private fun showSucces() {
         Toast.makeText(activity, R.string.succes, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun initHistoryToolScreen(barcode: String) {
+        val intent = Intent(context, HistoryToolActivity::class.java).apply {
+            putExtra("barcode", barcode)
+        }
+        startActivity(intent)
     }
 }

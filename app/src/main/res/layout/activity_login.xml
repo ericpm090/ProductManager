@@ -10,32 +10,33 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="170dp"
-        android:layout_height="121dp"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="60dp"
-        android:layout_marginEnd="60dp"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="@dimen/activity_vertical_margin_margin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/user"
+        android:src="@drawable/logo_pm_black"
         android:importantForAccessibility="no" />
 
     <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageView"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="@dimen/activity_vertical_margin_margin"
         android:layout_margin="30dp"
         app:cardBackgroundColor="@color/cardview"
         app:cardCornerRadius="30dp"
-        app:cardElevation="0dp">
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imageView">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_gravity="center_vertical"
+            android:orientation="vertical"
             android:padding="24dp">
 
             <TextView
@@ -43,11 +44,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/txt_login"
-                android:textSize="36sp"
                 android:textAlignment="center"
-                android:textStyle="bold"
                 android:textColor="@color/white"
-                />
+                android:textSize="36sp"
+                android:textStyle="bold" />
 
 
             <com.google.android.material.textfield.TextInputLayout
@@ -56,12 +56,12 @@
                 style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="8dp"
                 android:hint="@string/hint_email"
+                android:paddingTop="8dp"
                 app:boxBackgroundColor="@color/white"
+                app:boxCollapsedPaddingTop="10dp"
                 app:boxStrokeColor="@color/black"
                 app:boxStrokeWidth="2dp"
-                app:boxCollapsedPaddingTop="10dp"
                 app:endIconMode="clear_text"
                 app:startIconDrawable="@drawable/ic_person">
 
@@ -80,14 +80,14 @@
                 style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="8dp"
                 android:hint="@string/hint_password"
-                app:startIconDrawable="@drawable/ic_baseline_lock_24"
+                android:paddingTop="8dp"
                 app:boxBackgroundColor="@color/white"
+                app:boxCollapsedPaddingTop="10dp"
                 app:boxStrokeColor="@color/black"
                 app:boxStrokeWidth="2dp"
-                app:boxCollapsedPaddingTop="10dp"
-                app:endIconMode="password_toggle">
+                app:endIconMode="password_toggle"
+                app:startIconDrawable="@drawable/ic_baseline_lock_24">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etUserPassword"
@@ -102,13 +102,14 @@
                 android:id="@+id/btnLoging"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_marginTop="30dp"
                 android:backgroundTint="#0D936A"
                 android:text="@string/txt_login"
                 android:textColor="@color/white"
                 android:textColorHighlight="#41E348"
                 android:textColorLink="#41E348"
-                android:layout_marginTop="30dp"
-                app:cornerRadius="0dp"/>
+                app:cornerRadius="0dp" />
+
             <Button
                 android:id="@+id/btnRegister"
                 android:layout_width="match_parent"
@@ -124,13 +125,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="5dp"
-                android:text="@string/txt_SignInGoogle"
-                android:textColor="@color/black"
                 android:backgroundTint="@color/white"
                 android:drawableStart="@drawable/icons8_google_36___"
+                android:text="@string/txt_SignInGoogle"
+                android:textColor="@color/black"
                 app:iconGravity="start"
-                app:iconTint="@color/transparent"
-                app:iconSize="24dp">
+                app:iconSize="24dp"
+                app:iconTint="@color/transparent">
 
 
             </com.google.android.material.button.MaterialButton>

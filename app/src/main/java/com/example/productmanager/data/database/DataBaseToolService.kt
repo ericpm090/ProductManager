@@ -18,8 +18,8 @@ class DataBaseToolService @Inject constructor(private val database: FirebaseFire
 
     suspend fun save(
        tool: Tool
-    ): Boolean {
-        var result = false
+    ): String {
+        var result = ""
 
         try{
 
@@ -35,7 +35,7 @@ class DataBaseToolService @Inject constructor(private val database: FirebaseFire
                 )
 
             ).addOnSuccessListener {
-                result = true
+                result = tool.barcode
                 val num = database.collection(COLLECTION).count().get(AggregateSource.SERVER)
                 Log.i(TAG_DATABASE, "Tool $tool.name with barcode $tool.barcode added in database")
                 Log.i(TAG_DATABASE, "Total tools saved: $num")
@@ -53,6 +53,7 @@ class DataBaseToolService @Inject constructor(private val database: FirebaseFire
         val doc = withContext(Dispatchers.IO) {
             database.collection(COLLECTION).document(barcode).get().await()
         }
+        
         if (doc.exists()) {
 
             tool = Tool(

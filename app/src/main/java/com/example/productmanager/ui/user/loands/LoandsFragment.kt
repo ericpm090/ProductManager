@@ -55,9 +55,9 @@ class LoandsFragment : Fragment() {
     private fun initObservers() {
         loandsViewModel.update.observe(viewLifecycleOwner) {
             if (it != null) {
-                updateRecyclerView(it)
-            } else {
-                showNothingtoUpdate()
+                if(it.size == 0)  showNothingtoUpdate()
+                else  updateRecyclerView(it)
+
             }
         }
         userDataViewModel.userMail.observe(viewLifecycleOwner) {

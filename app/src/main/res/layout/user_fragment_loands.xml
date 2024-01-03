@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/navigation_loands"
+    android:background="@color/dark_background"
     tools:context=".ui.user.loands.LoandsFragment">
 
 

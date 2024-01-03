@@ -29,13 +29,15 @@ class HomeFragment : Fragment() {
     private val homeFragmentViewModel: HomeViewModel by viewModels()
     private val userDataViewModel: UserDataViewModel by activityViewModels()
     private val barcodeLauncher = registerForActivityResult(ScanContract()) { result ->
+        Log.d("BarcodeScan", "Result: $result")
         if (result.contents == null) {
-            binding.etBarcode.text = result.contents
             Toast.makeText(context, "Cancelled", Toast.LENGTH_LONG).show()
         } else {
+            binding.etBarcode.setText(result.contents)
             Toast.makeText(context, "Scanned: ${result.contents}", Toast.LENGTH_LONG).show()
         }
     }
+
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
@@ -57,6 +59,7 @@ class HomeFragment : Fragment() {
     private fun initObservers() {
         homeFragmentViewModel.searchTool.observe(viewLifecycleOwner) {
             if (it != null) {
+
                 showTool(it)
             } else {
                 showError()
@@ -65,7 +68,7 @@ class HomeFragment : Fragment() {
 
 
         userDataViewModel.userMail.observe(viewLifecycleOwner) { usr_email ->
-            binding.txtUserEmail.text = "Welcome " + usr_email
+            binding.txtUserEmail.text = "Welcome $usr_email"
             homeFragmentViewModel.getPendingTools(usr_email)
 
         }
@@ -84,6 +87,7 @@ class HomeFragment : Fragment() {
             binding.txtIncidencesCreated.text =
                 getString(R.string.txt_incidencesCreated) + " " + nIncidences.toString()
         }
+
 
     }
 
@@ -117,6 +121,7 @@ class HomeFragment : Fragment() {
         }
     }
 
+
     private fun showTool(tool: Tool) {
         Log.i("HomeFragment", "Tool finded! " + tool.name)
         val intent = Intent(context, ToolScreenActivity::class.java).apply {
@@ -125,19 +130,10 @@ class HomeFragment : Fragment() {
             putExtra("barcode", tool.barcode)
             putExtra("project", tool.project)
             putExtra("status", tool.status)
-
-
         }
         startActivity(intent)
     }
 
-    /*  private fun initWelcome() {
-              val viewModel = ViewModelProvider(requireActivity()).get(HomeViewModel::class.java)
-              val txt = viewModel.welcome_text
-              binding.txtWelcome.text = txt
-              //Log.i("HomeFragment", "email recived "+text)
-
-      }*/
 
     override fun onDestroyView() {
         super.onDestroyView()

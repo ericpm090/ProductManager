@@ -1,12 +1,11 @@
 package com.example.productmanager.ui.admin.ui.projects
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.productmanager.domain.admin_usescases.AddProjectUseCase
-import com.example.productmanager.domain.admin_usescases.DeleteProjectUseCase
-import com.example.productmanager.domain.admin_usescases.SearchProjectUseCase
 import com.example.productmanager.domain.model.entities.Project
+import com.example.productmanager.domain.model.services.ProjectService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -15,29 +14,34 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProjectsViewModel @Inject constructor(
-    private val addProjectUseCase: AddProjectUseCase,
-    private val searchProjectUseCase: SearchProjectUseCase,
-    private val deleteProjectUseCase: DeleteProjectUseCase
+    private val projectService: ProjectService
 ) : ViewModel() {
 
     val addProject = MutableLiveData<Boolean?>()
     val findProject = MutableLiveData<Project?>()
-    val deleteProject = MutableLiveData<Boolean>()
+    val deleteProject = MutableLiveData<Boolean?>()
 
     fun onAddProjectSelected(name: String) {
 
-        if (name.isNotEmpty()){
+        if (name.isNotEmpty()) {
             viewModelScope.launch {
-                addProject.postValue(withContext(Dispatchers.IO){addProjectUseCase(name)})
+                try {
+                    addProject.postValue(withContext(Dispatchers.IO) {
+                        projectService.save(name)
+                    })
+                } catch (e: Exception) {
+                    Log.w("ProjectsViewModel", "Error ", e)
+                }
+
+
             }
-        }
-        else addProject.postValue(false)
+        } else addProject.postValue(false)
     }
 
     fun onSearchProjectSelected(name: String) {
         if (name.isNotEmpty()) {
             viewModelScope.launch {
-                findProject.postValue(withContext(Dispatchers.IO) { searchProjectUseCase(name) })
+                findProject.postValue(withContext(Dispatchers.IO) { projectService.get(name) })
             }
         } else {
             findProject.postValue(null)
@@ -45,8 +49,11 @@ class ProjectsViewModel @Inject constructor(
     }
 
     fun onDeleteProjectSelected(name: String) {
-        if (name.isNotEmpty()) deleteProject.postValue(deleteProjectUseCase(name))
-        else deleteProject.postValue(false)
+        if (name.isNotEmpty()) {
+            viewModelScope.launch {
+                deleteProject.postValue(withContext(Dispatchers.IO) { projectService.delete(name) })
+            }
+        } else deleteProject.postValue(false)
     }
 
 

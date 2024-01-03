@@ -23,9 +23,9 @@ class IncidentsFragment : Fragment() {
     private var _binding: UserFragmentIncidentsBinding? = null
     private val barcodeLauncher = registerForActivityResult(ScanContract()) { result ->
         if (result.contents == null) {
-            binding.etBarcode.text = result.contents
             Toast.makeText(context, "Cancelled", Toast.LENGTH_LONG).show()
         } else {
+            binding.etBarcode.setText(result.contents)
             Toast.makeText(context, "Scanned: ${result.contents}", Toast.LENGTH_LONG).show()
         }
     }

@@ -25,29 +25,29 @@ class IncidentsViewModel @Inject constructor(
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 val tool = toolService.getToolbyBarcode(barcode)
-                if(tool!=null){
-                    Log.i("IncidentsViewModel", "Tool founded")
-                    Log.i("IncidentsViewModel", "Creating incidence..")
+                if (tool != null) {
                     val incidence = incidencesService.createIncidence(
                         email,
                         tool,
                         description
                     )
-                    Log.i("IncidentsViewModel", "Incidence created")
+                    Log.i("TAG_DATABASE_INCIDENCES", "Viewmodel: incidence created")
                     if (incidence != null) {
+                        val res = incidencesService.saveIncidence(incidence)
+                        Log.i("TAG_DATABASE_INCIDENCES", "Viewmodel" + res.toString())
                         createIncident.postValue(
-                            incidencesService.saveIncidence(incidence)
+                            //incidencesService.saveIncidence(incidence)
+                            res
                         )
                     } else {
                         createIncident.postValue(false)
                     }
+                } else {
+                    createIncident.postValue(false)
                 }
-
-
             }
-
-
         }
 
     }
+
 }

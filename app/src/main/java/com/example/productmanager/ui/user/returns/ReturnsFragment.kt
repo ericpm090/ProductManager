@@ -33,9 +33,9 @@ class ReturnsFragment : Fragment() {
     private val binding get() = _binding!!
     private val barcodeLauncher = registerForActivityResult(ScanContract()) { result ->
         if (result.contents == null) {
-            binding.etBarcode.text = result.contents
             Toast.makeText(context, "Cancelled", Toast.LENGTH_LONG).show()
         } else {
+            binding.etBarcode.setText(result.contents)
             Toast.makeText(context, "Scanned: ${result.contents}", Toast.LENGTH_LONG).show()
         }
     }
@@ -69,6 +69,7 @@ class ReturnsFragment : Fragment() {
 
         returnFragmentViewModel.registerRentalTools.observe(viewLifecycleOwner){
             clearRecyclerView()
+            showSucces()
         }
 
 
@@ -77,6 +78,10 @@ class ReturnsFragment : Fragment() {
         }
 
 
+    }
+
+    private fun showSucces() {
+        Toast.makeText(activity, R.string.succes, Toast.LENGTH_SHORT).show()
     }
 
     private fun clearRecyclerView() {
@@ -115,7 +120,7 @@ class ReturnsFragment : Fragment() {
     private fun showError() {
         binding.tilNameOrBarcode.boxBackgroundColor =
             ContextCompat.getColor(requireContext(), R.color.red_error)
-        binding.tilNameOrBarcode.helperText = getText(R.string.db_not_found)
+        binding.tilNameOrBarcode.helperText = getText(R.string.db_not_found_renturns)
         binding.tilNameOrBarcode.setHelperTextColor(
             ColorStateList.valueOf(
                 ContextCompat.getColor(

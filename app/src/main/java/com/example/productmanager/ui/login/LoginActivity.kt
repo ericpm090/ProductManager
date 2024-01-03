@@ -45,12 +45,15 @@ class LoginActivity : AppCompatActivity() {
         dismissKeyboardShortcutsHelper()
         initUI()
 
+
+
     }
 
     override fun onStart() {
         super.onStart()
         binding.viewLoging.visibility = View.VISIBLE
     }
+
 
     private fun initUI() {
 
@@ -78,8 +81,8 @@ class LoginActivity : AppCompatActivity() {
                 goToAdminPanel()
             } else {
                 loginViewModel.onLoginSelected(
-                    binding.etUserMail.toString(),
-                    binding.etUserPassword.toString()
+                    binding.etUserMail.text.toString(),
+                    binding.etUserPassword.text.toString()
                 )
             }
 
@@ -116,13 +119,11 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun goToAdminPanel() {
-        Log.i("LoginActivity", "User loged as admin")
         val intent = Intent(this, AdminActivity::class.java)
         startActivity(intent)
     }
 
     private fun goToSignIn() {
-        Log.i("LoginActivity", "User not registered, go to signInActivity")
         val intent = Intent(this, SignInActivity::class.java)
         startActivity(intent)
 
@@ -131,7 +132,6 @@ class LoginActivity : AppCompatActivity() {
 
     private fun goToUserHome(email: String) {
         Log.i("LoginActivity", "User $email loged as employee")
-
         val intent = Intent(this, UserActivity::class.java).apply {
             putExtra("email", email)
         }

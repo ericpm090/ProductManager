@@ -66,7 +66,7 @@
     <string name="txt_barcode">barcode</string>
     <string name="hint_urlphoto">URL Photo</string>
     <string name="empty_box">Plase, fill the checkbox</string>
-    <string name="txt_back">Back</string>
+    <string name="txt_back">BACK</string>
     <string name="hint_status">Pending</string>
     <string name="create_an_account">Create an Account</string>
     <string name="sing_up">Sing up</string>
@@ -83,4 +83,12 @@
     <string name="txt_pendingTools">Pending tools:</string>
     <string name="txt_incidencesCreated">Incidences created:</string>
     <string name="txt_totalRentalTools">Total tool used:</string>
+    <string name="txt_username">Username</string>
+    <string name="hint_enteremail">Write email to search</string>
+    <string name="hint_entername">Write name to search</string>
+    <string name="db_rentaltool_error">Tool not found or not available</string>
+    <string name="db_not_found_renturns">Tool not found in your pending tool history</string>
+    <string name="err_project">Select a project to please</string>
+    <string name="err_location">Select a location please</string>
+    <string name="txt_history">History</string>
 </resources>

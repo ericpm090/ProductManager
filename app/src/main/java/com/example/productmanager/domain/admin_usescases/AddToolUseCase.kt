@@ -8,7 +8,7 @@ class AddToolUseCase @Inject constructor(private val db: DataBaseToolService) {
 
     suspend operator fun invoke(
         tool: Tool
-    ): Boolean {
+    ): String {
 
         return db.save(tool)
     }

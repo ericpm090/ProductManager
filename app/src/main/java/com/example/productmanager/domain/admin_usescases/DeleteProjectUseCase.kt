@@ -5,7 +5,7 @@ import javax.inject.Inject
 
 class DeleteProjectUseCase @Inject constructor(private val db: DataBaseProjectService) {
 
-    operator fun invoke(name: String): Boolean {
+    suspend operator fun invoke(name: String): Boolean {
 
         return db.delete(name)
     }

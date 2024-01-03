@@ -77,6 +77,7 @@ class ToolsFragment : Fragment() {
                 initProjectSpinner(spinnerProjectsList, it.project)
                 initLocationSpinner(spinnerLocationsList, it.location)
                 initTypeSpinner(spinnerTypesList, it.type)
+                binding.etPhoto.setText(it.photo)
 
 
                 //binding.etProject.setText(it.project)

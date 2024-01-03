@@ -58,7 +58,9 @@ class ToolScreenActivity : AppCompatActivity() {
         project: String?,
         status: String?
     ) {
-        Glide.with(binding.imgTool.context).load(photo).into(binding.imgTool)
+        Glide.with(binding.imgTool.context).load(photo)
+            .override(100,200)
+            .into(binding.imgTool)
         binding.tvName.text = name
         binding.tvBarcode.text = barcode
         binding.tvProject.text = project

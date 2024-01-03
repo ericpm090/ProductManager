@@ -1,12 +1,10 @@
 package com.example.productmanager.ui.signin
 
-import android.content.Context
 import android.util.Log
 import android.util.Patterns
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.productmanager.domain.ScreenSizeHelper
 import com.example.productmanager.domain.SignInUseCase
 import com.example.productmanager.domain.model.entities.Employee
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -84,10 +82,7 @@ class SignInViewModel @Inject constructor(private val signInUseCase: SignInUseCa
         return Patterns.EMAIL_ADDRESS.matcher(email).matches() || email.isEmpty()
     }
 
-    fun initScreen(context: Context): Pair<Int, Int> {
-        val screenSizeHelper = ScreenSizeHelper(context)
-        return screenSizeHelper.getScreenSize()
-    }
+
 
 
 }

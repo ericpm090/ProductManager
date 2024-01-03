@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.example.productmanager.R
 import com.example.productmanager.databinding.ActivitySigninBinding
@@ -30,16 +29,9 @@ class SignInActivity : AppCompatActivity() {
     private fun initUI() {
         initObservers()
         initListeners()
-        initScreen()
-    }
-
-    private fun initScreen() {
-        val layout = findViewById<ConstraintLayout>(R.id.signin_layout)
-        val sizes = signInViewModel.initScreen(this)
-        layout.layoutParams.width = sizes.first
-        layout.layoutParams.height = sizes.second
 
     }
+
 
     private fun initListeners() {
 

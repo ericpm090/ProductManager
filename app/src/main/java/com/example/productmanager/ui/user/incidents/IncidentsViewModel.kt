@@ -21,6 +21,10 @@ class IncidentsViewModel @Inject constructor(
     val createIncident = MutableLiveData<Boolean>()
 
 
+    /*
+    If data is not null call method getToolbyBarcode to check if tool exist.
+    If tool exist, create incident with createIncidence method. Post result.
+     */
     fun onCreateIncident(email: String, barcode: String, description: String) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {

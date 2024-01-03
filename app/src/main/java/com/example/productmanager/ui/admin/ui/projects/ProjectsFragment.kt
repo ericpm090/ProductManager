@@ -75,7 +75,11 @@ class ProjectsFragment : Fragment() {
         }
     }
 
+    /*
+    initListeners: Dedicated method to detect actions of UI.
+    Makes calls to methods of viewmodel to obtain results
 
+     */
     private fun initListeners() {
         binding.btnSave.setOnClickListener {
             if (checkAndUpdateCheckTextInput()) {

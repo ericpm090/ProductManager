@@ -30,6 +30,11 @@ class RentalViewModel @Inject constructor(
     val addRentalTool = MutableLiveData<Boolean?>()
     var list: MutableList<String> = mutableListOf()
     val locationList = MutableLiveData<MutableList<String>>()
+
+    /*
+    Call getToolbyBarcode to check if tool exist. If exist, check if it is avalable.
+    If it is available post the tool
+     */
     fun onSearchSelected(barcode: String) {
 
         viewModelScope.launch {
@@ -48,6 +53,11 @@ class RentalViewModel @Inject constructor(
     }
 
 
+    /*
+    To register rental list call saveRentalTool method to create and save rentaltool objects from list.
+    Change status of all tools to set Not available.
+
+     */
     fun onRegisterSelected(email: String, location: String) {
         if(location!=""){
             rentalList.forEach { tool ->
@@ -82,6 +92,9 @@ class RentalViewModel @Inject constructor(
     }
 
 
+    /*
+    obtain all the locations and post.
+     */
     fun getLocations() {
         viewModelScope.launch {
 

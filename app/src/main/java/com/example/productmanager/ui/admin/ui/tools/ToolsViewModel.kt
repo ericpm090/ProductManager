@@ -41,12 +41,19 @@ class ToolsViewModel @Inject constructor(
     private val _barcode = MutableLiveData<String>()
     val barcode: LiveData<String> get() = _barcode
 
+    /*
+    Call to barcode generator
+     */
     private suspend fun getBarcode(type: String, project: String, location: String): String {
         return barcodeGenerator.getBarcode(type, project, location)
 
     }
 
 
+    /*
+    If all data is not emtpy, call to use case to add the tool in data base.
+    If some data is empty, post null.
+     */
     fun onAddToolSelected(
         name: String,
         project: String,
@@ -80,6 +87,10 @@ class ToolsViewModel @Inject constructor(
         }
     }
 
+    /*
+    If barcode is emtpy, post null.
+    Else call to usecase to search tool. Post result.
+     */
     fun onSearchToolSelected(barcode: String) {
         if (barcode.isNotEmpty()) {
             viewModelScope.launch {
@@ -90,6 +101,10 @@ class ToolsViewModel @Inject constructor(
         }
     }
 
+    /*
+    If data is emtpy post false.
+    Else, call to use case to search tool. If tool exist post true. Else post false.
+     */
     fun onHistoryToolSelected(barcode: String) {
         if (barcode.isNotEmpty()) {
             viewModelScope.launch {
@@ -107,6 +122,9 @@ class ToolsViewModel @Inject constructor(
         }
     }
 
+    /*
+    If name is emtpy post false. Else call to use case to delete tool. Post result.
+     */
     fun onDeleteToolSelected(name: String) {
         if (name.isNotEmpty()) {
             deleteTool.postValue(deleteToolUseCase(name))
@@ -116,6 +134,9 @@ class ToolsViewModel @Inject constructor(
     }
 
 
+    /*
+    Call to use case to obtain all the existent projects. Post the result.
+     */
     fun getProjects() {
         viewModelScope.launch {
             list = withContext(Dispatchers.IO) { getAllProjectsUseCase() }
@@ -127,13 +148,18 @@ class ToolsViewModel @Inject constructor(
 
     }
 
+    /*
+    Call to use case to obtan all the existent locations. Post the result.
+     */
     fun getLocations() {
         viewModelScope.launch {
             list = withContext(Dispatchers.IO) { locationService.getLocations() }
             locationList.postValue(list)
         }
     }
-
+    /*
+     Call to use case to obtan all the existent types. Post the result.
+      */
     fun getTypes() {
         typeList.postValue(ToolType.getAllTypes())
 

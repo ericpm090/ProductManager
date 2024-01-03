@@ -17,6 +17,9 @@ class IncidencesService @Inject constructor(
 ) {
 
 
+    /*
+    Create to create incidents
+     */
     fun createIncidence(email: String, tool: Tool, description: String): Incidence {
 
         return Incidence(
@@ -32,24 +35,38 @@ class IncidencesService @Inject constructor(
 
 
     }
-
+    /*
+       Create to save incidents
+        */
     suspend fun saveIncidence(incidence: Incidence): Boolean {
         return addIncidenceUseCase(incidence)
     }
 
+    /*
+   Create to get incidents
+    */
     suspend fun getIncidences(): MutableList<Incidence> {
         return getAllIncidencesUseCase()
     }
 
+    /*
+   Create to solve an incident
+    */
     suspend fun solveIncidence(incidence: Incidence): Boolean {
         incidence.status = IncidenceStatus.SOLVED.toString()
         return updateIncidence(incidence)
     }
 
+    /*
+   Create to update an incident
+    */
     suspend fun updateIncidence(incidence: Incidence): Boolean {
         return updateIncidenceUseCase(incidence)
     }
 
+    /*
+   Create to get incidences by user
+    */
     suspend fun getIncidencesByEmail(email: String): MutableList<Incidence> {
 
         return getIncidences().filter { incidence -> incidence.employee.equals(email) }

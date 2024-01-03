@@ -38,7 +38,11 @@ class IncidencesFragment : Fragment() {
         initListeners()
         return root
     }
+    /*
+    initListeners: Dedicated method to detect actions of UI.
+    Makes calls to methods of viewmodel to obtain results
 
+     */
     private fun initListeners() {
         binding.btnUpdate.setOnClickListener {
             incidencesFragmentViewModel.onUpdateSelected()

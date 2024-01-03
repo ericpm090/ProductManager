@@ -11,6 +11,10 @@ class ToolService @Inject constructor(
     private val addTolCaseUse: AddToolUseCase
 ) {
 
+    /*
+    Check if tool exist. If it exist change the status of this.
+    Save the changes.
+     */
     suspend fun changeStatus(barcode: String) {
         val tool = getToolbyBarcode(barcode)
 
@@ -25,16 +29,26 @@ class ToolService @Inject constructor(
 
     }
 
+    /*
+    Obtain tool by barcode
+     */
     suspend fun getToolbyBarcode(barcode: String): Tool? {
 
         return searchToolUsecase(barcode)
     }
 
+    /*
+    Save a object tool
+     */
     suspend fun saveTool(tool: Tool): String {
 
         return addTolCaseUse(tool)
     }
 
+    /*
+    Check if tool is available.
+    Return true if it is available. Else return false.
+     */
     fun isAvailable(tool: Tool?): Boolean {
         val res = tool?.status.equals(ToolStatus.AVAILABLE.toString())
 

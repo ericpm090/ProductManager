@@ -18,11 +18,18 @@ class RentalToolService @Inject constructor(
 ) {
 
 
+    /*
+   Method to find pending tool of a user.
+    */
     suspend fun findPendingTool(email: String, barcode: String): RentalTool? {
         return getPendingToolUseCase(email, barcode)
 
     }
 
+    /*
+    Method to delivery all the pendint tools.
+    Change the status of pending tools to delivered.
+     */
     suspend fun deliveryRentalTools(rentalTools: MutableList<RentalTool>) {
         rentalTools.forEach { rentalTool ->
             rentalTool.status = RentalToolStatus.DELIVERED.toString()
@@ -32,10 +39,15 @@ class RentalToolService @Inject constructor(
 
     }
 
+    /*
+    Save rental tool method
+     */
     suspend fun saveRentalTool(rentalTool: RentalTool): Boolean {
         return addRentalToolUseCase(rentalTool)
     }
-
+    /*
+        Method to get all pending tools of user
+     */
     suspend fun getAllPendingTools(email: String): MutableList<RentalTool> {
 
         val list = getRentalHistoryUseCase(email)
@@ -45,10 +57,16 @@ class RentalToolService @Inject constructor(
 
     }
 
+    /*
+    Method to get all tools used by user.
+     */
     suspend fun getRentalHistory(email: String): MutableList<RentalTool> {
         return getRentalHistoryUseCase(email)
     }
 
+    /*
+    method to get the history of tool.
+     */
     suspend fun getRentalToolHistory(barcode: String): MutableList<RentalTool> {
         val toolHistory = mutableListOf<RentalTool>()
         val usersList = getAllUsersUseCase()

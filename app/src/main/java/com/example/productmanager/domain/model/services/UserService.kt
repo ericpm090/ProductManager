@@ -11,10 +11,16 @@ class UserService @Inject constructor(
 ) {
 
 
+    /*
+    Save user method
+     */
     fun saveUser(employee: Employee): Boolean {
         return modifyUserUseCase(employee)
     }
 
+    /*
+    get user method to obtain a user.
+     */
     suspend fun getUser(email: String): Employee? {
         val res = searchUseUseCase(email)
         return res

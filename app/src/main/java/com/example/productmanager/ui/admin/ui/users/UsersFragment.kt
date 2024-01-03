@@ -28,8 +28,7 @@ class UsersFragment : Fragment() {
             Toast.makeText(context, "Scanned: ${result.contents}", Toast.LENGTH_LONG).show()
         }
     }
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+
     private val binding get() = _binding!!
 
     private val userFragmentViewModel: UsersViewModel by viewModels()
@@ -49,7 +48,11 @@ class UsersFragment : Fragment() {
         return root
     }
 
+/*
+initListeners: Dedicated method to detect actions of UI.
+Makes calls to methods of viewmodel to obtain results
 
+ */
     private fun initListeners() {
 
         binding.btnSearch.setOnClickListener {
@@ -102,7 +105,9 @@ class UsersFragment : Fragment() {
 
 
     }
-
+/*
+showError: Put the barcode red if some problem appears
+ */
     private fun showError() {
         binding.tilNameOrBarcode.boxBackgroundColor =
             ContextCompat.getColor(requireContext(), R.color.red_error)

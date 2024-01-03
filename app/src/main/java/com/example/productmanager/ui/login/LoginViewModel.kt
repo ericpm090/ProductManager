@@ -26,6 +26,9 @@ class LoginViewModel @Inject constructor(
     val navigateToHomeUser = MutableLiveData<Boolean>()
     val navigateToSignInGoogle = MutableLiveData<String?>()
 
+    /*
+    Before to login user, check if the email and passwords have the correct format.
+     */
     fun onLoginSelected(email: String, password: String) {
         if (isValidEmail(email) && isValidPassword(password)) {
         loginUser(email, password)
@@ -41,6 +44,9 @@ class LoginViewModel @Inject constructor(
     }
 
 
+    /*
+    Create user in the database by email and password
+     */
     private fun loginUser(email: String, password: String) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
@@ -53,6 +59,9 @@ class LoginViewModel @Inject constructor(
 
     }
 
+    /*
+    Create account with google.
+     */
     private fun loginWithGoogle(data: Intent?) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
@@ -65,12 +74,17 @@ class LoginViewModel @Inject constructor(
 
 
     }
-
+    /*
+        Check is the length of pasword is correct
+         */
     fun isValidPassword(password: String): Boolean {
 
         return password.length >= SignInViewModel.MIN_PASSWORD_LENGTH && password.isNotEmpty()
     }
 
+    /*
+    Check is the format of email is correct
+     */
     fun isValidEmail(email: String): Boolean {
 
         //if(email==null) return false

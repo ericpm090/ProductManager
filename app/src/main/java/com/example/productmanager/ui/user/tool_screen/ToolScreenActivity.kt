@@ -1,14 +1,11 @@
 package com.example.productmanager.ui.user.tool_screen
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.productmanager.R
 import com.example.productmanager.databinding.ActivityToolSreenBinding
-import com.example.productmanager.databinding.ActivityUserBinding
 import com.example.productmanager.domain.model.entities.ToolStatus
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -25,7 +22,7 @@ class ToolScreenActivity : AppCompatActivity() {
 
 
         val bundle: Bundle? = intent.extras
-        val photo = bundle?.getString("barcode")
+        val photo = bundle?.getString("photo")
         val name = bundle?.getString("name")
         val barcode = bundle?.getString("barcode")
         val project = bundle?.getString("project")
@@ -46,7 +43,7 @@ class ToolScreenActivity : AppCompatActivity() {
     }
 
 
-      private fun goToPreviosScreen() {
+    private fun goToPreviosScreen() {
         finish()
     }
 
@@ -58,9 +55,11 @@ class ToolScreenActivity : AppCompatActivity() {
         project: String?,
         status: String?
     ) {
-        Glide.with(binding.imgTool.context).load(photo)
-            .override(100,200)
-            .into(binding.imgTool)
+
+
+        Glide.with(binding.imgTool.context).load(photo).into(binding.imgTool)
+
+
         binding.tvName.text = name
         binding.tvBarcode.text = barcode
         binding.tvProject.text = project
